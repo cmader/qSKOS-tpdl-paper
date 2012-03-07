@@ -41,9 +41,25 @@ The main contributions of this work can be summarized as follows:
 	\item We \textbf{analyzed} a representative \textbf{set of existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
 \end{itemize}
 
-The results from our studies show that....TBD
+The results from our studies show that... TBD
 
-\section{SKOS Quality Model}
+\section{A Quality Model for SKOS}
+SKOS is a language for defining vocabularies in the Web of Data and therefore based on the Open World Assumption. Established quality notions from closed-world systems, such as constraints, referential integrity or schema validation, don’t hold anymore, because the available information may be incomplete and facts that are not explicitly stated cannot be determined as true or false. While trust and provenance models for Web data are being developed \cite{Omitola2011,Hartig2009}, content-based and hand-crafted heuristics are currently used to evaluate quality in Linked Data sets \cite{Heath2011}.
+
+Based on the findings from a literature survey we now define a set of quantifiable quality criteria for SKOS vocabularies. For each \textbf{criterion} we explain our design rationale, and provide a semi-formal definition, which is based on a set-theoretic conception of the SKOS model. Tools can implement these criteria as functions defined on-top of a the baseline SKOS model.
+
+\begin{definition} The SKOS Baseline Model is defined as follows:
+\begin{itemize}
+	\item R be the set of all resources, as defined in [Web Architecture Document]
+	\item V = {C, A, LL, LR, SR} be one specific SKOS vocabulary, with
+	\item C ⊆ R being the set of conceptual resources of type skos:Concept.
+	\item A ⊆ R being the set of aggregation and grouping resources in SKOS, hence skos:ConceptSchema and skos:Collection.
+	\item LL being the set lexical labels, which are instances of RDF plain literals.
+	\item LR ⊆ C x LL being the set of lexical relations associating conceptual resources with lexical labels, hence instances of skos:prefLabel, skos:altLabel, or skos:hiddenLabel.
+\item SR ⊆ C x C being the set of semantic relations associating conceptual resources with concepts, hence instances of skos:semanticRelation and subproperties thereof.
+\item AR ⊆ C x A being the set of aggregation (and grouping) relations associating conceptual resources with instances of aggregation and grouping resources.
+\end{itemize}
+\end{definition}
 
 \subsection{SKOS Baseline Model}
 
