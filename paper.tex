@@ -25,7 +25,7 @@ The following representative examples, which we identified by looking at real-wo
 
 	\item The previous version of the STW thesaurus, contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface suggested identical entries, with no disambiguation information.
 
-	\item The vocabulary developed by the Austrian Armed Forces (LVAk thesaurus\footnote{Non-public thesaurus developed by the Austrian Armed Forces}), which contains 11 disconnected concept clusters. Confronting the thesaurus maintainer with these structures, they recognized them as “forgotten” test data that has no practical significance.
+	\item The vocabulary developed by the Austrian Armed Forces (LVAk thesaurus\footnote{Non-public thesaurus developed by the Austrian Armed Forces}), which contains 11 disconnected concept clusters. Confronting the thesaurus maintainers with these structures, they recognized them as “forgotten” test data that has no practical significance.
 
 	\item In the DBpedia category\footnote{\url{http://downloads.dbpedia.org/3.7/en/skos_categories_en.nt.bz2}} hierarchy, more than 10 percent of the categories not linked to any other category. When other vocabularies link to the DBPedia categories, e.g., to enable query expansion, it can negatively affect recall and reduce navigability.
 \end{itemize}
@@ -48,22 +48,28 @@ SKOS is a language for defining vocabularies in the Web of Data and therefore ba
 
 Based on the findings from a literature survey we now define a set of quantifiable quality criteria for SKOS vocabularies. For each \textbf{criterion} we explain our design rationale, and provide a semi-formal definition, which is based on a set-theoretic conception of the SKOS model. Tools can implement these criteria as functions defined on-top of a the baseline SKOS model.
 
-\begin{definition} The SKOS Baseline Model is defined as follows:
+\begin{definition} \textbf{The SKOS Baseline Model} is defined as follows:
+Let R be the set of all resources, as defined in [Web Architecture Document] and \[V = (C, A, LL, LR, SR, AR)\] be one specific SKOS vocabulary, with
+
 \begin{itemize}
-	\item R be the set of all resources, as defined in [Web Architecture Document]
-	\item V = {C, A, LL, LR, SR} be one specific SKOS vocabulary, with
-	\item C ⊆ R being the set of conceptual resources of type skos:Concept.
-	\item A ⊆ R being the set of aggregation and grouping resources in SKOS, hence skos:ConceptSchema and skos:Collection.
-	\item LL being the set lexical labels, which are instances of RDF plain literals.
-	\item LR ⊆ C x LL being the set of lexical relations associating conceptual resources with lexical labels, hence instances of skos:prefLabel, skos:altLabel, or skos:hiddenLabel.
-\item SR ⊆ C x C being the set of semantic relations associating conceptual resources with concepts, hence instances of skos:semanticRelation and subproperties thereof.
-\item AR ⊆ C x A being the set of aggregation (and grouping) relations associating conceptual resources with instances of aggregation and grouping resources.
+	\item \(C \subseteq R\) being the set of \textbf{conceptual resources} of type \texttt{skos:Concept}.
+	\item \(A \subseteq R\) being the set of aggregation and grouping resources in SKOS, hence \texttt{skos:ConceptSchema} and \texttt{skos:Collection}.
+	\item LL being the set \textbf{lexical labels}, which are instances of RDF plain literals.
+	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, hence instances of \texttt{skos:prefLabel}, \texttt{skos:altLabel}, or \texttt{skos:hiddenLabel}.
+\item \(SR \subseteq C \times C\) being the set of \textbf{semantic relations} associating conceptual resources with concepts, hence instances of \texttt{skos:semanticRelation} and subproperties thereof.
+\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation (and grouping) relations} associating conceptual resources with instances of aggregation and grouping resources.
 \end{itemize}
 \end{definition}
 
-\subsection{SKOS Baseline Model}
-
 \subsection{Graph-based Quality Criteria / Network Measures}
+The following quality criteria are all derived from a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
+
+\subsubsection{Loose Concepts} are very similar to what is also referred to as ``orphan terms” in the literature, which are terms without any associative or hierarchical relationships \cite{Z39.19:2005,Hedden2010}. In a SKOS vocabulary, we define a loose concept as a concept that has no semantic or aggregation relations with other conceptual, aggregation or grouping resources. Although they might have attached lexical labels, they lack valuable context information. Checking for orphan terms is common in existing thesaurus development applications and suggested by \cite{Z39.19:2005}. Depending on the vocabulary development policy, loose concepts may be tolerated or considered to be a defect.
+
+To calculate the number of loose concepts, we let \(G = (C, SR \cup AR)\)  and apply \(deg(c)\) as a function that calculates the degree, hence the number of in- and outgoing edges of a node n in a graph g. We can then define this quality criterion as a function \(looseConcepts : G \rightarrow ℕ0\), with
+\begin{definition}
+looseConcepts(g) = \left\|\left\{c \in C : deg(c) = 0\right\}}\right\|
+\end{definition}
 
 \subsection{Structure-Centric Quality Criteria / Structural Measures}
 
