@@ -91,7 +91,7 @@ In the context of this work, we define a cycle in a SKOS vocabulary as a logical
 Let \(ASR \subseteq SR\) be the set of associative relations in SKOS, namely \texttt{skos:related} and \texttt{skos:relatedMatch}. These relations are symmetric, so \((c1,c2) \in ASR \Rightarrow (c2,c1) \in ASR\). Formally, this criterion can be expressed as a function \(rar:V \rightarrow \mathbb{N}_{0}\) with \[rar(v)=\left\|\left\{(c1,c2) \in ASR : c3 \in C, (c1,c3) \in HB, (c2,c3) \in HB\right\}\right\|\]
 \end{definition}
 
-\subsubsection{Number of Hierarchically and Associatively Related Concepts} \cite{Aitchison2000} mentions a ``common error in manually produced thesauri" when concepts are related both hierarchically and associatively (F1.3.2). \cite{Hedden2010} also proposes to check for ``pairs of terms that have more than one kind of relationship" as a feasible rule, enforced by thesaurus management software.
+\subsubsection{Number of Hierarchically and Associatively Related Concepts}\label{harc} \cite{Aitchison2000} mentions a ``common error in manually produced thesauri" when concepts are related both hierarchically and associatively (F1.3.2). \cite{Hedden2010} also proposes to check for ``pairs of terms that have more than one kind of relationship" as a feasible rule, enforced by thesaurus management software.
 
 \begin{definition}
 This criterion can be expressed as a function \(har:V \righarrow \mathbb{N}_{0}\) with \[har(v)=\left\|\left\{c \in C : c' \in C, (c,c') \in HB \cup HN, (c,c') \in ASR\right\}\right\|\]
@@ -118,7 +118,7 @@ SKOS has been developed for creating knowledge organization systems that are use
 Let \(EL=C \times R\) be the set of external links with \(host(c) \neq host(r)\). This criterion can then be written as a function \(elc:V \righarrow \mathbb{ℚ}\) with \[elc(v)=\frac{\left\|EL\right\|}{\left\|C\right\|}\]
 \end{definition}
 
-\subsection{HTTP URI Scheme Violation} One of the key concept of Linked Data is that URIs should be dereferencable in order to browse through data in the same way as through ``traditional" Web pages. Using HTTP URIs therefore is the logical consequence and mentioned numerous time in literature \cite{Heath2011}. However, some vocabularies use other URI schemes such as URNs and DOIs when defining resources, which impedes data lookup and crawling purposes.
+\subsubsection{HTTP URI Scheme Violation} One of the key concept of Linked Data is that URIs should be dereferencable in order to browse through data in the same way as through ``traditional" Web pages. Using HTTP URIs therefore is the logical consequence and mentioned numerous time in literature \cite{Heath2011}. However, some vocabularies use other URI schemes such as URNs and DOIs when defining resources, which impedes data lookup and crawling purposes.
 
 \begin{definition}
 Let \(VR \subseteq C \cup A\) be the set of vocabulary resources identified by an URI (not by a blank node). We can define a function \(httpScheme:R \rightarrow \left\{0,1\right\}\) with \(httpScheme(r)=1\) if the scheme part of the URI is http or https, 0 otherwise. Then this criterion can be written as a function \(usv:V \rightarrow \mathbb{N}_{0}\) with \[usv(v)=\left\|\left\{vr \in VR : httpScheme(vr)=0\right\}\right\|\]
@@ -130,13 +130,32 @@ Let \(VR \subseteq C \cup A\) be the set of vocabulary resources identified by a
 Let \(LR \subseteq R\) be the set of all resources being related to conceptual, aggregational and grouping resources. The function \(resp:R \rightarrow \mathbb{N}\) assigns a resource its HTTP response code after following all redirections. We can therefore write this criterion as function \(ltu:V \rightarrow \mathbb{N}_{0}\) with \[ltu(v)=\left\|\left\{r \in LR \cup VR : resp(r)=200\right\}\right\|\]
 \end{definition}
 
-\subsubsection{Average Concept In-degree} A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships” is published online \footnote{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}. In these diagrams, DBpedia \footnote{http://dbpedia.org/About} is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. Therefore a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community. Accordingly, estimating the number of ``incoming links" of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) would give some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice \footnote{http://sindice.com/} that provide a SPARQL endpoint.
+\subsubsection{Average Concept In-degree} A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships” is published online\footnote{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}. In these diagrams, DBpedia \footnote{http://dbpedia.org/About} is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. Therefore a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community. Accordingly, estimating the number of ``incoming links" of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) would give some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice\footnote{http://sindice.com/} that provide a SPARQL endpoint.
 
 \begin{definition}
 Let \(U\) be the universe of all datasets on the Web and \(V \in U\). The set \(RR \subseteq R \times R\) contains all resources in distinct datasets related by an RDF property with \((r1,r2) \in RR \Rightarrow host(r1) \neq host(r2)\). This criterion can be written as a function \(aci:V \rightarrow \mathbb{ℚ}\) with \[aci(v)=\frac{\left\|\left\{r \in R : c \in C, (r,c) \in RR\right\}\right|}{\left\|C\right\|}\] 
 \end{definition}
 
 \subsection{SKOS-Specific Criteria / SKOS Semantic Measures}
+\subsubsection{Associative vs. Hierarchical Relation Clashes} This criterion is similar to criterion ??\ref{harc}??, however it strictly covers integrity condition S27 from the SKOS reference document, i.e. involving the transitive hull of hierarchical relations, not taking into account hierarchical mapping properties.
+
+\begin{definition}
+Let \(CBR \subseteq SR\) and \(CNR \subseteq SR\) be the set of conceptual resources being hierarchically broader respectively narrower related within the same concept scheme by the properties \texttt{skos:broader} and \texttt{skos:narrower}. Furthermore, the set \(REL \subseteq SR\) contains all conceptual resources related by the \texttt{skos:related} property. We consider two directed graphs \(GB=(C,CBR)\) and \(GN=(C,CNR)\) and a function hierarchical:C \times C \rightarrow \left\{0,1\right\} with \(hierarchical((c,c'))=1\) if a path between c and c’ exists in either \(GB\) or \(GN\), 0 otherwise. This criterion can then be written as a function \(ahrc:G \rightarrow \mathbb{N}_{0}\) with \[ahrc(g)=\left\|\left\{(c,c') \in REL:hierarchical((c,c'))=1\right\}\right\|\]
+\end{definition}
+
+\subsubsection{Exact vs. Associative and Hierarchical Mapping Clashes} Integrity condition S46 of the SKOS reference document states disjointness of the property \texttt{skos:exactMatch} with \texttt{skos:broadMatch} and \texttt{skos:relatedMatch}.
+
+\begin{definition}
+Let \(EM \subseteq SR\), \(BM \subseteq SR\), \(RM \subseteq SR\) be the set of conceptual resources related by \texttt{skos:exactMatch}, \texttt{skos:broadMatch}, and \texttt{skos:relatedMatch}. In functional form, this criteria can be written as \(eahmc:V \rightarrow \mathbb{N}_{0}\) with \[eahmc(v)=\left\|\left\{em \in EM : em \in BM \cup RM\right\}\right|\]
+\end{definition}
+
+\subsubsection{Illegal SKOS Terms} Vocabularies expressed in the SKOS language can be easily be extended by proprietary classes or properties in order to meet certain requirements of the publishing organizations that cannot (yet) be expressed within the SKOS schema. However, there seems to exist a misunderstanding in some vocabularies about the correct way of introducing new classes or properties in an OWL document. In some cases, vocabularies ``invent" new terms in the SKOS namespace that cannot be resolved. This criterion has been identified as ``Use of undefined classes and properties" in \cite{Hogan2010}.
+
+\subsubsection{Deprecated Property Usage} With the SKOS W3C recommendation maturing, some properties have been removed from the current version of the schema. Vocabularies using these ``deprecated" properties hence contain parts of their information in a non ``standard"-compliant way, having negative effects when, e.g., crawling vocabularies to gather specific information.
+
+\begin{definition}
+We define a set that contains all deprecated properties DP=\left\{\texttt{skos:symbol}, \texttt{skos:prefSymbol}, \texttt{skos:altSymbol}, \texttt{skos:CollectableProperty}, \texttt{skos:subject}, \texttt{skos:isSubjectOf}, \texttt{skos:primarySubject}, \texttt{skos:isPrimarySubjectOf}, \texttt{skos:subjectIndicator}\right\}. Let \(DR \subseteq RV \times RV\) with \(RV \subseteq R\) being the set of all RDF resources in V that are related by a property in DP. This criterion can then be written as a function \(dpu:V \rightarrow \mathbb{N}_{0}\) with \[dpu(v)=\left\|DR\right\|\]
+\end{definition}
 
 \subsection{Labeling Issues}
 
