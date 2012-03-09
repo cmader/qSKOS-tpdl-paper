@@ -77,13 +77,37 @@ To calculate the number of loose concepts, we let \(G = (C, SR \cup AR)\)  and a
 To evaluate this criterion we consider a graph \(G = (AC, SRAR)\). The function \(components(g) : G \rightarrow  \mathfrak{P}(G)\) calculates all weakly connected components of a graph by replacing all directed edges by undirected edges and utilizing “Tarjan’s algorithm” \cite{Hopcroft1973}. Based on that function, we can express this criterion as a function \(wcc : G \rightarrow \mathbb{N}_{0}\), with \[wcc(g) = \left\|components(g)\right\|\]
 \end{definition}
 
-\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure”. However, the SKOS documentation does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., “generic-specific”, “instance-of” or “whole-part” \cite{Hedden2011,Harpring2010,Aitchison2000} and hierarchical cycles for some of these interpretations in various domains or usage scenarios might be perfectly valid, whereas they would be treated as failures in others.
+\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure”. However, the SKOS documentation does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., “generic-specific”, “instance-of” or “whole-part” \cite{Hedden2010,Harpring2010,Aitchison2000}. Hierarchical cycles for some of these interpretations in various domains or usage scenarios might be perfectly valid, whereas they would be treated as failures in others.
 
 \begin{definition}
 In the context of this work, we define a cycle in a SKOS vocabulary as a logical contradiction in the broader/narrower hierarchy. Let \(HB \subseteq SR\) be the set of broader hierarchical relations associating two conceptual resources with instances of \texttt{skos:broader}, \texttt{skos:broaderTransitive}, \texttt{skos:broadMatch} or subproperties thereof. \(HB\) also associates conceptual resources related with instances \texttt{skos:narrower}, \texttt{skos:narrowTransitive}, \texttt{skos:narrowMatch} or subproperties thereof in reverse order. Likewise, \(HN \subseteq SR\) can be defined as the set of narrower hierarchical relations. We consider two graphs \(GB = (C,HB)\) and \(GN=(C,HN)\) and a function \(cycleNodes:GB \cup GN \rightarrow \mathfrak{P}(C)\) identifying all nodes in a graph, that are part of a cycle. Furthermore we consider a function \(stronglyConnectedSets: GB \cup GN \rightarrow \mathfrak{P}(C)\) that calculates all strongly connected undirected subgraphs of a graph. This criterion can be defined as a function \(chr:GB \cup GN \rightarrow \mathbb{N}_{0}\) with \[chr(g)=\left\|\left\{s \in stronglyConnectedSets(g) : cn \in cycleNodes(g), cn \in s\right\}\right\|\]
 \end{definition}
 
 \subsection{Structure-Centric Quality Criteria / Structural Measures}
+
+\subsubsection{Redundant Associative Relations} \cite{ISO25964-1:2011} suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships", having a negative effect on precision.
+
+\begin{definition}
+Let \(ASR \subseteq SR\) be the set of associative relations in SKOS, namely \texttt{skos:related} and \texttt{skos:relatedMatch}. These relations are symmetric, so \((c1,c2) \in ASR \Rightarrow (c2,c1) \in ASR\). Formally, this criterion can be expressed as a function \(rar:V \rightarrow \mathbb{N}_{0}\) with \[rar(v)=\left\|\left\{(c1,c2) \in ASR : c3 \in C, (c1,c3) \in HB, (c2,c3) \in HB\right\}\right\|\]
+\end{definition}
+
+\subsubsection{Number of Hierarchically and Associatively Related Concepts} \cite{Aitchison2000} mentions a ``common error in manually produced thesauri" when concepts are related both hierarchically and associatively (F1.3.2). \cite{Hedden2010} also proposes to check for ``pairs of terms that have more than one kind of relationship" as a feasible rule, enforced by thesaurus management software.
+
+\begin{definition}
+This criterion can be expressed as a function \(har:V \righarrow \mathbb{N}_{0}\) with \[har(v)=\left\|\left\{c \in C : c' \in C, (c,c') \in HB \cup HN, (c,c') \in ASR\right\}\right\|\]
+\end{definition}
+
+\subsubsection{Unidirectionally Related Concepts} \cite{Z39.19:2005} suggests thesaurus maintenance software to automatically add reciprocal relations (e.g., broader/narrower, related) to the resulting thesaurus. Vocabularies created in that manner are expected, e.g., to be better browsable for humans and provide better search results when used in systems without reasoning support.
+
+\begin{definition}
+Let \(ISR \subseteq R \times R\) be a set that associates resources defined in \(V\) that are related by a SKOS property that has an inverse SKOS property defined. Furthermore, ISR also associates resources that are related by a symmetric SKOS property. In an ideal setting \((r,r') \in ISR \iff (r',r) \in ISR\). Thus we can express this criterion as function \(urc:V \rightarrow \mathbb{N}_{0}\) with \[urc(v)=\left\|\left\{c \in C : r \in R, (c,r) \in ISR, (r,c) \notin ISR\right\}\right\|\]
+\end{definition}
+
+\subsubsection{Solely Transitively Related Concepts} Two concepts are related using only transitive hierarchical relations which are, according to the SKOS reference document, ``not used to make assertions". Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., broader being a subproperty of broaderTransitive.
+
+\begin{definition}
+Let \(TR \subseteq SR\) be the set of all conceptual resources being transitively related by \texttt{skos:broaderTransitive} respectively \texttt{skos:narrowerTransitive}, not by subproperties thereof. Furthermore, let \(HR \subseteq SR\) be the set of all conceptual resources being related by \textt{skos:broader} and \texttt{skos:narrower} with \((c,c') \in HR \rightarrow (c',c) \in HR\). We can write this criterion as a function \(str:V \rightarrow \mathbb{N}_{0}\) with \[str(v)=\left\|\left\{c \in C : c' \in C, (c,c') \in TR, (c,c') \notin HR\right\}\right\|\]
+\end{definition}
 
 \subsection{Linked Data Specific Criteria / Linked Data Measures}
 
