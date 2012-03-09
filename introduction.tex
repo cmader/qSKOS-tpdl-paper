@@ -1,0 +1,27 @@
+\section{Introduction}\label{sec:introduction}
+
+The Simple Knowledge Organization System (SKOS\footnote{Simple Knowledge Organization System, \url{http://www.w3.org/2004/02/skos/}}) has become a de-facto standard for expressing controlled vocabularies on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} have created SKOS representations of their controlled vocabularies and published them on the Web so that they can easily be navigated and reused by humans and, most importantly, also by applications. Each vocabulary is the result of a specific design process that reflects domain-specific requirements as well as the target audience the vocabulary is created for. Orthogonal to the design process, vocabulary \textbf{designers and maintainers} usually apply existing guidelines or follow their own rules when defining concepts, in order to meet their \textbf{quality requirements} as, for instance, described in \cite{Coronado2009}. As a consequence, currently available vocabularies are, even though they are expressed in SKOS, often heterogeneous in terms of quality, which can affect their interoperability and applicability for tasks like query expansion, faceted browsing, clustering, or auto-complete suggestions.
+
+The following representative examples, which we identified by looking at real-world SKOS vocabularies, illustrate the \textbf{quality problems} applications could face when making use of them:
+\begin{itemize}
+	\item The SKOS version of Agrovoc defines concepts in 25 different languages. However, almost all concepts have an English description, 38\% of all concepts don’t have German labels attached. This can be a problem for applications that use Agrovoc and rely on German translations.
+
+	\item The previous version of the STW thesaurus, contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface suggested identical entries, with no disambiguation information.
+
+	\item The vocabulary developed by the Austrian Armed Forces (LVAk thesaurus\footnote{Non-public thesaurus developed by the Austrian Armed Forces}), which contains 11 disconnected concept clusters. Confronting the thesaurus maintainers with these structures, they recognized them as “forgotten” test data that has no practical significance.
+
+	\item In the DBpedia category\footnote{\url{http://downloads.dbpedia.org/3.7/en/skos_categories_en.nt.bz2}} hierarchy, more than 10 percent of the categories not linked to any other category. When other vocabularies link to the DBPedia categories, e.g., to enable query expansion, it can negatively affect recall and reduce navigability.
+\end{itemize}
+
+One reason for these quality problems is that SKOS currently only defines a set of \textbf{low-level integrity conditions}, which, when being enforced, ensure the structural and semantic requirements of the SKOS specifications but fail to capture \textbf{higher-level quality issues}, as those mentioned in the examples before. Another problem is that existing vocabulary design guidelines and best practices purely rely on \textbf{human assessment}, which is highly subjective and doesn’t scale when vocabulary quality assessment should be performed on larger, possibly linked Web vocabularies.
+
+We believe, and recent developments of quality checking tools (e.g., PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}}, qSKOS\footnote{\url{https://github.com/cmader/qSKOS}}, SKOSify\footnote{\url{http://code.google.com/p/skosify/}}) support this motivation. This, however, requires a formalization of the notion of quality with respect to SKOS vocabularies, which can be used in order to consistently implement quality assessment procedures across tools. Since, the notion of “quality” with respect to SKOS vocabularies naturally varies across application domains it is hard, if not impossible, to come up with a general definition of quality. However, we believe that vocabulary designers can apply a set of \textbf{formal quality criteria} on given vocabularies in order to assess whether or not a vocabulary fulfills their requirements. Since these criteria are based on a formal definition, they can be calculated by automated tools, which helps vocabulary designers in assessing the quality of available or newly created vocabularies and provide important feedback to the overall vocabulary design process.
+
+The main contributions of this work can be summarized as follows:
+\begin{itemize}
+	\item We derived a \textbf{quality criteria catalogue} from existing literature, tools, and public mailing list discussions in the community. We \textbf{formalized} each criterion and implemented them in the \textbf{qSKOS quality assessment tool}.
+
+	\item We \textbf{analyzed} a representative \textbf{set of existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
+\end{itemize}
+
+The results from our studies show that... TBD
