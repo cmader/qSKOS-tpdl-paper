@@ -2,6 +2,7 @@
 
 \usepackage{verbatim}
 \usepackage{url}
+\usepackage{amssymb}
 
 \title{Quality Criteria for SKOS Vocabularies}
 \author{Christian Mader\inst{1} \and Bernhard Haslhofer\inst{2}}
@@ -66,9 +67,20 @@ The following quality criteria are all derived from a graph-based view on a give
 
 \subsubsection{Loose Concepts} are very similar to what is also referred to as ``orphan terms” in the literature, which are terms without any associative or hierarchical relationships \cite{Z39.19:2005,Hedden2010}. In a SKOS vocabulary, we define a loose concept as a concept that has no semantic or aggregation relations with other conceptual, aggregation or grouping resources. Although they might have attached lexical labels, they lack valuable context information. Checking for orphan terms is common in existing thesaurus development applications and suggested by \cite{Z39.19:2005}. Depending on the vocabulary development policy, loose concepts may be tolerated or considered to be a defect.
 
-To calculate the number of loose concepts, we let \(G = (C, SR \cup AR)\)  and apply \(deg(c)\) as a function that calculates the degree, hence the number of in- and outgoing edges of a node n in a graph g. We can then define this quality criterion as a function \(looseConcepts : G \rightarrow ℕ0\), with
 \begin{definition}
-looseConcepts(g) = \left\|\left\{c \in C : deg(c) = 0\right\}}\right\|
+To calculate the number of loose concepts, we let \(G = (C, SR \cup AR)\)  and apply \(deg(c)\) as a function that calculates the degree, hence the number of in- and outgoing edges of a node n in a graph g. We can then define this quality criterion as a function \(looseConcepts : G \rightarrow \mathbb{N}_{0}\), with \[looseConcepts(g) = \left\|\left\{c \in C : deg(c) = 0\right\}\right\|\]
+\end{definition}
+
+\subsubsection{Weakly Connected Components} cause the vocabulary to split into separate disconnected components. This is very similar to the ``loose concepts” criterion introduced before and might be caused by incomplete data acquisition, ``forgotten" test data, outdated terms, accidental deletion of relations and the like. In a practical setting, existence of weakly connected components could render the vocabulary less suitable for operations that rely on navigating a strongly connected vocabulary structure, such as query expansion or suggestion of related terms.
+
+\begin{definition}
+To evaluate this criterion we consider a graph \(G = (AC, SRAR)\). The function \(components(g) : G \rightarrow  \mathfrak{P}(G)\) calculates all weakly connected components of a graph by replacing all directed edges by undirected edges and utilizing “Tarjan’s algorithm” \cite{Hopcroft1973}. Based on that function, we can express this criterion as a function \(wcc : G \rightarrow \mathbb{N}_{0}\), with \[wcc(g) = \left\|components(g)\right\|\]
+\end{definition}
+
+\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure”. However, the SKOS documentation does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., “generic-specific”, “instance-of” or “whole-part” \cite{Hedden2011,Harpring2010,Aitchison2000} and hierarchical cycles for some of these interpretations in various domains or usage scenarios might be perfectly valid, whereas they would be treated as failures in others.
+
+\begin{definition}
+In the context of this work, we define a cycle in a SKOS vocabulary as a logical contradiction in the broader/narrower hierarchy. Let \(HB \subseteq SR\) be the set of broader hierarchical relations associating two conceptual resources with instances of \texttt{skos:broader}, \texttt{skos:broaderTransitive}, \texttt{skos:broadMatch} or subproperties thereof. \(HB\) also associates conceptual resources related with instances \texttt{skos:narrower}, \texttt{skos:narrowTransitive}, \texttt{skos:narrowMatch} or subproperties thereof in reverse order. Likewise, \(HN \subseteq SR\) can be defined as the set of narrower hierarchical relations. We consider two graphs \(GB = (C,HB)\) and \(GN=(C,HN)\) and a function \(cycleNodes:GB \cup GN \rightarrow \mathfrak{P}(C)\) identifying all nodes in a graph, that are part of a cycle. Furthermore we consider a function \(stronglyConnectedSets: GB \cup GN \rightarrow \mathfrak{P}(C)\) that calculates all strongly connected undirected subgraphs of a graph. This criterion can be defined as a function \(chr:GB \cup GN \rightarrow \mathbb{N}_{0}\) with \[chr(g)=\left\|\left\{s \in stronglyConnectedSets(g) : cn \in cycleNodes(g), cn \in s\right\}\right\|\]
 \end{definition}
 
 \subsection{Structure-Centric Quality Criteria / Structural Measures}
