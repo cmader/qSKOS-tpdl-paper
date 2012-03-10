@@ -1,21 +1,6 @@
 \section{Quality Metrics for SKOS Vocabularies}\label{sec:metrics}
 
-SKOS is a language for defining vocabularies in the Web of Data and therefore based on the Open World Assumption. Established quality notions from closed-world systems, such as constraints, referential integrity or schema validation, don’t hold anymore, because the available information may be incomplete and facts that are not explicitly stated cannot be determined as true or false. While trust and provenance models for Web data are being developed \cite{Omitola2011,Hartig2009}, content-based and hand-crafted heuristics are currently used to evaluate quality in Linked Data sets \cite{Heath2011}.
-
 Based on the findings from a literature survey we now define a set of quantifiable quality criteria for SKOS vocabularies. For each \textbf{criterion} we explain our design rationale, and provide a semi-formal definition, which is based on a set-theoretic conception of the SKOS model. Tools can implement these criteria as functions defined on-top of a the baseline SKOS model.
-
-\begin{definition} \textbf{The SKOS Baseline Model} is defined as follows:
-Let R be the set of all resources, as defined in [Web Architecture Document] and \[V = (C, A, LL, LR, SR, AR)\] be one specific SKOS vocabulary, with
-
-\begin{itemize}
-	\item \(C \subseteq R\) being the set of \textbf{conceptual resources} of type \texttt{skos:Concept}.
-	\item \(A \subseteq R\) being the set of aggregation and grouping resources in SKOS, hence \texttt{skos:ConceptSchema} and \texttt{skos:Collection}.
-	\item LL being the set \textbf{lexical labels}, which are instances of RDF plain literals.
-	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, hence instances of \texttt{skos:prefLabel}, \texttt{skos:altLabel}, or \texttt{skos:hiddenLabel}.
-\item \(SR \subseteq C \times C\) being the set of \textbf{semantic relations} associating conceptual resources with concepts, hence instances of \texttt{skos:semanticRelation} and subproperties thereof.
-\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation (and grouping) relations} associating conceptual resources with instances of aggregation and grouping resources.
-\end{itemize}
-\end{definition}
 
 \subsection{Graph-based Quality Criteria / Network Measures}
 The following quality criteria are all derived from a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
