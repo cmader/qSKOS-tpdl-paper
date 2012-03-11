@@ -28,17 +28,17 @@ Each vocabulary reflects domain- and application-specific needs and vocabulary d
 
 % PROBLEM / RESEARCH QUESTION
 
-The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model'' [\todo{SKOS reference}]. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture \textbf{quality criteria} such as those mentioned in the examples before; criteria that go beyond the SKOS data model. Such criteria might be part of design rules and guidelines, but rely on \textbf{human assessment}, which is highly subjective and doesn’t scale for larger, possibly linked Web vocabularies.
+The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model'' [\todo{SKOS reference}]. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture \textbf{quality criteria} such as those mentioned in the examples before; criteria that go beyond the SKOS data model. Such criteria might be part of design rules and guidelines, but rely on \textbf{human judgement}, which is subjective and does not scale for larger, possibly linked Web vocabularies.
 
 % CONTRIBUTION
 
-The goal of our work is to identify possible quality criteria for controlled vocabularies and to provide a set of quantitative quality indicators for SKOS vocabularies. We believe that this can help domain experts in judging the quality of existing or newly created vocabularies and provide important feedback to the overall vocabulary design process. The main contributions of this work can be summarized as follows:
+The goal of our work is to provide a set of quantitative quality indicators for SKOS vocabularies. We believe that this can help domain experts in judging the quality of existing or newly created vocabularies and provide important feedback to the overall vocabulary design process. The main contributions of this work can be summarized as follows:
 
 \begin{itemize}
 
-	\item We identified \textbf{quality criteria} for controlled vocabularies by examing existing literature, tools, and public mailing list discussions.
+	\item We identified \textbf{quality criteria} for controlled vocabularies by examining existing literature, tools, and public mailing list discussions. Then we \textbf{formalized} them into computable \textbf{quality metrics} so that they can be implemented consistently by different tools.
 	
-	\item We \textbf{formalized} them into computable \textbf{quality metrics} and implemented them in the \textbf{qSKOS quality assessment tool}.
+	\item We implemented these metrics in the \textbf{qSKOS quality assessment tool}.
 
 	\item We \textbf{analyzed} a representative \textbf{set of existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
 
