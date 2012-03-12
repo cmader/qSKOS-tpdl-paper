@@ -14,7 +14,7 @@ Our syntactical checks showed that only the AGROVOC vocabulary contained invalid
 
 \begin{table}[h]
 \caption{Analyzed vocabularies}
-\begin{tabular}{lp{5cm}cccccc}
+\begin{tabular}{lp{4.7cm}cccccc}
 \textbf{Domain} & \textbf{Vocabulary} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Lexical Rel.}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
 \toprule
 Media & Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & 171991 & 178776 & 50892 & 343980 & 9 & 0 \\
@@ -23,7 +23,7 @@ Science & Geonames Ontology & 671 & 671 & 0 & 671 & 9 & 0 \\
 \hline
 & Medical Subject Headings (MeSH) & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
 \hline
-& Peroxisome Knowledge Base & 2112 & 3628 & 2695 & 1716 & 1 & 0 \\
+& Peroxisome Knowledge Base (PXV) & 2112 & 3628 & 2695 & 1716 & 1 & 0 \\
 \hline
 Government & Eurovoc & 6797 & 457788 & 18491 & 15512 & 128 & 0 \\
 \hline
@@ -35,7 +35,7 @@ Publications & Agrovoc & 31993 & 572138 & 63936 & 32043 & 1 & 0 \\
 \hline
 & University of Southampton Pressinfo & 1125 & 0 & 0 & 0 & 0 & 0 \\
 \hline
-& New York Times People & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
+& New York Times People (NYTP) & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
 \hline
 & Library of Congress Subject Headings (LCSH) & 459182 & 746076 & 595754 & 815816 & 19 & 0 \\
 \hline
@@ -51,9 +51,16 @@ Military & Thesaurus Landesverteidigungsakademie (LVAk) & 13411 & 17250 & 16346 
 \label{vocabs}
 \end{table}
 
-
 \subsection{Results}
 
-\todo{CM}{Add the result table, with one row for the lc metric.}
+\begin{table}[h]
+\caption{Results of the proposed metrics}
+\begin{tabular}{lccccccccccccccc}
+\textbf{Metric} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
+\toprule
+Loose Concepts & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 77062 & 1125 & 0 & 0 & 0 & 0 & 0 & 21 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \todo{CM}{Add result interpretation for this one metric}
