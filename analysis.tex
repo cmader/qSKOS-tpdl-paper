@@ -9,46 +9,44 @@
 \subsection{Vocabulary Data Set}
 Our vocabulary dataset covers XY vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward. \todo{CM}{should we elaborate more on the conversion process?}
  
-Our syntactical checks showed that only the Agrovoc vocabulary contained invalid datatypes and characters. After some minor syntax modifications, which don’t influence the evaluation against our criteria, we were also able to include this vocabulary. We also informed the AGROVOC team about this problem, which will try to fix it.
+Our syntactical checks showed that only the AGROVOC vocabulary contained invalid datatypes and characters. After some minor syntax modifications, which don’t influence the evaluation against our criteria, we were also able to include this vocabulary. We also informed the AGROVOC team about this problem, which will try to fix it.
 
 
 \begin{table}[h]
 \caption{Analyzed vocabularies}
-\begin{tabular}{|p{2cm}|p{6cm}|p{1.5cm}|p{.8cm}|p{.8cm}|p{.8cm}|p{.8cm}|p{.8cm}|}
+\begin{tabular}{lp{5cm}cccccc}
+\textbf{Domain} & \textbf{Vocabulary} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Lexical Rel.}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
+\toprule
+Media & Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & 171991 & 178776 & 50892 & 343980 & 9 & 0 \\
 \hline
-\textbf{Domain} & \textbf{Vocabulary} & \textbf{CO} & \textbf{LR} & \textbf{SR} & \textbf{AR} & \textbf{CS} & \textbf{CL}\\
+Science & Geonames Ontology & 671 & 671 & 0 & 671 & 9 & 0 \\
 \hline
-Media & Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & & & & & & \\
+& Medical Subject Headings (MeSH) & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
 \hline
-Science & Geonames Ontology &&&&&& \\
+& Peroxisome Knowledge Base & 2112 & 3628 & 2695 & 1716 & 1 & 0 \\
 \hline
-& Medical Subject Headings (MeSH) &&&&&& \\
+Government & Eurovoc & 6797 & 457788 & 18491 & 15512 & 128 & 0 \\
 \hline
-& Peroxisome Knowledge Base &&&&&& \\
+& Integrated Public Sector Vocabulary (IPSV) & 4732 & 7945 & 13843 & 4483 & 3 & 0 \\
 \hline
-Government & Eurovoc &&&&&& \\
+Publications & Agrovoc & 31993 & 572138 & 63936 & 32043 & 1 & 0 \\
 \hline
-& Integrated Public Sector Vocabulary (IPSV) &&&&&& \\
+& DBpedia Categories & 743410 & 740352 & 1490316 & 0 & 0 & 0 \\
 \hline
-Publications & Agrovoc &&&&&& \\
+& University of Southampton Pressinfo & 1125 & 0 & 0 & 0 & 0 & 0 \\
 \hline
-& DBpedia Categories &&&&&& \\
+& New York Times People & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
 \hline
-& University of Southampton Pressinfo &&&&&& \\
+& Library of Congress Subject Headings (LCSH) & 459182 & 746076 & 595754 & 815816 & 19 & 0 \\
 \hline
-& New York Times People &&&&&& \\
+Cross-domain & Meketre & 422 & 569 & 1698 & 6 & 2 & 0 \\
 \hline
-& Library of Congress Subject Headings (LCSH) &&&&&& \\
+Economy & Thesaurus for Economics (STW) & 6524 & 31189 & 57907 & 6531 & 1 & 0 \\
 \hline
-Cross-domain & Meketre &&&&&& \\
+& North American Industry Classification System (NAICS) & 4175 & 0 & 8684 & 2235 & 1 & 0 \\
 \hline
-Economy & Thesaurus for Economics (STW) &&&&&& \\
-\hline
-& North American Industry Classification System (NAICS) &&&&&& \\
-\hline
-Military & Thesaurus Landesverteidigungsakademie (LVAk) &&&&&&
-\\
-\hline
+Military & Thesaurus Landesverteidigungsakademie (LVAk) & 13411 & 17250 & 16346 & 0 & 0 & 0 \\
+\bottomrule
 \end{tabular}
 \label{vocabs}
 \end{table}
