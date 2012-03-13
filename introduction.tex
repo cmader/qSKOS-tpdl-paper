@@ -5,16 +5,16 @@
 % BACKGROUND
 
 % What is SKOS?
-The Simple Knowledge Organization System (SKOS) \cite{Miles2005} is a standard model for sharing and linking controlled vocabularies on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} have created SKOS representations of their controlled vocabularies and published them on the Web so that they can easily be accessed and by humans and machines.
+The Simple Knowledge Organization System (SKOS)~\cite{Miles2005} is a standard model for sharing and linking controlled vocabularies on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} have created SKOS representations of their controlled vocabularies and published them on the Web so that they can easily be accessed and by humans and machines.
 
 % What does "quality" mean in this context?
-Each vocabulary reflects domain- and application-specific needs and vocabulary designers usually apply their own guidelines and rules (cf.,~\cite{Coronado2009} who utilize a combination of automated and manual checks and reviews) to meet certain quality requirements. However, these requirements can differ across domains and lead to quality problems when a vocabulary is used in other environments. As a consequence, currently available vocabularies are, even though they are expressed in SKOS, often heterogeneous in terms of quality. The following examples illustrate that this can affect their applicability for tasks like query expansion, faceted browsing, clustering, or auto-completion: 
+Each vocabulary reflects domain- and application-specific needs and vocabulary designers often follow existing standards [\todo{cm}{ref}] or apply their own hand-crafted checks (cf.,~\cite{Coronado2009}) to meet certain quality requirements. However, these requirements can differ across domains and lead to quality problems when a vocabulary is used in other environments. As a consequence, currently available vocabularies are, even though they are expressed in SKOS, often heterogeneous in terms of quality. The following examples illustrate that this can affect their applicability for tasks like query expansion, faceted browsing, clustering, or auto-completion: 
 
 \begin{itemize}
 
 	\item The SKOS representation of Agrovoc defines concepts in 25 different languages. However, while most concepts have an English description, only 38\% of all concepts have German labels attached. This can be a problem for applications that use Agrovoc and rely on German translations.
 
-	\item The previous version of the STW thesaurus, contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface suggested identical entries, without giving disambiguation information.
+	\item \todo{CM}{An earlier version of the STW thesaurus contained 5 pairs of concepts with identical labels}. As a result, the auto-complete function of the online search interface suggested identical entries, without giving disambiguation information.
 
 % Note: examples related to "defense / army & co" are always a bit tricky; maybe we find a better example. 
 
@@ -29,7 +29,7 @@ Each vocabulary reflects domain- and application-specific needs and vocabulary d
 
 % PROBLEM / RESEARCH QUESTION
 
-The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model''\footnote{\url{http://www.w3.org/TR/skos-reference/}}. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture \textbf{quality criteria} such as those mentioned in the examples before; criteria that go beyond the SKOS data model. Such criteria might be part of design rules and guidelines, but rely on \textbf{human judgement}, which is subjective and does not scale for larger, possibly linked Web vocabularies.
+The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model''~\cite{Miles2005}. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture \textbf{quality criteria} such as those mentioned in the examples before; criteria that go beyond integrity conditions of the SKOS data model. Such criteria might be part of design rules and guidelines, but currently rely on \textbf{human judgement}, which is subjective and does not scale for larger, possibly linked Web vocabularies.
 
 % CONTRIBUTION
 
@@ -37,12 +37,12 @@ The goal of our work is to provide a set of quantitative quality indicators for 
 
 \begin{itemize}
 
-	\item We identified \textbf{quality criteria} for controlled vocabularies by examining existing literature, tools, and public mailing list discussions. Then we \textbf{formalized} them into computable \textbf{quality metrics} so that they can be implemented consistently by different tools.
+	\item We identified existing \textbf{quality criteria} for controlled vocabularies by examining existing guidelines and \textbf{formalized} them into computable \textbf{quality metrics} so that they can be implemented consistently by different tools.
 	
-	\item We implemented these metrics in the \textbf{qSKOS quality assessment tool}.
+	\item We implemented these metrics in the \textbf{qSKOS quality assessment tool}, which can be used as software library or command line tool.
 
-	\item We \textbf{analyzed} a representative \textbf{set of existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
+	\item We \textbf{analyzed} a representative set of \textbf{existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
 
 \end{itemize}
 
-The results from our studies show that... \todo{BH,CM}{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.}
+The results from our analysis show that... \todo{BH,CM}{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.}
