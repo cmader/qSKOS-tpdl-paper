@@ -6,9 +6,32 @@
 
 SKOS is a language for defining vocabularies in the Web of Data and therefore based on the Open World Assumption. Established quality notions from closed-world systems, such as referential integrity or schema validation, don’t hold anymore, because the available information may be incomplete and facts that are not explicitly stated cannot be determined as true or false. While trust and provenance models for Web data are being developed~\cite{Omitola2011,Hartig2009}, content-based and hand-crafted heuristics are currently used to evaluate quality in Linked Data sets~\cite{Heath2011}.
 
+% SKOS Integrity Conditions (http://www.w3.org/TR/skos-reference/):
+% S9    skos:ConceptScheme is disjoint with skos:Concept.
+% S13   skos:prefLabel, skos:altLabel and skos:hiddenLabel are pairwise disjoint properties. (* NOT expressed formally *)
+% S14   A resource has no more than one value of skos:prefLabel per language tag. (* NOT expressed formally *)
+% S27   skos:related is disjoint with the property skos:broaderTransitive. (* NOT expressed formally *)
+% S37   skos:Collection is disjoint with each of skos:Concept and skos:ConceptScheme.
+% S46   skos:exactMatch is disjoint with each of the properties skos:broadMatch and skos:relatedMatch. (* NOT expressed formally *)
+% -> 2 of 6 are expressed formally in OWL; the others cannot be expressed because OWL doesn't support disjoint properties
+
+% Poolparty quality checker implementation:
+% S13, S14, S27, S46
+% syntactic checks: URI, character encoding
+% missing language tags, missing labels
+
+% Mapping qSKOS Integrity Conditions <-> qSKOS quality criteria
+% S13 + S14 combined in "Ambigious labels"
+% S27 + S46 combined in "Associative vs. Hierarchical Relation Clashes" and "Exact vs. Associative and Hierarchical Mapping Clashes"
+
+Interoperability between applications has been the major motivation for specifying in total six \textbf{SKOS integrity conditions}~\cite{Miles2005}. An integrity condition is a statement that defines under which circumstances data are consistent with the SKOS data model. An example condition is ``A resource has no more than one value of skos:prefLabel per language tag''. Tools can check whether these integrity conditions are met for given data. Two of the six integrity conditions are defined formally in the OWL representation of SKOS and can therefore be verified by any OWL reasoner. Poolparty and SKOSify implement all these integrity checks plus \todo{CM}{summarize how existing tools implement these conditions}
+
+
+% Argue why we need higher-level criteria
+
 The quality of a given SKOS vocabulary can have a direct impact on the following application areas of controlled vocabularies: \todo{CM}{write a paragraph}
 
-Interoperability between applications has been the major motivation for specifying in total XX \textbf{SKOS integrity conditions}. An integrity condition is a statement that defines under which circumstances data are consistent with the SKOS data model. An example condition is ``A resource has no more than one value of skos:prefLabel per language tag''. Tools can check whether these integrity conditions are met for given data. Poolparty implements XX integrity conditions, SKOSify YY. \todo{CM}{summarize how existing tools implement these conditions}
+
 
 % Methodology
 
