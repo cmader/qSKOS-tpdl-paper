@@ -14,7 +14,7 @@ In the following we describe the design rationale and the semi-formal definition
 	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
 	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, hence instances of \texttt{skos:prefLabel}, \texttt{skos:altLabel}, or \texttt{skos:hiddenLabel}.
 \item \(SR \subseteq C \times C\) being the set of \textbf{semantic relations} associating conceptual resources with concepts, hence instances of \texttt{skos:semanticRelation} and subproperties thereof.
-\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of \texttt{skos:ConceptScheme} and \texttt{skos:Collection} or subclasses thereof.
+\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
 \end{itemize}
 
 \end{definition}
