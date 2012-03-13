@@ -2,9 +2,10 @@
 
 \section{Quality Metrics for SKOS Vocabularies}\label{sec:metrics}
 
-In the following we describe the design rationale and the semi-formal definitions for the \textbf{quality metrics}, which we derived from the quality criteria we have found. These metrics can be implemented on top of the SKOS model, which we define as follows:
+In the following we describe the origins and motivations of the quality criteria we identified and map them to computable metrics by providing semi-formal definitions. These metrics can be implemented on top of the SKOS model, which we define as follows:
 
-% This definition is not a quality criterions, henec it is in the background section (we need to discuss that)
+\todo{CM}{add TODOs for each of Antoine's comment.}
+\todo{CM}{think how we could express this similar to OWL semantics}
 
 \begin{definition}[SKOS Data Model] Let R be the set of all resources, as defined in \cite{Jacobs2004} and $V = (C, A, LL, LR, SR, AR)$ be a SKOS vocabulary, with
 
@@ -20,7 +21,7 @@ In the following we describe the design rationale and the semi-formal definition
 \end{definition}
 
 
-\subsection{Graph Metrics}
+\subsection{Structural Metrics}
 
 The commonality of the following metrics is that they apply a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
 
