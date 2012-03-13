@@ -8,13 +8,20 @@ SKOS is a language for defining vocabularies in the Web of Data and therefore ba
 
 The quality of a given SKOS vocabulary can have a direct impact on the following application areas of controlled vocabularies: \todo{CM}{write a paragraph}
 
-SKOS consistency and integrity means that
-- 
-
-
-\todo{CM}{After the introduction it is very common to introduce the problem in more detail. We should write a page about quality in controlled vocabularies and explain the sources for our quality metics. Maybe you can pull parts from the related work section.}
+Interoperability between applications has been the major motivation for specifying in total XX \textbf{SKOS integrity conditions}. An integrity condition is a statement that defines under which circumstances data are consistent with the SKOS data model. An example condition is ``A resource has no more than one value of skos:prefLabel per language tag''. Tools can check whether these integrity conditions are met for given data. Poolparty implements XX integrity conditions, SKOSify YY. \todo{CM}{summarize how existing tools implement these conditions}
 
 % Methodology
 
-\todo{CM}{How did we identify the criteria we present in the following section?}
+Our goal was to identify quality criteria that go beyond SKOS integrity conditions. These criteria do not primarily address interoperability on the data model level but usability and interoperability in the application areas mentioned before. We used the following sources for our investigation:
+
+\begin{itemize}
+    \item Existing literature
+    \item Mailing list discussions
+    \item \ldots
+\end{itemize}
+
+After we identified an initial set of criteria, we formalized them into computable metrics and applied them on existing SKOS vocabularies to learn about the real-world occurrences of these criteria. During that process we also learned about additional quality issues in real world SKOS data, refined already identified criteria and included additional ones in a SKOS quality criteria catalogue, which we published at \url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}.
+
+
+
 
