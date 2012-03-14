@@ -36,8 +36,9 @@ The PoolParty Thesaurus Consistency Checker implements all these conditions and 
 The SKOSify tool implements three of the above mentioned SKOS integrity conditions as well as the \textbf{missing language tags} and \textbf{loose concepts} measures introduced by the PoolParty checker. It introduces \textbf{hierarchy cycle detection} and detection of \textbf{extra whitespace} for SKOS label or documentation properties.
 
 % Argue why we need higher-level criteria
+With controlled vocabularies being available in the Web of Data, they are adopted for use-cases or domains not originally intended by the creators. These use-cases often have specific and overlapping requirements regarding, e.g., structure, availability or documentation of the underlying controlled vocabularies. To give some examples, loose concepts might negatively impact retrieval recall, missing entry points to an aggregated set of concepts impedes orientation for human users, and inconsistent relations hinder queries across distinct datsets. Thus there is a need for higher-level quality criteria that go beyond the integrity conditions given in the SKOS data model, which take into account characteristics of the intended application areas. \todo{CM}{provide references}
 
-\todo{CM}{argue why quality criteria beyond integrity conditions are needed; provide some good arguments and refer to the literature. The focus of this paragraph should be on quality in the controlled vocabulary domain...}
+%\todo{CM}{argue why quality criteria beyond integrity conditions are needed; provide some good arguments and refer to the literature. %The focus of this paragraph should be on quality in the controlled vocabulary domain...}
 
 % Methodology
 
@@ -46,7 +47,10 @@ Our goal was to identify quality criteria that go beyond SKOS integrity conditio
 \begin{itemize}
     \item Existing literature
     \item Mailing list discussions
-    \item \ldots \todo{cm}{think about and finish this paragraph and lists.}
+		\item Practices in current vocabulary development projects
+		\item Review of online available vocabularies from different domains
+    \item Feedback from experts in vocabulary creation
+%\ldots \todo{cm}{think about and finish this paragraph and lists.}
 \end{itemize}
 
 After we identified an initial set of criteria, we formalized them into computable metrics and applied them on existing SKOS vocabularies to learn about the real-world occurrences of these criteria. During that process we also learned about additional quality issues in real world SKOS data, refined already identified criteria and included additional ones in a SKOS quality criteria catalogue, which we published online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}}.
