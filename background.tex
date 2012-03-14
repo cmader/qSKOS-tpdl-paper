@@ -16,15 +16,24 @@ SKOS is a language for defining vocabularies in the Web of Data and therefore ba
 % -> 2 of 6 are expressed formally in OWL; the others cannot be expressed because OWL doesn't support disjoint properties
 
 % Poolparty quality checker implementation:
-% S13, S14, S27, S46
-% syntactic checks: URI, character encoding
-% missing language tags, missing labels
+% S13, S14, S27, S46 plus the formally defined S9, S37
+% syntactic checks: URI, character encoding, whitespaces
+% missing language tags: in SKOS labels and textual content)
+% missing labels: prefLabels for skos:Concepts and rdfs:labels for skos:ConceptSchemes)
+% loose concepts: concepts that are no top concepts and have no broaders
+
+% SKOSify
+% S13, S14, S27
 
 % Mapping qSKOS Integrity Conditions <-> qSKOS quality criteria
 % S13 + S14 combined in "Ambigious labels"
 % S27 + S46 combined in "Associative vs. Hierarchical Relation Clashes" and "Exact vs. Associative and Hierarchical Mapping Clashes"
 
-Interoperability between applications has been the major motivation for specifying in total six \textbf{SKOS integrity conditions}~\cite{Miles2005}. An integrity condition is a statement that defines under which circumstances data are consistent with the SKOS data model. An example condition is ``A resource has no more than one value of skos:prefLabel per language tag''. Tools can check whether these integrity conditions are met for given data. Two of the six integrity conditions are defined formally in the OWL representation of SKOS and can therefore be verified by any OWL reasoner. Poolparty and SKOSify implement all these integrity checks plus \todo{CM}{summarize how existing tools implement these conditions}
+Interoperability between applications has been the major motivation for specifying in total six \textbf{SKOS integrity conditions}~\cite{Miles2005}. An integrity condition is a statement that defines under which circumstances data are consistent with the SKOS data model. An example condition is ``A resource has no more than one value of skos:prefLabel per language tag''. Tools can check whether these integrity conditions are met for given data. Two of the six integrity conditions are defined formally in the OWL representation of SKOS and can therefore be verified by any OWL reasoner. 
+
+The PoolParty Thesaurus Consistency Checker implements all these conditions and introduces the following new checks: \textbf{URI validation} checks for invalid characters like, e.g. whitespaces in the URI string. \textbf{Definition of labels} is tested for conceptual resources and concept schemes. Furthermore, SKOS labels and textual content is checked for \textbf{missing language tags} and the notion of \textbf{loose concepts} is defined: it encompasses conceptual resources that are no top concepts and have no broader concept.
+
+The SKOSify tool implements three of the above mentioned SKOS integrity conditions as well as the \textbf{missing language tags} and \textbf{loose concepts} measures introduced by the PoolParty checker. It introduces \textbf{hierarchy cycle detection} and detection of \textbf{extra whitespace} for SKOS label or documentation properties.
 
 % Argue why we need higher-level criteria
 
