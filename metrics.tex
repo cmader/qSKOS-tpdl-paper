@@ -3,27 +3,19 @@
 \section{Quality Metrics for SKOS Vocabularies}\label{sec:metrics}
 
 % Briefly describe methodology
+The goal of our work is to provide a set of quantitative quality indicators that go beyond SKOS integrity conditions and address usability for typical application areas of controlled vocabularies. We approached this problem by identifying quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online~\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection critieria?} and formalized them into computable metrics, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies.
 
-Our goal was to identify quality criteria that go beyond SKOS integrity conditions. These criteria do not primarily address interoperability on the data model level but usability and interoperability in the application areas mentioned before. We used the following sources for our investigation:
+% Structure for each metric description
+%- origin (refs) and design rationale
+%- possible coverage by existing tools
+%- formal definition that specifies how to compute the metric
 
-\begin{itemize}
-    \item Existing literature
-    \item Mailing list discussions
-		\item Practices in current vocabulary development projects
-		\item Review of online available vocabularies from different domains
-    \item Feedback from experts in vocabulary creation
-%\ldots \todo{cm}{think about and finish this paragraph and lists.}
-\end{itemize}
-
-After we identified an initial set of criteria, we formalized them into computable metrics and applied them on existing SKOS vocabularies to learn about the real-world occurrences of these criteria. During that process we also learned about additional quality issues in real world SKOS data, refined already identified criteria and included additional ones in a SKOS quality criteria catalogue, which we published online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}}.
-
-
-In the following we describe the origins and motivations of the quality criteria we identified and map them to computable metrics by providing semi-formal definitions. These metrics can be implemented on top of the SKOS model, which we define as follows:
+In the following, we describe the origins and design rationale for each metric and provide a semi-formal definition that specifies how to implement them in tools. Since each metric operates on a given SKOS vocabulary, our metrics definitions are based on the following SKOS data model definition.
 
 \todo{CM}{add TODOs for each of Antoine's comment.}
 \todo{CM}{think how we could express this similar to OWL semantics}
 
-\begin{definition}[SKOS Data Model] Let R be the set of all resources, as defined in \cite{Jacobs2004} and $V = (C, A, LL, LR, SR, AR)$ be a controlled vocabulary expressed in SKOS, with
+\begin{definition}[SKOS Data Model] Let $R$ be the set of all resources, as defined in \cite{Jacobs2004} and $V = (C, A, LL, LR, SR, AR)$ be a controlled vocabulary expressed in SKOS, with
 
 \begin{itemize}
 	\item \(C \subseteq R\) being the set of \textbf{conceptual resources} of type \texttt{skos:Concept}.
