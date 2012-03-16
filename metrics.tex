@@ -12,34 +12,33 @@ The goal of our work is to provide a set of quantitative quality indicators that
 
 In the following, we describe the origins and design rationale for each metric and provide a semi-formal definition that specifies how to implement them in tools. Since each metric operates on a given SKOS vocabulary, our metrics definitions are based on the following SKOS data model definition.
 
-\todo{CM}{add TODOs for each of Antoine's comment.}
-\todo{CM}{think how we could express this similar to OWL semantics}
-
-\begin{definition}[SKOS Data Model] Let $R$ be the set of all resources, as defined in \cite{Jacobs2004} and $V = (C, A, LL, LR, SR, AR)$ be a controlled vocabulary expressed in SKOS, with
+\begin{definition}[SKOS Data Model] Based on the RDFS Interpretation $\mathcal{I}$ we define a vocabulary $V = (IR, C, A, LL, LR, SR, AR)$ (cf.~\cite{Hitzler2009}). V is expected to be fully entailed, based on the deduction rules for RDFS entailment defined in \cite{RDFSEM2012}. Let
 
 \begin{itemize}
-	\item \(C \subseteq R\) being the set of \textbf{conceptual resources} of type \texttt{skos:Concept}.
-	\item \(A \subseteq R\) being the set of aggregation and grouping resources in SKOS, hence \texttt{skos:ConceptScheme} and \texttt{skos:Collection}.
-	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
-	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, e.g., via \texttt{rdfs:label} or subproperties thereof. \todo{BH}{koennten wir uns hier evtl sparen, brauchen das nur fuer Concept Documentation Coverage Ratio}
-\item \(SR \subseteq C \times C\) being the set of \textbf{semantic relations} associating conceptual resources with concepts, hence instances of \texttt{skos:semanticRelation} and subproperties thereof.
-\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
+	\item \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) be the set of all resources in V, as defined in \cite{RDFSEM2012}.
+
+	\item \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) be the set of \textbf{conceptual resources}.
+
+  \item \(A = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I}) \cup I_{CEXT}(\texttt{skos:Collection}^\mathcal{I})\) be the set of \textbf{aggregation and grouping resources}.
+
+%	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
+%	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, e.g., via \texttt{rdfs:label} or subproperties thereof.
+
+	\item \(SR = I_{CEXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) be the set of \textbf{semantic relations} associating conceptual resources with one another.
+
+%\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
 \end{itemize}
 
 \end{definition}
-
 
 \subsection{Structural Metrics}
 
 The commonality of the following metrics is that they apply a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
 
-\subsubsection{Loose Concepts} is a metric motivated by the notion of ``orphan terms'' \todo{CM+BH}{Be careful with all reference to terminology with "terms", when what is tested (in the context of SKOS) is concepts} in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic or aggregation relations with other conceptual, aggregation or grouping resources. Although they might have attached lexical labels, they lack valuable context information. The number of loose concepts in a vocabulary can be computed as follows:
-
-% Note: this is generally true for all vocabularies, right? "Depending on the vocabulary development policy, loose concepts may be tolerated or considered to be a defect."
+\subsubsection{Loose Concepts} is a metric motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic relations with other conceptual resources. Although they might have attached lexical labels, they lack valuable context information. The number of loose concepts in a vocabulary can be computed as follows:
 
 \begin{definition}
-    
-Let \(G = (C, SR \cup AR)\) \todo{CM+BH}{antoine: I'd argue against having one criteria for both sets of relations. Having a concept scheme will never compensate the fact that the concept has no relation (and vice versa). Similarly, the fact of not having a concept scheme will never be compensated by belonging to a skos:Collection.} and \(deg(c)\) be the degree, hence the number of in- and outgoing edges, of a node $c \in C$ in a graph $G$. We can then define loose concepts as a function \(lc : G \rightarrow \mathbb{N}_{0}\), with \[lc(g) = \left|\left\{c \in C : deg(c) = 0\right\}\right|\] \todo{CM+BH}{antoine argues for defining a ratio here}
+Let \(G = (C, SR)\) and \(deg(c)\) be the degree, hence the number of in- and outgoing edges, of a node $c \in C$ in a graph $G$. We can then define loose concepts as a function \(lc : G \rightarrow \mathbb{N}_{0}\), with \[lc(g) = \left|\left\{c \in C : deg(c) = 0\right\}\right|\] \todo{CM+BH}{antoine argues for defining a ratio here}
 
 \end{definition}
 
