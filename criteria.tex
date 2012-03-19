@@ -4,7 +4,7 @@
 
 % Briefly describe methodology
 
-The goal of our work is to provide a set of quantitative quality indicators that go beyond SKOS integrity conditions and address usability for typical application areas of controlled vocabularies. We approached this problem by identifying quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable metrics, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each metric operates on a given SKOS vocabulary, our metrics definitions are based on the following SKOS data model definition.
+We identified quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable quality filtering function, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each function operates on a given SKOS vocabulary, they are based on the following SKOS data model definition.
 
 
 \begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} of a SKOS vocabulary be a tuple of of the form $V = <IR, C, A, SR>$, with
@@ -28,7 +28,9 @@ The goal of our work is to provide a set of quantitative quality indicators that
 
 \end{definition}
 
-\todo{BH,CM}{say that each criterions is implemented as a function that matches a set of resources in a given vocabulary V}
+
+The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $F$ that takes a given vocabulary graph $V$ as input and returns a set of affected resources $IR$ \todo{CM}{think about it and try to formalize this.} Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
+
 
 
 % Structure for each metric description
@@ -45,7 +47,7 @@ In the following, we describe the origins and design rationale for each metric a
 
 \subsubsection{Incomplete Language Coverage}\todo{CM}{describe}
 
-\subsubsection{Documentation Coverage}\todo{CM}{describe}
+\subsubsection{Undocumented Concepts}\todo{CM}{describe}
 
 \subsubsection{Potentially Semantically Related Concepts}\todo{CM}{describe}
 
