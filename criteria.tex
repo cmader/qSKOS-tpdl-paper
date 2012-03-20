@@ -42,7 +42,7 @@ In the following, we describe the origins and design rationale for each metric a
 % LEXICAL AND DOCUMENTATION CRITERIA
 
 \subsection{Labeling and Documentation Criteria}
-The criteria defined in this section..\todo{CM}{describe}. Their filtering function \(f:V \rightarrow \mathfrak{P}(C)\) yields all sets of \textbf{conceptual resources} violating the respective criterion.
+The criteria defined in this section..\todo{CM}{describe}. Their filtering function \(f:V \rightarrow \mathfrak{P}(IR)\) yields all sets of \textbf{conceptual resources} violating the respective criterion.
 
 \subsubsection{Omitted Language Tags}
 Some controlled vocabularies contain literals in natural language, but without information what language has actually been used. Using private language tags (see RFC3066) or omitting them at all limits, e.g., language-dependent queries.
@@ -100,14 +100,16 @@ The SKOS language provides ConceptSchemes which are a facility for grouping rela
 
 \subsection{Linked Data Specific Criteria}\todo{CM}{add}
 
-\subsubsection{Missing In-Links}\todo{CM}{add}
+\subsubsection{Missing In-Links}
+A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships'' is publised online\footnote{\url{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}}. In these diagrams, dbpedia is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. Therefore a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community. Accordingly, estimating the number of In-Links of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) would give some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice\footnote{\url{http://sindice.com/}} that provide a SPARQL endpoint. Accordingly, this criterion identifies the set of all conceptual resources that lack any In-Links.
 
-\subsubsection{Missing Out-Links}\todo{CM}{add}
+\subsubsection{Missing Out-Links}
+The Web of Data consists of globally interconnected datasets, ``enabling seamless connections between data sets''\cite{Heath2011}. These links can be established between various SKOS vocabularies by Out-Links, i.e., references from conceptual resources in the ``source vocabulary'' $V$ to resources identified by an HTTP URI and available at a different host. Similar to the criterion above, this criterion identifies the set of all conceptual resources that lack such Out-Links.
 
-\subsubsection{HTTP URI Schema Violation}\todo{CM}{add}
+\subsubsection{HTTP URI Schema Violation}\todo{All}{We don't have any evidence this really happens in existing vocabularies, although it is very likely. Maybe we should skip this.}
 
-\subsubsection{Link Target Unavailability}\todo{CM}{add}
-
+\subsubsection{Link Target Unavailability}
+This criterion identifies a set of all resources that have been identified as unavailable, i.e. resolving their URI leads to an erroneous HTTP response or no response at all. An erroneous HTTP response in that case can be defined as a response code (after a possible redirection) other than 200. Just as in the ``traditional'' Web, these ``broken links'' hinder information gathering and should be avoided. 
 
 % OTHER CRITERIA
 
