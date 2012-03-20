@@ -29,9 +29,7 @@ We identified quality criteria in existing literature and manually checking exis
 \end{definition}
 
 
-The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $F$ that takes a given vocabulary graph $V$ as input and returns a set of affected resources $IR$ \todo{CM}{think about it and try to formalize this.} Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
-
-
+The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $F$, mapping a given vocabulary $V$ to the powerset $\mathfrak{P}(IR)$ of its resources.\todo{CM}{think about it and try to formalize this.} Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
 
 % Structure for each metric description
 %- origin (refs) and design rationale
@@ -41,16 +39,20 @@ In the following, we describe the origins and design rationale for each metric a
 
 % LEXICAL AND DOCUMENTATION CRITERIA
 
-\subsection{Labeling and Documentation Criteria}\todo{CM}{describe}
+\subsection{Labeling and Documentation Criteria}
+The criteria defined in this section..\todo{CM}{describe}. Their filtering function \(f:V \rightarrow \mathfrak{P}(C)\) yields all sets of \textbf{conceptual resources} violating the respective criterion.
 
-\subsubsection{Omitted Language Tags}\todo{CM}{describe}
+\subsubsection{Omitted Language Tags}
+Some controlled vocabularies contain literals in natural language, but without information what language has actually been used. Using private language tags (see RFC3066) or omitting them at all limits, e.g., language-dependent queries.
 
-\subsubsection{Incomplete Language Coverage}\todo{CM}{describe}
+\subsubsection{Incomplete Language Coverage}
+As stated above, vocabularies should combine plain literals with language tags. Furthermore, to support, e.g., internationalization or translation use cases, every concept should have defined literal values in the same set of languages than the other concepts.
 
-\subsubsection{Undocumented Concepts}\todo{CM}{describe}
+\subsubsection{Undocumented Concepts}
+\cite{Aitchison2000} cites Svenonius to advocate ``inclusion of as much definition material as possible''. The SKOS language specification defines various properties that are intended to hold this kind of information, subsumed as ``documentation properties'' in the SKOS reference.
 
-\subsubsection{Potentially Semantically Related Concepts}\todo{CM}{describe}
-
+\subsubsection{Potentially Semantically Related Concepts} \todo{All}{reformulate criterion title}
+This criterion is an extension of a statement from the SKOS primer, recommending ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. Given the fact that (i) many vocabularies don’t make use of concept schemes and (ii) also identical altLabels or hiddenLabels can have a negative effect in some use-cases (e.g, auto-completion of concept labels based on user input), we follow a more general approach: identification of all pairs of concepts with their respective prefLabel, altLabel or hiddenLabel meeting a threshold of a certain similarity function $sim:LV \times LV \rightarrow [0,1]$. For the analysis of the criterion in this document, we define the similarity function  to check for case-insensitive string equality and the threshold to equal 1.
 
 % STRUCTURAL METRICS
 
