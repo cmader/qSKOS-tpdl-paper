@@ -6,7 +6,7 @@
 
 We identified an initial set of quality criteria for SKOS vocabularies by reviewing existing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the received responses, we then selected a subset of these criteria and formalized them into computable \textbf{quality checking functions}. Each function operates on a SKOS vocabulary, which we define, for the purpose of this work, as follows:
 
-\begin{definition}[SKOS Vocabulary] Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{conceptual resources}, $LV = I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of \textbf{literal values}, and \item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating conceptual resources with one another. Further, we let $V$ be the fully entailed RDFS interpretation~\cite{RDFSEM2012} of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties. 
+\begin{definition}[SKOS Vocabulary] Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{conceptual resources}, $LV = I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of \todo{CM}{\textbf{plain literals}?}, and \item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating conceptual resources with one another. Further, we let $V$ be the fully entailed RDFS interpretation~\cite{RDFSEM2012} of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties. 
 
 \end{definition}
 
@@ -16,7 +16,7 @@ The commonality of all quality checking functions is that they take a given SKOS
 %- origin (refs) and design rationale
 %- formal definition that specifies how to compute the metric
 
-In the following, we explain the origins and design rationale for each quality criterion and describe how we implemented the corresponding quality checking function. For better readability we provide semi-formal definitions only where necessary and refer to the online documentation or the implementation source code for further details. We also categorized the identified quality criteria into \emph{Labeling and Documentation Criteria}, \emph{Structural Criteria}, \emph{Linked Data Specific Criteria}, and \emph{Other Criteria}. 
+In the following, we explain the origins and design rationale for each quality criterion (QC) and describe how we implemented the corresponding quality checking function. For better readability we provide semi-formal definitions only where necessary and refer to the online documentation and the implementation source code for further details. We also categorized the identified quality criteria into \emph{Labeling and Documentation Criteria}, \emph{Structural Criteria}, \emph{Linked Data Specific Criteria}, and \emph{Other Criteria}. 
 
 % LEXICAL AND DOCUMENTATION CRITERIA
 
@@ -24,18 +24,20 @@ In the following, we explain the origins and design rationale for each quality c
 
 The criteria defined in this section primarily focus on supporting interaction with human users that either work with the vocabulary itself or interact with a system using the vocabulary for, e.g., search and retrieval purposes.
 
-The criteria defined in this section focus 
+\paragraph{QC 1: Omitted or Invalid Language Tags}
 
-\subsubsection{Omitted Language Tags}
-Some controlled vocabularies contain literals in natural language without information about what language has actually been used. Using private language tags (see RFC3066) or omitting them at all limits, e.g., language-dependent queries. To identfy omitted language tags we iterate over all conceptual resources in $C$ and collect those that have relations to untyped literals lacking language information as described above. 
+SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} or \texttt{skos:documentation}. Since omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could limit language-dependent structural queries, we check a SKOS vocabulary for omitted language tags by iterating over concepts \todo{not resources? any resource can have a prefLabel, right? and prefLabel has no domain specified} in $C$ and collect those that have relations to plain literals without or with invalid language tags. We check the validity of a language tag by comparing it to the list of tags defined in \todo{CM}{??}.\todo{CM}{is there any literature reference for this criterion?}
 
-\subsubsection{Incomplete Language Coverage}
-According to the previous criterion, vocabularies should combine plain literals with language tags. Furthermore, to support, e.g., internationalization or translation use cases, every concept should have defined literal values in the same set of languages than the other concepts. Calculation of the affected resources is done by iterating over all conceptual resources in $C$, building a global list of distinct languages throughout all literals assigned to every concept. Additionally, a list of used languages per conceptual resource is created. The criterion identifies all conceptual resources having a language list not equal to the global language list. 
+\paragraph{QC 2: Incomplete Language Coverage}
 
-\subsubsection{Undocumented Concepts}
-\cite{Aitchison2000} cites Svenonius to advocate ``inclusion of as much definition material as possible''. The SKOS language specification defines various properties that are intended to hold this kind of information, subsumed as ``documentation properties'' in the SKOS reference. To identify the affected conceptual resources, we iterate over all elements in $C$ to find those that are not related to one of the documentation properties.
+A SKOS vocabulary that uses language tags with its literal values, should apply them consistently for all concepts. Hence, the set of language tags used by the literal values linked with a \todo{CM}{concept/resource} should be the same for all \todo{CM}{concepts/resources}. This is particularly important for applications that rely on internationalization and translation use cases. We calculate the affected resources by extracting the global set of language tags used in a vocabulary from all literal values attached to all \todo{CM}{concepts/resources}. Then we iterate over all \todo{CM}{conceptual resources} in $C$ and identify all conceptual resources having a set of language tags that is not equal to the global language set. \todo{CM}{literature reference?}
 
-\subsubsection{Potentially Semantically Related Concepts} \todo{All}{reformulate criterion title}
+\paragraph{QC 3: Undocumented Concepts}
+
+\cite{Aitchison2000} cites Svenonius \todo{CM}{cite original work} to advocate ``inclusion of as much definition material as possible''. The SKOS language specification defines various properties that are intended to hold this kind of information, subsumed as ``documentation properties'' in the SKOS reference. To identify the affected conceptual resources, we iterate over all elements in $C$ to find those that are not using at least one of the documentation properties.\todo{CM}{rephrase}
+
+\paragraph{QC 4: Potentially Semantically Related Concepts} \todo{All}{reformulate criterion title}
+
 This criterion is an extension of a statement from the SKOS primer, recommending ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. Given the fact that (i) many vocabularies don’t make use of concept schemes and (ii) also identical altLabels or hiddenLabels can have a negative effect in some use-cases (e.g, auto-completion of concept labels based on user input), we follow a more general approach: identification of all pairs of concepts with their respective prefLabel, altLabel or hiddenLabel meeting a threshold of a certain similarity function $sim:LV \times LV \rightarrow [0,1]$. For the analysis of the criterion in this document, we define the similarity function  to check for case-insensitive string equality and the threshold to equal 1. Calculation of this criterion is done by applying the similarity function to every label of every possible pair of conceptual concepts in $C$ and filtering those that meet or exceed a specified threshold.
 
 % STRUCTURAL METRICS
