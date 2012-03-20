@@ -5,20 +5,20 @@
 % BACKGROUND
 
 % What is SKOS?
-The Simple Knowledge Organization System (SKOS)~\cite{Miles2005} is a standard model for sharing and linking controlled vocabularies on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} have created SKOS representations of their controlled vocabularies and published them on the Web so that they can easily be accessed and by humans and machines.
+The Simple Knowledge Organization System (SKOS)~\cite{Miles2005} is a standard model for sharing and linking controlled vocabularies on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} published SKOS representations of their controlled vocabularies on the Web so that they can easily be accessed and by humans and machines.
 
 % What does "quality" mean in this context?
 Each vocabulary reflects domain- and application-specific needs and taxonomists often follow existing standards \cite{ISO25964-1:2011,Z39.19:2005} or apply their own hand-crafted checks (cf.,~\cite{Coronado2009}) to meet certain quality requirements. However, these requirements can differ across domains and lead to quality problems when a vocabulary is used in other environments. As a consequence, currently available vocabularies are, even though they are expressed in SKOS, often heterogeneous in terms of quality. The following examples illustrate that this can affect their applicability for tasks like query expansion, faceted browsing, clustering, or auto-completion: 
 
 \begin{itemize}
 
-	\item The SKOS representation of Agrovoc defines concepts in 25 different languages. However, while most concepts have an English description, only 38\% of all concepts have German labels attached. This can be a problem for applications that use Agrovoc and rely on German translations.
+	\item The SKOS representation of AGROVOC defines concepts in 25 different languages. However, while most concepts have an English description, only 38\% of all concepts have German labels attached. This can be a problem for applications that use Agrovoc and rely on German translations.
 
 	\item An earlier version (v.8.06) of the STW thesaurus contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface at that time suggested identical entries, without giving disambiguation information.
 
 % Note: examples related to "defense / army & co" are always a bit tricky; maybe we find a better example. 
 
-	\item The vocabulary developed by the Austrian Armed Forces (LVAk thesaurus\footnote{Non-public thesaurus developed by the Austrian Armed Forces}) contains 11 disconnected concept clusters. When we confronted the thesaurus maintainers with these structures, they recognized them as ``forgotten'' test data that has no practical significance.
+	\item The non-public vocabulary developed by the Austrian Armed Forces (LVAk) contains 11 disconnected concept clusters. When we confronted the thesaurus maintainers with these structures, they recognized them as ``forgotten'' test data that has no practical significance.
 	
 % Note: I am still having problems to imagine why and how one would implement query expansion based on the DBPedia categories...as long as this is not clear, better skip the example.
 % mein fantasie-szenario ist folgendes: jmd hat einen korpus an dokumenten und will diesen nach kategorien indizieren. also sucht man ein existierendes vocab das man verwenden könnte (irgendwelche subject headings oder eben die dbpedia kategorien weil die eben schon in SKOS verfügbar sind und dbpedia sowieso das zentrum der ld-welt darstellt :). Also verschlagwortet man den dokumentkorpus mit dbpedia-categories und kommt dann, aufgrund der loose concepts drauf, dass dokumente die in ähnliche kategorien (broader/narrower) fallen, nicht gefunden werden können, also den recall verschlechtern. ist das unrealistisch?
@@ -33,11 +33,11 @@ The SKOS specification doesn't make any explicit statements about vocabulary qua
 
 % CONTRIBUTION
 
-The goal of our work to help taxonomists in judging the quality of SKOS vocabularies, by giving them a set of computable quality criteria that can identify possible quality issues and serve as quantitative indicator for the quality of a given SKOS vocabulary. In combination with the taxonomists' experience and domain expertise, these criteria provide important feedback to the overall vocabulary design process. The main contributions of this work can be summarized as follows:
+The goal of our work is to help taxonomists in judging the quality of SKOS vocabularies, by giving them a set of computable quality criteria that can identify possible quality issues and serve as quantitative indicator for the quality of a given SKOS vocabulary. In combination with the taxonomists' experience and domain expertise, these criteria provide important feedback to the overall vocabulary design process. The main contributions of this work can be summarized as follows:
 
 \begin{itemize}
 
-	\item We identified existing \textbf{quality criteria} for controlled vocabularies by examining existing guidelines and formalized them into computable \textbf{filtering functions} that identify possibly affected resources in a given SKOS vocabulary.
+	\item We identified \todo{CM}{XX} \textbf{quality criteria} for SKOS vocabularies by examining existing guidelines and formalized them into computable \textbf{filtering functions} that identify possibly affected resources in a given SKOS vocabulary.
 	
 	\item With the \textbf{qSKOS quality assessment tool} we provide a reference implementation of these filtering functions.
 
@@ -45,4 +45,4 @@ The goal of our work to help taxonomists in judging the quality of SKOS vocabula
 
 \end{itemize}
 
-The results from our analysis show that... \todo{BH,CM}{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.}
+In the following, we will first (Section~\ref{sec:background}) elaborate on the meaning of quality in SKOS vocabularies and then present the set of quality criteria we identified (Section~\ref{sec:criteria}). In Section~\ref{sec:analysis} we describe our analysis and discuss the results, which show that \todo{BH,CM}{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.}.
