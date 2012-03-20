@@ -7,23 +7,23 @@
 We identified quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable quality filtering function, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each function operates on a given SKOS vocabulary, they are based on the following SKOS data model definition.
 
 
-\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of OWL inverse properties) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
+\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of \texttt{owl:inverseOf} properties) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
     
 %    Based on the RDFS Interpretation $\mathcal{I}$ we define a vocabulary $V = (IR, C, A, LL, LR, SR, AR)$ (cf.~\cite{Hitzler2009}). V is expected to be fully entailed, based on the deduction rules for RDFS entailment defined in \cite{RDFSEM2012}. Let
 
 \begin{itemize}
-	\item \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) be the set of all resources in V, as defined in \cite{RDFSEM2012}.
+	\item \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of resources,
 
-	\item \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) be the set of \textbf{conceptual resources}.
+	\item $LV = I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of literal values,
+
+	\item \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{conceptual resources},
 
 %\item \(A = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I}) \cup I_{CEXT}(\texttt{skos:Collection}^\mathcal{I})\) be the set of \textbf{aggregation and grouping resources}.
 
 %	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
 %	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, e.g., via \texttt{rdfs:label} or subproperties thereof.
 
-	\item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) be the set of \textbf{semantic relations} associating conceptual resources with one another.
-
-	\item $LV = I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$
+	\item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating conceptual resources with one another.
 
 %\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
 \end{itemize}
@@ -31,7 +31,7 @@ We identified quality criteria in existing literature and manually checking exis
 \end{definition}
 
 
-The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $F$, mapping a given vocabulary $V$ to the powerset $\mathfrak{P}(IR)$ of its resources.\todo{CM}{think about it and try to formalize this.} Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
+The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $f:V \rightarrow \mathfrak{P}(IR)$, mapping a given vocabulary to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
 
 % Structure for each metric description
 %- origin (refs) and design rationale
@@ -42,7 +42,7 @@ In the following, we describe the origins and design rationale for each metric a
 % LEXICAL AND DOCUMENTATION CRITERIA
 
 \subsection{Labeling and Documentation Criteria}
-The criteria defined in this section..\todo{CM}{describe}. Their filtering function \(f:V \rightarrow \mathfrak{P}(IR)\) yields all sets of \textbf{conceptual resources} violating the respective criterion.
+The criteria defined in this section primarily focus on supporting interaction with human users that either work with the vocabulary itself or interact with a system using the vocabulary for, e.g., search and retrieval purposes.
 
 \subsubsection{Omitted Language Tags}
 Some controlled vocabularies contain literals in natural language, but without information what language has actually been used. Using private language tags (see RFC3066) or omitting them at all limits, e.g., language-dependent queries.
@@ -75,7 +75,7 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 % \end{definition}
  
 
-\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we assume all OWL inverse properties of the SKOS ontology properly entailed and construct two graphs, $G_{br}$ and $G_{nar}$, with the set of nodes being C. The set of edges in $G_{br}$ are all pairs identified by $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I})$, likewise those of $G_{nar}$ are $I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
+\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we construct two graphs, $G_{br}$ and $G_{nar}$, with the set of nodes being C. The set of edges in $G_{br}$ are all pairs identified by $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I})$, likewise those of $G_{nar}$ are $I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
 
 %Erkärung: ein knoten (konzept) liegt oft in vielen überlappenden kreisen und es würde keinen sinn machen, diese alle auszugeben. deshalb berechne ich mir von jedem knoten der in einem kreis liegt, in welcher starken zusammenhangskomponente er liegt. das sind dann per definition alle knoten, die mit irgendeinem kreis in dem das konzept liegt was zu tun haben, weil eine starke zusammenhangskomponente ja eigentlich nur aus kreisen besteht (von jedem knoten gibt es einen gerichteten weg zu jedem anderen knoten)
  
@@ -115,8 +115,6 @@ This criterion identifies a set of all resources that have been identified as un
 
 \subsection{Other Criteria}
 
-\subsubsection{Undefined SKOS Property Usage}\todo{CM}{Merge 15 and 16}
-
-
-
+\subsubsection{Undefined SKOS Property Usage}
+Some vocabularies reference resources in the SKOS namespace that cannot be resolved. A common reason for this is, that there seems to exist a misunderstanding about the correct way of introducing new classes or properties in an OWL document. In some cases, vocabularies ``invent'' new terms in the SKOS namespace in order to meet certain requirements of the publishing organizations that cannot (yet) be expressed within the SKOS schema. Another reason for the presence of unresolvable resource references in the SKOS namespace is that the vocabulary might be outdated. With the SKOS W3C recommendation maturing, some properties have been removed from the current version of the schema. Vocabularies using these ``deprecated'' properties hence contain parts of their information in a non ``standard"-compliant way, having negative effects when, e.g., crawling vocabularies to gather specific information.
 
