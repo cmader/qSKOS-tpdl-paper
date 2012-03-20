@@ -1,10 +1,12 @@
 %!TEX root = main.tex
 
-\section{Background}
+\section{Background}\label{sec:background}
 
 % About Quality in SKOS vocabularies
 
-SKOS is a language for defining vocabularies in the Web of Data and therefore based on the Open World Assumption. Established quality notions from closed-world systems, such as referential integrity or schema validation, don't hold anymore, because the available information may be incomplete and facts that are not explicitly stated cannot be determined as true or false. While trust and provenance models for Web data are being developed~\cite{Omitola2011,Hartig2009}, content-based and hand-crafted heuristics are currently used to evaluate quality in Linked Data sets~\cite{Heath2011}. Gueret et al. [\todo{CM}{find the right reference in google scholar}], for instance, calculate network measures to support human judgement on the quality of Linked Data \todo{CM}{?} graphs.
+SKOS is a language for defining vocabularies in the Web of Data and therefore based on the Open World Assumption. Established quality notions from closed-world systems, such as referential integrity or schema validation, don't hold anymore, because available information may be incomplete and non-explicitly stated facts cannot be determined as true or false. While trust and provenance models for Web data are being developed~\cite{Omitola2011,Hartig2009}, content-based and hand-crafted heuristics are currently used to evaluate quality in Linked Data sets~\cite{Heath2011}.
+
+% MOVE TO RELATED WORK: Gueret et al. [\todo{CM}{find the right reference in google scholar}], for instance, calculate network measures to support human judgement on the quality of Linked Data \todo{CM}{?} graphs.
 
 
 %In the course of the LATC project, Gueret et al. propose an infrastructure that utilizes crowd-sourcing technology to semi-automatically create links between datasets of the LOD cloud. To ensure the quality of the resulting network, human judgement is supported by calculating a report of locally approximated network measures. \todo{BH}{ich denke antoine hat das paper gemeint: http://www.mendeley.com/download/public/18928/4084690763/56bdde328dfbba2cb8594b57152c0e132ef00a40/dl.pdf . Leider fehlen da etliche Details um sich ein konkretes Bild machen zu können}
@@ -40,9 +42,9 @@ Typical application areas of controlled vocabularies are as classification, inde
 
 
 % Argue why we need to formalize them -> because otherwise they will be implemented inconsistently across applications
-Thus, in order to help vocabulary and application designers in judging the quality of SKOS vocabularies, we need higher-level quality criteria that go beyond low-level integrity conditions, which define data model consistency. Such quality criteria are already well-established and have extensively been discussed in standardized guidelines [\todo{CM}{ISO refs}], manuals [\todo{CM}{hedden book, skosify ref 3}], and scholarly articles [\todo{cm}{e.g., skosify refs 16/17}].
+Thus, in order to help vocabulary and application designers in judging the quality of SKOS vocabularies, we need higher-level quality criteria that go beyond low-level integrity conditions defining data model consistency. Such quality criteria are already well-established and have extensively been discussed in standardized guidelines [\todo{CM}{ISO refs}], manuals [\todo{CM}{hedden book, skosify ref 3}], and scholarly articles [\todo{cm}{e.g., skosify refs 16/17}].
 % TODO: bitte hier einfach nur die referenzen auf die wir uns beziehen zusammenfassen und kategorisieren. Schau dir dazu auch nochmals die SKOSify referenzen und die aus eurem iSemantics paper an.
-If we want to apply these criteria on SKOS vocabularies, we first need to identify them and determine how to evaluate them given the syntax, structure and semantics of SKOS. Since we want to provide tool support for quality checking, we must formalize these criteria into computable metrics, in order to ensure consistent implementation and interpretation across tools.
+If we want check existing SKOS vocabularies against these criteria, we first need to identify them and determine how to evaluate them given the syntax, structure and semantics of SKOS. Since we want to provide tool support for quality checking, we must formalize these criteria into computable metrics, in order to ensure consistent implementation and interpretation across tools.
 
 % I think for the big picture it is not necessary to go into such details. We can do this later when introducting the metrics
 
