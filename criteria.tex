@@ -4,7 +4,7 @@
 
 % Briefly describe methodology
 
-We identified an initial set of quality criteria for SKOS vocabularies by reviewing existing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we then selected a subset of these criteria and formalized them into computable \textbf{quality checking functions}. Each of these functions operates on a SKOS vocabulary, which we define, for the purpose of this work, as follows:
+We identified an initial set of quality criteria for SKOS vocabularies by reviewing existing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we then selected a subset of these criteria and formalized them into computable \textbf{quality checking functions}. Each function operates on a SKOS vocabulary, which we define, for the purpose of this work, as follows:
 
 \begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of \texttt{owl:inverseOf} properties \todo{CM}{why?}) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
     
@@ -27,7 +27,7 @@ The commonality of all quality checking functions is that they take a given SKOS
 %- origin (refs) and design rationale
 %- formal definition that specifies how to compute the metric
 
-In the following, we explain the origins and design rationale for each quality criterion and describe how we implemented the corresponding quality checking function. For better readability we provide semi-formal definitions only where necessary and refer to the online documentation or the implementation source code for further details. We also categorized the identified quality criteria into \emph{labeling and documentation criteria}, \emph{structural criteria}, \emph{Linked Data specific criteria}, and \emph{other criteria}. 
+In the following, we explain the origins and design rationale for each quality criterion and describe how we implemented the corresponding quality checking function. For better readability we provide semi-formal definitions only where necessary and refer to the online documentation or the implementation source code for further details. We also categorized the identified quality criteria into \emph{Labeling and Documentation Criteria}, \emph{Structural Criteria}, \emph{Linked Data Specific Criteria}, and \emph{Other Criteria}. 
 
 % LEXICAL AND DOCUMENTATION CRITERIA
 
