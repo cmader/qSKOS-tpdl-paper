@@ -4,13 +4,10 @@
 
 % Briefly describe methodology
 
-We identified quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable quality filtering function, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each function operates on a given SKOS vocabulary, they are based on the following SKOS data model definition.
+We identified an initial set of quality criteria for SKOS vocabularies by reviewing existing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we then selected a subset of these criteria and formalized them into computable \textbf{quality checking functions}. Each of these functions operates on a SKOS vocabulary, which we define, for the purpose of this work, as follows:
 
-
-\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of \texttt{owl:inverseOf} properties) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
+\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of \texttt{owl:inverseOf} properties \todo{CM}{why?}) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
     
-%    Based on the RDFS Interpretation $\mathcal{I}$ we define a vocabulary $V = (IR, C, A, LL, LR, SR, AR)$ (cf.~\cite{Hitzler2009}). V is expected to be fully entailed, based on the deduction rules for RDFS entailment defined in \cite{RDFSEM2012}. Let
-
 \begin{itemize}
 	\item \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of resources,
 
@@ -18,30 +15,24 @@ We identified quality criteria in existing literature and manually checking exis
 
 	\item \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{conceptual resources},
 
-%\item \(A = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I}) \cup I_{CEXT}(\texttt{skos:Collection}^\mathcal{I})\) be the set of \textbf{aggregation and grouping resources}.
-
-%	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
-%	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, e.g., via \texttt{rdfs:label} or subproperties thereof.
-
 	\item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating conceptual resources with one another.
 
-%\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
 \end{itemize}
 
 \end{definition}
 
+The commonality of all quality checking functions is that they take a given SKOS vocabulary as input and return a (nested) set, containing the resources that do \todo{CM}{not - sure?} fulfill the quality criterion. Therefore, we can formalize a quality criterion as being an abstract quality checking function $f:V \rightarrow \mathcal{P}(IR)$, mapping a given vocabulary $v \in V$ to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function and statistical analysis can be computed on top of the return values.
 
-The quality criteria we identified have in common that they are applied on a given SKOS vocabulary and identify a set of resources, which do not fulfill that criterion. Therefore, we can regard a quality criterion as being an abstract filtering function $f:V \rightarrow \mathfrak{P}(IR)$, mapping a given vocabulary to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function. Since the return value is a set of resources, statistical analyses can be computed on the number of resources in that set.
-
-% Structure for each metric description
+% Structure for each criterion description
 %- origin (refs) and design rationale
 %- formal definition that specifies how to compute the metric
 
-In the following, we describe the origins and design rationale for each metric and provide a semi-formal definition that specifies how to implement them in tools. We categorized the metrics \todo{CM,BH}{Briefly describe how we organize/structure the criteria}
+In the following, we explain the origins and design rationale for each quality criterion and describe how we implemented the corresponding quality checking function. For better readability we provide semi-formal definitions only where necessary and refer to the online documentation or the implementation source code for further details. We also categorized the identified quality criteria into \emph{labeling and documentation criteria}, \emph{structural criteria}, \emph{Linked Data specific criteria}, and \emph{other criteria}. 
 
 % LEXICAL AND DOCUMENTATION CRITERIA
 
 \subsection{Labeling and Documentation Criteria}
+
 The criteria defined in this section primarily focus on supporting interaction with human users that either work with the vocabulary itself or interact with a system using the vocabulary for, e.g., search and retrieval purposes.
 
 \subsubsection{Omitted Language Tags}
