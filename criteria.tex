@@ -7,7 +7,7 @@
 We identified quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable quality filtering function, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each function operates on a given SKOS vocabulary, they are based on the following SKOS data model definition.
 
 
-\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} of a SKOS vocabulary be a tuple of of the form $V = <IR, C, A, SR>$, with
+\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} of a SKOS vocabulary be a tuple of of the form $V = \langle IR, C, SR, LV \rangle$, with
     
 %    Based on the RDFS Interpretation $\mathcal{I}$ we define a vocabulary $V = (IR, C, A, LL, LR, SR, AR)$ (cf.~\cite{Hitzler2009}). V is expected to be fully entailed, based on the deduction rules for RDFS entailment defined in \cite{RDFSEM2012}. Let
 
@@ -16,12 +16,14 @@ We identified quality criteria in existing literature and manually checking exis
 
 	\item \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) be the set of \textbf{conceptual resources}.
 
-  \item \(A = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I}) \cup I_{CEXT}(\texttt{skos:Collection}^\mathcal{I})\) be the set of \textbf{aggregation and grouping resources}.
+%\item \(A = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I}) \cup I_{CEXT}(\texttt{skos:Collection}^\mathcal{I})\) be the set of \textbf{aggregation and grouping resources}.
 
 %	\item LL being the set of \textbf{lexical labels}, which are instances of RDF plain literals.
 %	\item \(LR \subseteq C \times LL\) being the set of \textbf{lexical relations} associating conceptual resources with lexical labels, e.g., via \texttt{rdfs:label} or subproperties thereof.
 
 	\item \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) be the set of \textbf{semantic relations} associating conceptual resources with one another.
+
+	\item $LV = I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$
 
 %\item \(AR \subseteq C \times A\) being the set of \textbf{aggregation relations} associating conceptual resources with instances of aggregation and grouping resources, hence instances of, e.g., \texttt{skos:inScheme} or \texttt{skos:member} or subproperties thereof.
 \end{itemize}
@@ -58,24 +60,24 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 
 \subsection{Structural Criteria}
 
-The commonality of the following metrics is that they apply a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
+%The commonality of the following metrics is that they apply a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
 
-\subsubsection{Loose Concepts} is a metric motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic relations with other conceptual resources. Although they might have attached lexical labels, they lack valuable context information. The number of loose concepts in a vocabulary can be computed as follows: \todo{CM}{describe computation}
+\subsubsection{Loose Concepts} is a criterion motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic relations with other conceptual resources. Although they might have attached lexical labels, they lack valuable context information. Loose concepts in a vocabulary are those conceptual resources that do not occur in any of the pairs yielded by $SR$.
 
 % \begin{definition}
 % Let \(G_{lc} = (C, SR)\) and \(deg(c)\) be the degree, hence the number of in- and outgoing edges, of a node $c \in C$ in the graph $G_{lc}$. We can then define loose concepts as a function \(lc : G \rightarrow \mathbb{N}_{0}\), with \[lc(g) = \left|\left\{c \in C : deg(c) = 0\right\}\right|\]
-
 % \end{definition}
 
-
-\subsubsection{Weakly Connected Components} indicate that the vocabulary is split into separate ``clusters''. Presence of several WCC might be caused by incomplete data acquisition, ``forgotten'' test data, outdated terms, accidental deletion of relations and the like. In a practical setting, existence of weakly connected components could render the vocabulary less suitable for operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms. \todo{CM}{explain better, get rid of def}
+\subsubsection{Weakly Connected Components} indicate that the vocabulary is split into separate ``clusters''. Presence of several WCC might be caused by incomplete data acquisition, ``forgotten'' test data, outdated terms, accidental deletion of relations and the like. In a practical setting, existence of weakly connected components could render the vocabulary less suitable for operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms. To calculate WCC, we create an undirected graph whose set of nodes constitutes all non-loose concepts and whose edges are defined by $SR$. We then utilize ``Tarjan’s algorithm''\cite{Hopcroft1973} that finds all connected components of the graph, i.e. all sets of conceptual resources that can reach each other by a path of semantic relations.
 
 % \begin{definition}
 % To evaluate this criterion we consider a graph \(G_{wcc} = (C - lc(G_{lc}), SR)\). The function \(components(g) : G \rightarrow  \mathfrak{P}(G)\) calculates all weakly connected components of a graph by replacing all directed edges by undirected edges and utilizing “Tarjan’s algorithm” \cite{Hopcroft1973}. Based on that function, we can express this criterion as a function \(wcc : G \rightarrow \mathbb{N}_{0}\), with \[wcc(g) = \left|components(g)\right|\]
 % \end{definition}
  
 
-\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction.
+\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we assume all OWL inverse properties of the SKOS ontology properly entailed and construct two graphs, $G_{br}$ and $G_{nar}$, with the set of nodes being C. The set of edges in $G_{br}$ are all pairs identified by $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I})$, likewise those of $G_{nar}$ are $I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
+
+%Erkärung: ein knoten (konzept) liegt oft in vielen überlappenden kreisen und es würde keinen sinn machen, diese alle auszugeben. deshalb berechne ich mir von jedem knoten der in einem kreis liegt, in welcher starken zusammenhangskomponente er liegt. das sind dann per definition alle knoten, die mit irgendeinem kreis in dem das konzept liegt was zu tun haben, weil eine starke zusammenhangskomponente ja eigentlich nur aus kreisen besteht (von jedem knoten gibt es einen gerichteten weg zu jedem anderen knoten)
  
 % \begin{definition}
 % Let \(H_{br} \subseteq SR\) be the set of pairs of hierarchically broader related resources, i.e. \(I_{EXT}(\texttt{skos:broader}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:broadMatch}^\mathcal{I})\). \(H_{br}\) also includes the extensions of the respecitive inverse properties with each pair in reverse order. Likewise, \(H_{nar} \subseteq SR\) can be defined as the set of hierarchically narrower related resources. We consider two graphs \(G_{br} = (C,H_{br})\) and \(G_{nar}=(C,H_{nar})\) and a function \(cycleNodes:G \rightarrow \mathfrak{P}(C)\) identifying all nodes in a graph, that are part of a cycle. Furthermore we consider a function \(stronglyConnectedSets: G \rightarrow \mathfrak{P}(C)\) that calculates all sets of nodes contained in a strongly connected subgraph of $G$. This criterion can be defined as a function \(chr:G \rightarrow \mathbb{N}_{0}\) with \[chr(g)=\left|\left\{s \in stronglyConnectedSets(g) : cn \in cycleNodes(g), cn \in s\right\}\right|\]
@@ -83,7 +85,7 @@ The commonality of the following metrics is that they apply a graph-based view o
 
 
 \subsubsection{Valueless Associative Relations}\todo{CM}{add}
-
+The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by [Hedden2011] and [Aitchison2000] who also mentions “the risk that thesaurus compilers may overload the thesaurus with valueless relationships”, having a negative effect on precision. 
 
 \subsubsection{Solely Transitively Related Concepts}\todo{CM}{add}
 
