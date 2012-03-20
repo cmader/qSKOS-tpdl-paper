@@ -7,7 +7,7 @@
 We identified quality criteria in existing literature and manually checking existing vocabularies against these criteria. We published our preliminary results online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing list and informal face to face discussions. Based on the responses we received, we selected a subset \todo{CM}{due to lack of space, we cannot present all criteria. Do we have a good argument, why we present only a subset here? What were our selection criteria?} and formalized them into computable quality filtering function, which, in combination, can serve as quantitative quality indicators for SKOS vocabularies. Since each function operates on a given SKOS vocabulary, they are based on the following SKOS data model definition.
 
 
-\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} of a SKOS vocabulary be a tuple of of the form $V = \langle IR, C, SR, LV \rangle$, with
+\begin{definition}[SKOS Vocabulary] Let the fully entailed RDFS interpretation~\cite{RDFSEM2012} (enriched by entailment of OWL inverse properties) of a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV \rangle$, with
     
 %    Based on the RDFS Interpretation $\mathcal{I}$ we define a vocabulary $V = (IR, C, A, LL, LR, SR, AR)$ (cf.~\cite{Hitzler2009}). V is expected to be fully entailed, based on the deduction rules for RDFS entailment defined in \cite{RDFSEM2012}. Let
 
@@ -84,17 +84,17 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 % \end{definition}
 
 
-\subsubsection{Valueless Associative Relations}\todo{CM}{add}
-The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by [Hedden2011] and [Aitchison2000] who also mentions “the risk that thesaurus compilers may overload the thesaurus with valueless relationships”, having a negative effect on precision. 
+\subsubsection{Valueless Associative Relations}
+The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision. This criterion identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related, i.e. there exists a pair in $I_{EXT}(\texttt{skos:related}^\mathcal{I})$ that contains both of these conceptual resources. Computation of these criterion again relies on full entailment of the inverse hierarchical relations in the SKOS ontology.
 
-\subsubsection{Solely Transitively Related Concepts}\todo{CM}{add}
+\subsubsection{Solely Transitively Related Concepts}
+Two concepts are related using only transitive hierarchical relations which are, according to the SKOS reference document, ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., broader being a subproperty of broaderTransitive. This criterion identifies the set $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$ \textbf{without} RDFS subproperty entailment.
 
+\subsubsection{Omitted Top Concepts}
+The SKOS language provides ConceptSchemes which are a facility for grouping related concepts. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts. This helps to provide ``efficient access'' (SKOS primer) and simplifies orientation in the vocabulary. Thus, this criterion returns the subset of $C$ whose elements are not contained in any of the pairs obtained by $I_{EXT}(\texttt{skos:hasTopConcept}^\mathcal{I})$.
 
-\subsubsection{Omitted Top Concepts}\todo{CM}{add}
-
-
-\subsubsection{Top Concept Having Broader Concepts}\todo{CM}{add}
-
+\subsubsection{Top Concept Having Broader Concepts}
+\cite{Allemang2011} proposes to ``not indicate any concepts internal to the tree as top concepts'', i.e. top concepts should not have broader concepts. Accordingly, this criterion finds the set of Top Concepts violating this constraint.
 
 % LINKED-DATA SPECIFIC CRITERIA
 
