@@ -60,9 +60,9 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 
 \subsection{Structural Criteria}
 
-%The commonality of the following metrics is that they apply a graph-based view on a given vocabulary \(v\), which we can then consider as a directed graph \(G=(N,E)\) consisting of a set of nodes \(N\) and edges \(E\).
+The commonality of the following metrics is that they identify possible weaknesses when $V$ is used in scenarios exploiting the structure of its RDF graph. 
 
-\subsubsection{Loose Concepts} is a criterion motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic relations with other conceptual resources. Although they might have attached lexical labels, they lack valuable context information. Loose concepts in a vocabulary are those conceptual resources that do not occur in any of the pairs yielded by $SR$.
+\subsubsection{Loose Concepts} is a criterion motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. When we apply this to SKOS vocabularies, a loose concept is a concept that has no semantic relations with other conceptual resources and thus do not occur in any of the pairs yielded by $SR$. Although they might have attached lexical labels, they lack valuable context information that is considered essential for, e.g., search query expansion. 
 
 % \begin{definition}
 % Let \(G_{lc} = (C, SR)\) and \(deg(c)\) be the degree, hence the number of in- and outgoing edges, of a node $c \in C$ in the graph $G_{lc}$. We can then define loose concepts as a function \(lc : G \rightarrow \mathbb{N}_{0}\), with \[lc(g) = \left|\left\{c \in C : deg(c) = 0\right\}\right|\]
@@ -75,7 +75,7 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 % \end{definition}
  
 
-\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we construct two graphs, $G_{br}$ and $G_{nar}$, with the set of nodes being C. The set of edges in $G_{br}$ are all pairs identified by $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I})$, likewise those of $G_{nar}$ are $I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
+\subsubsection{Cyclic Hierarchical Relations} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but the SKOS reference document mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we construct two graphs, with the set of nodes being $C$. The edges in one graph only point towards the broader concepts, the edges of the other graph towards the narrower concepts. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
 
 %Erkärung: ein knoten (konzept) liegt oft in vielen überlappenden kreisen und es würde keinen sinn machen, diese alle auszugeben. deshalb berechne ich mir von jedem knoten der in einem kreis liegt, in welcher starken zusammenhangskomponente er liegt. das sind dann per definition alle knoten, die mit irgendeinem kreis in dem das konzept liegt was zu tun haben, weil eine starke zusammenhangskomponente ja eigentlich nur aus kreisen besteht (von jedem knoten gibt es einen gerichteten weg zu jedem anderen knoten)
  
@@ -85,20 +85,24 @@ This criterion is an extension of a statement from the SKOS primer, recommending
 
 
 \subsubsection{Valueless Associative Relations}
-The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision. This criterion identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related, i.e. there exists a pair in $I_{EXT}(\texttt{skos:related}^\mathcal{I})$ that contains both of these conceptual resources. Computation of these criterion again relies on full entailment of the inverse hierarchical relations in the SKOS ontology.
+The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but don’t have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision. This criterion identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related, i.e. all pairs in $I_{EXT}(\texttt{skos:related}^\mathcal{I})$ that contain both of these conceptual resources.
 
 \subsubsection{Solely Transitively Related Concepts}
-Two concepts are related using only transitive hierarchical relations which are, according to the SKOS reference document, ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., broader being a subproperty of broaderTransitive. This criterion identifies the set $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$ \textbf{without} RDFS subproperty entailment.
+Two concepts are related using only transitive hierarchical relations which are, according to the SKOS reference document, ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., \texttt{broader} being a subproperty of \texttt{broaderTransitive}. This criterion identifies the set $I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:narrowerTransitive}^\mathcal{I})$ \textbf{without} RDFS subproperty entailment.
 
 \subsubsection{Omitted Top Concepts}
-The SKOS language provides ConceptSchemes which are a facility for grouping related concepts. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts. This helps to provide ``efficient access'' (SKOS primer) and simplifies orientation in the vocabulary. Thus, this criterion returns the subset of $C$ whose elements are not contained in any of the pairs obtained by $I_{EXT}(\texttt{skos:hasTopConcept}^\mathcal{I})$.
+The SKOS language provides ConceptSchemes which are a facility for grouping related concepts. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts. This helps to provide ``efficient access'' (SKOS primer) and simplifies orientation in the vocabulary. 
+
+%Thus, this criterion returns the subset of $C$ whose elements are not contained in any of the pairs obtained by $I_{EXT}(\texttt{skos:hasTopConcept}^\mathcal{I})$.
 
 \subsubsection{Top Concept Having Broader Concepts}
-\cite{Allemang2011} proposes to ``not indicate any concepts internal to the tree as top concepts'', i.e. top concepts should not have broader concepts. Accordingly, this criterion finds the set of Top Concepts violating this constraint.
+\cite{Allemang2011} proposes to ``not indicate any concepts internal to the tree as top concepts'', i. e. top concepts should not have broader concepts.
 
 % LINKED-DATA SPECIFIC CRITERIA
 
-\subsection{Linked Data Specific Criteria}\todo{CM}{add}
+\subsection{Linked Data Specific Criteria}
+
+This section identifies criteria related to a vocabulary's interaction with other datasets in the LOD cloud.
 
 \subsubsection{Missing In-Links}
 A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships'' is publised online\footnote{\url{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}}. In these diagrams, dbpedia is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. Therefore a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community. Accordingly, estimating the number of In-Links of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) would give some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice\footnote{\url{http://sindice.com/}} that provide a SPARQL endpoint. Accordingly, this criterion identifies the set of all conceptual resources that lack any In-Links.
@@ -106,7 +110,7 @@ A periodically updated version of a diagram visualizing ``the data sets in the L
 \subsubsection{Missing Out-Links}
 The Web of Data consists of globally interconnected datasets, ``enabling seamless connections between data sets''\cite{Heath2011}. These links can be established between various SKOS vocabularies by Out-Links, i.e., references from conceptual resources in the ``source vocabulary'' $V$ to resources identified by an HTTP URI and available at a different host. Similar to the criterion above, this criterion identifies the set of all conceptual resources that lack such Out-Links.
 
-\subsubsection{HTTP URI Schema Violation}\todo{All}{We don't have any evidence this really happens in existing vocabularies, although it is very likely. Maybe we should skip this.}
+%\subsubsection{HTTP URI Schema Violation}\todo{All}{We don't have any evidence this really happens in existing vocabularies, although it is very likely. Maybe we should skip this.}
 
 \subsubsection{Link Target Unavailability}
 This criterion identifies a set of all resources that have been identified as unavailable, i.e. resolving their URI leads to an erroneous HTTP response or no response at all. An erroneous HTTP response in that case can be defined as a response code (after a possible redirection) other than 200. Just as in the ``traditional'' Web, these ``broken links'' hinder information gathering and should be avoided. 
