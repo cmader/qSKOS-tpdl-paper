@@ -10,7 +10,7 @@ We identified an initial set of quality criteria for SKOS vocabularies by review
 
 \end{definition}
 
-The commonality of all quality checking functions is that they take a given SKOS vocabulary as input and return a (nested) set, containing the resources fulfill the quality criterion. Therefore, we can formalize a quality criterion as being an abstract quality checking function $f:V \rightarrow \mathcal{P}(IR)$, mapping a given vocabulary $v \in V$ to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function and statistical analysis can be computed on top of the return values.
+The commonality of all quality checking functions is that they take a given SKOS vocabulary as input and return a (nested) set, containing the resources fulfill the quality criterion. Therefore, we can formalize a quality criterion as being an abstract quality checking function $f:V \rightarrow \mathcal{P}(IR)$, mapping a given vocabulary $v \in V$ to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function, possibly with additional parameters. Statistical analysis can be computed on top of the return values.
 
 % Structure for each criterion description
 %- origin (refs) and design rationale
@@ -36,9 +36,11 @@ A SKOS vocabulary that uses language tags with its literal values, should apply 
 
 \cite{Aitchison2000} cites Svenonius \todo{CM}{cite original work} to advocate ``inclusion of as much definition material as possible''. The SKOS language specification defines various properties that are intended to hold this kind of information, subsumed as ``documentation properties'' in the SKOS reference. To identify the affected conceptual resources, we iterate over all elements in $C$ to find those that are not using at least one of the documentation properties.\todo{CM}{rephrase}
 
-\paragraph{QC 4: Potentially Semantically Related Concepts} \todo{All}{reformulate criterion title}
+\paragraph{QC 4: Potentially Semantically Related Concepts} \todo{All}{reformulate criterion title: Labeling Conflicts}
 
-This criterion is an extension of a statement from the SKOS primer, recommending ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. Given the fact that (i) many vocabularies don’t make use of concept schemes and (ii) also identical altLabels or hiddenLabels can have a negative effect in some use-cases (e.g, auto-completion of concept labels based on user input), we follow a more general approach: identification of all pairs of concepts with their respective prefLabel, altLabel or hiddenLabel meeting a threshold of a certain similarity function $sim:LV \times LV \rightarrow [0,1]$. For the analysis of the criterion in this document, we define the similarity function  to check for case-insensitive string equality and the threshold to equal 1. Calculation of this criterion is done by applying the similarity function to every label of every possible pair of conceptual concepts in $C$ and filtering those that meet or exceed a specified threshold.
+% avoid "given the fact, " sentences -> rephrase
+
+This criterion is an extension of a statement from the SKOS primer, recommending ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''~[\todo{CM}{ref}]. Given the fact that (i) many vocabularies don’t make use of concept schemes and (ii) also identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} can have a negative effect in some use-cases (e.g, auto-completion of concept labels based on user input), we follow a more general approach: identification of all pairs of concepts with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} meeting a threshold of a certain similarity function $sim:LV \times LV \rightarrow [0,1]$. For the analysis of the criterion in this document, we define the similarity function  to check for case-insensitive string equality and the threshold to equal 1. Calculation of this criterion is done by applying the similarity function to every label of every possible pair \todo{CM}{crossproduct?} of conceptual concepts in $C$ and filtering those that meet or exceed a specified threshold.
 
 % STRUCTURAL METRICS
 
