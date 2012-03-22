@@ -7,9 +7,12 @@
 \todo{BH}{make clear that tool also provides reports not only numeric values}
 
 \subsection{Vocabulary Data Set}
+
 Our vocabulary dataset covers XY vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward.
  
 Our syntactical checks showed that only the AGROVOC vocabulary contained invalid datatypes and characters. After some minor syntax modifications, which don’t influence the evaluation against our criteria, we were also able to include this vocabulary. We also informed the AGROVOC team about this problem, which will try to fix it.
+
+\todo{CM}{skip domain classification; this looks inconsistent and takes space.}
 
 
 \begin{table}[h]
