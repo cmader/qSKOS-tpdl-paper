@@ -12,8 +12,12 @@ We identified an initial set of quality criteria for SKOS vocabularies by review
 
 % @CM Are you sure about the term "untyped literal"? The RDF spec talkes about
 % plain literals
+% from the RDF simple interpretation: "6. A distinguished subset LV of IR, called the set of literal values, which contains all the plain literals in V"; "all plain literals" which doesn't state "only plain literals", so I think we need the subset here; Also, Hitzler defines LV as the set of literal values, "containing (at least) all untyped literals in V", which indicates that LV also contains typed literals.
 
-The commonality of all quality checking functions is that they take a given SKOS vocabulary as input and return a (nested) set, containing the resources \todo{CM}{fulfill the quality criterion?}. Therefore, we can formalize a quality criterion as being an abstract quality checking function $f:V \rightarrow \mathcal{P}(IR)$, mapping a given vocabulary $v \in V$ to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function, possibly with additional parameters. Statistical analysis can be computed on top of the return values.\todo{CM}{the term criterion still sounds strange. We must somehow clarify what passing/failing a criterion means there.}
+The commonality of all quality checking functions is that they can be applied on a given SKOS vocabulary and report a (nested) set of vocabulary resources, being the cause of anticipated quality degradations. Therefore, we can formalize a quality criterion as being an abstract quality checking function $f:V \rightarrow \mathcal{P}(IR)$, mapping a given vocabulary $v \in V$ to the powerset of its resources. Each quality criterion we found can be implemented as a realization of such an abstract filtering function, possibly with additional parameters. Statistical analysis can be computed on top of the return values.
+
+\todo{CM}{the term criterion still sounds strange. We must somehow clarify what passing/failing a criterion means there.}
+\todo{BH}{maybe we should use the term "criteria" for our initial quality findings published online and only speak of "quality functions" in this publication. A criterion implies a strict measure (pass/fail) whereas our functions only provide "hints" for later human judgement. they are "computable guidelines"}
 
 % Structure for each criterion description
 %- origin (refs) and design rationale
@@ -25,7 +29,7 @@ In the following, we explain the origins and design rationale for each quality c
 
 % LEXICAL AND DOCUMENTATION CRITERIA
 
-\subsection{Labeling and Documentation Criteria}
+\subsection{Labeling and Documentation \textcolor{red}{Functions}}
 
 The criteria defined in this section primarily focus on supporting interaction with human users that either work with the vocabulary itself or interact with a system using the vocabulary for, e.g., search and retrieval purposes.
 
@@ -37,8 +41,8 @@ SKOS defines a set of properties that link resources with RDF Literals, which ar
 %We delegate validity checking of language tags to methods provided by the by the OpenRDF\footnote{\url{http://www.openrdf.org/}} framework that in turn checks for conformance with RFC3066\footnote{\url{http://www.ietf.org/rfc/rfc3066.txt}}.\todo{CM}{is there any literature reference for this criterion?}
 
 \paragraph{QC 2: Incomplete Language Coverage}
-
-A SKOS vocabulary that uses language tags with its literal values should apply them consistently for all concepts. Hence, the set of language tags used by the literal values linked with a concept should be the same for all concepts. This is particularly important for applications that rely on internationalization and translation use cases. We calculate the affected concepts by extracting the global set of language tags used in a vocabulary from all literal values attached to all concepts in $C$. In a second pass we again iterate over this set of concepts and identify all conceptual resources having a set of language tags that is not equal to the global language set. \todo{CM}{literature reference?}
+%A SKOS vocabulary that uses language tags with its literal values should apply them consistently for all concepts.
+\cite{Soergel1997} points out the problem that some concepts may not be lexicalized in every language the vocabulary seeks to support. Presence of such concepts may indicate a need for restructuring the vocabulary or include documentation about the differing meanings in all supported languages. Hence, the set of language tags used by the literal values linked with a concept should be the same for all concepts. This is particularly important for applications that rely on internationalization and translation use cases. We calculate the affected concepts by extracting the global set of language tags used in a vocabulary from all literal values attached to all concepts in $C$. In a second pass we again iterate over this set of concepts and identify all conceptual resources having a set of language tags that is not equal to the global language set.
 
 \paragraph{QC 3: Undocumented Concepts}
 
