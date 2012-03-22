@@ -31,7 +31,7 @@ We can check a SKOS vocabulary for omitted and invalid language tags by defining
 \paragraph{QI 2: Incomplete Language Coverage}
 
 % Origin and rationale
-Soergel et al.~\cite{Soergel1997} point out that ``the problem that has bedeviled many developers of multilingual thesauri is that a concept lexicalized in one language may not be lexicalized in another...''. In the context of SKOS, this means that the set of language tags used by the literal values linked with a concept should be the same for all concepts. This is particularly important for applications that rely on internationalization and translation use cases.
+Soergel et al.~\cite{Soergel1997} point out the problem that ``...a concept lexicalized in one language may not be lexicalized in another and that the terms do exist often vary slightly in meaning, possibly giving rise to different relationships.'' As a consequence, for such cases the authors suggest revising the vocabulary structure and ``clearly instruct indexers in all languages how the term is to be used''. In the context of SKOS, this means that the set of language tags used by the literal values linked with a concept should be checked to be the same for all concepts. If this is not true for a vocabulary, appropriate actions like, e.g., splitting concepts or introducing scope notes should be taken by the creators. This is particularly important for applications that rely on internationalization and translation use cases.
 % Function defintion
 We identify affected the concepts by a function $ilc$ that first extracts the global set of language tags used in a vocabulary from all literal values attached to all concepts in $C$. In a second iteration over all concepts it identifies all concepts having a set of language tags that is not equal to the global language set.
 
@@ -47,42 +47,44 @@ To identify all undocumented concepts, we define a function $uc$ we iterate over
 % Origin and rationale
 This issue is an extension of a statement from the SKOS Primer~\cite{Isaac2009} that recommends that ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. We reviewed existing vocabularies and applications and found that (i) many vocabularies don't use concept schemes and (ii) identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} can also negatively affect use cases such as auto-completion, which proposes labels based on the user input.
 % Function defintion
-Thus, we generalize this statement and define a function $lc$ that finds all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:ULV \times ULV \rightarrow [0,1]$. The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. The function iterates over all concept pairs $C \times C$, applies $sim$ to every possible label combination, and collects those pairs with at least one label combination that meet or exceed a specified similarity threshold.
+Thus, we generalize this statement and define a function $lc$ that finds all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:LV \times LV \rightarrow [0,1]$. The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. The function iterates over all concept pairs $C \times C$, applies $sim$ to every possible label combination, and collects those pairs with at least one label combination that meet or exceed a specified similarity threshold.
 
 % STRUCTURAL METRICS
 
-\subsection{Structural Criteria}
+\subsection{Structural Issues}
 
-The commonality of the following criteria is that they identify possible weaknesses when $V$ is used in scenarios exploiting the structure of its RDF graph. 
+The commonality of the following issues is that they can affect applications areas that exploit the underlying graph structure of a SKOS vocabulary.
 
-\paragraph{\textbf{QF 5: Loose Concepts}} \todo{BH}{rename this to Orphan Concepts?}
+\paragraph{QI 5: Orphan Concepts}
 
-This quality function is motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, which are are terms without any associative or hierarchical relationships. Checking for them is common in existing thesaurus development applications and also suggested by \cite{Z39.19:2005}. All vocabularies expressed in SKOS are concept-centric, thus we understand a loose concept is a concept that has no semantic relations with other conceptual resources i.e. it does not occur in any of the pairs yielded by $SR$. Although they might have attached lexical labels, they lack valuable context information that is considered essential for, e.g., search query expansion. Calculation can be done by iterating over all elements in $C$, filtering those not having a semantic relation to any other conceptual resource. 
+% Origin and rationale
+This issue is motivated by the notion of ``orphan terms'' in the literature (cf.,~\cite{Hedden2010}), which are are terms without any associative or hierarchical relationships. Checking for such terms is common in existing thesaurus development applications and also suggested by~\cite{Z39.19:2005}. Since SKOS is concept-centric, we understand an orphan concept as being a concept that has no semantic relation $sr \in SR$ with any other concept. Although it might have attached lexical labels, it lacks valuable context information, which can be essential for retrieval tasks such as search query expansion.
+% Function defintion
+In order to find orphan concepts in a SKOS vocabulary, we define a function $oc$ that iterates over all elements in $C$, filtering those not having a semantic relation to any other conceptual resource in $C$. 
 
-% \begin{definition}
-% Let \(G_{lc} = (C, SR)\) and \(deg(c)\) be the degree, hence the number of in- and outgoing edges, of a node $c \in C$ in the graph $G_{lc}$. We can then define loose concepts as a function \(lc : G \rightarrow \mathbb{N}_{0}\), with \[lc(g) = \left|\left\{c \in C : deg(c) = 0\right\}\right|\]
-% \end{definition}
+\paragraph{QI 6: Weakly Connected Components}
 
-\paragraph{\textbf{QF 6: Weakly Connected Components}} indicate that the vocabulary is split into separate ``clusters''. Presence of several WCC might be caused by incomplete data acquisition, ``forgotten'' test data, outdated terms, accidental deletion of relations and the like. In a practical setting, existence of weakly connected components could render the vocabulary less suitable for operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms. To calculate WCC, we create an undirected graph whose set of nodes constitutes all non-loose concepts and whose edges are defined by $SR$. We then utilize ``Tarjan’s algorithm''\cite{Hopcroft1973} that finds all connected components of the graph, i.e. all sets of conceptual resources that can reach each other by a path of semantic relations.
+% Origin and rationale
+indicate that a vocabulary is split into separate ``clusters'', which can be caused by incomplete data acquisition, ``forgotten'' test data, outdated terms, accidental deletion of relations, etc. This can affect operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms.
+% Function defintion
+In order to find weakly connected components, we define a function $wcc$, which first creates an undirected graph having all non-orphan concepts (as defined above) as nodes and all semantic relations $SR$ as edges. It then applies ``Tarjan’s algorithm''~\cite{Hopcroft1973} to find all connected components, hence all sets of concepts that are connected by semantic relations.
 
-% \begin{definition}
-% To evaluate this criterion we consider a graph \(G_{wcc} = (C - lc(G_{lc}), SR)\). The function \(components(g) : G \rightarrow  \mathfrak{P}(G)\) calculates all weakly connected components of a graph by replacing all directed edges by undirected edges and utilizing “Tarjan’s algorithm” \cite{Hopcroft1973}. Based on that function, we can express this criterion as a function \(wcc : G \rightarrow \mathbb{N}_{0}\), with \[wcc(g) = \left|components(g)\right|\]
-% \end{definition}
- 
+\paragraph{QI 7: Cyclic Hierarchical Relations}
 
-\paragraph{\textbf{QF 7: Cyclic Hierarchical Relations}} have been mentioned numerous times in thesaurus development literature. \cite{Soergel2002} suggests a ``check for hierarchy cycles" since they ``throw the program for a loop in the generation of a complete hierarchical structure''. However, SKOS does not define a formal constraint regarding hierarchy cycles but \cite{SkosReference2008} mentions them as potential problems. The SKOS documentation also does not state, how exactly hierarchical relationships are to be interpreted. There exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' \cite{Hedden2010,Harpring2010,Aitchison2000} where cycles would be considered a logical contradiction. To calculate this criterion, we construct two graphs, with the set of nodes being $C$. The edges in one graph only point towards the broader concepts, the edges of the other graph point towards the narrower concepts. For each graph we now identify those nodes that are part of a cycle and return the set of strongly connected components they are contained in.
+% Origin and rationale
+is a quality issue motivated by Soergel et al.~\cite{Soergel2002} who suggest a ``check for hierarchy cycles'' since they ``throw the program for a loop in the generation of a complete hierarchical structure''. Also Hedden~\cite{Hedden2010}, Harpring~\cite{Harpring2010} and Aitchison et al.~\cite{Aitchison2000} argue that there exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' where cycles would be considered a logical contradiction.
+% Function defintion
+We provide a function $chr$, which finds cyclic relations by constructing a graph with the set of nodes being $C$ and the set of edges being $\{s \in SR | s = skos:broader\}$ relations. It then identifies the sets of nodes that are involved in cycles. Since all function operate on the entailed RDF graph, this algorithm implicitly also considers \texttt{skos:narrower} relations.
 
-%Erkärung: ein knoten (konzept) liegt oft in vielen überlappenden kreisen und es würde keinen sinn machen, diese alle auszugeben. deshalb berechne ich mir von jedem knoten der in einem kreis liegt, in welcher starken zusammenhangskomponente er liegt. das sind dann per definition alle knoten, die mit irgendeinem kreis in dem das konzept liegt was zu tun haben, weil eine starke zusammenhangskomponente ja eigentlich nur aus kreisen besteht (von jedem knoten gibt es einen gerichteten weg zu jedem anderen knoten)
- 
-% \begin{definition}
-% Let \(H_{br} \subseteq SR\) be the set of pairs of hierarchically broader related resources, i.e. \(I_{EXT}(\texttt{skos:broader}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:broaderTransitive}^\mathcal{I}) \cup I_{EXT}(\texttt{skos:broadMatch}^\mathcal{I})\). \(H_{br}\) also includes the extensions of the respecitive inverse properties with each pair in reverse order. Likewise, \(H_{nar} \subseteq SR\) can be defined as the set of hierarchically narrower related resources. We consider two graphs \(G_{br} = (C,H_{br})\) and \(G_{nar}=(C,H_{nar})\) and a function \(cycleNodes:G \rightarrow \mathfrak{P}(C)\) identifying all nodes in a graph, that are part of a cycle. Furthermore we consider a function \(stronglyConnectedSets: G \rightarrow \mathfrak{P}(C)\) that calculates all sets of nodes contained in a strongly connected subgraph of $G$. This criterion can be defined as a function \(chr:G \rightarrow \mathbb{N}_{0}\) with \[chr(g)=\left|\left\{s \in stronglyConnectedSets(g) : cn \in cycleNodes(g), cn \in s\right\}\right|\]
-% \end{definition}
+\paragraph{QI 8: Valueless Associative Relations}
 
-
-\paragraph{\textbf{QF 8: Valueless Associative Relations}}
-The ISO/DIS 25964-1 standard suggests that terms that share a common broader term but do not have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision. This function identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
+% Origin and rationale
+The ISO/DIS 25964-1 standard~\todo{CM}{ref} suggests that terms that share a common broader term but do not have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
+% Origin and rationale
+This function identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
 
 \paragraph{\textbf{QF 9: Solely Transitively Related Concepts}}
+
 Two concepts are related using only transitive hierarchical relations which are, according to \cite{SkosReference2008}, ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. This fuction iterates over all pairs of concepts $C \times C$ that are \textbf{explicitly} related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive}, i.e. \textbf{without} RDFS subproperty entailment.
 
 \paragraph{\textbf{QF 10: Omitted Top Concepts}}
