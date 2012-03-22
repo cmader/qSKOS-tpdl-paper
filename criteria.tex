@@ -74,41 +74,59 @@ In order to find weakly connected components, we define a function $wcc$, which 
 % Origin and rationale
 is a quality issue motivated by Soergel et al.~\cite{Soergel2002} who suggest a ``check for hierarchy cycles'' since they ``throw the program for a loop in the generation of a complete hierarchical structure''. Also Hedden~\cite{Hedden2010}, Harpring~\cite{Harpring2010} and Aitchison et al.~\cite{Aitchison2000} argue that there exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' where cycles would be considered a logical contradiction.
 % Function defintion
-We provide a function $chr$, which finds cyclic relations by constructing a graph with the set of nodes being $C$ and the set of edges being $\{s \in SR | s = skos:broader\}$ relations. It then identifies the sets of nodes that are involved in cycles. Since all function operate on the entailed RDF graph, this algorithm implicitly also considers \texttt{skos:narrower} relations.
+We provide a function $chr$, which finds cyclic relations by constructing a graph with the set of nodes being $C$ and the set of edges being $I_{EXT}(\texttt{skos:broader}^\mathcal{I})$, i.e. all pairs of resources connected by \texttt{skos:broader} relations. It then identifies the sets of nodes that are involved in cycles. 
+
+%Since all function operate on the entailed RDF graph, this algorithm implicitly also considers \texttt{skos:narrower} relations. CM: ist eigentlich aus def1 klar denke ich
 
 \paragraph{QI 8: Valueless Associative Relations}
 
 % Origin and rationale
-The ISO/DIS 25964-1 standard~\todo{CM}{ref} suggests that terms that share a common broader term but do not have an overlapping meaning, should not be related associatively. This is also advocated by \cite{Hedden2010} and \cite{Aitchison2000} who also mentions ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
+The ISO/DIS 25964-1 standard \cite{ISO25964-1:2011} suggests that terms that share a common broader term but do not have an overlapping meaning, should not be related associatively. This is advocated by \cite{Hedden2010,Aitchison2000} the latter also mentioning ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
+% Function defintion
+The function \textit{var} identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
+
+\paragraph{QI 9: Solely Transitively Related Concepts}
 % Origin and rationale
-This function identifies a set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
+Two concepts that are \textbf{explicitly} related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, they are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary \textbf{consumer}, which is reflected in the SKOS schema by, e.g., \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
+% Function definition
+This fuction \textit{strc} iterates over all pairs of concepts $C \times C$ that are directly related by the mentioned transitive properties, not by one of their subproperties.
 
-\paragraph{\textbf{QF 9: Solely Transitively Related Concepts}}
+\paragraph{QI 10: Omitted Top Concepts}
+% Origin and rationale
+The SKOS language provides concept schemes, which are a facility for grouping related concepts. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts. This helps to provide ``efficient access''~\cite{Isaac2009} and simplifies orientation in the vocabulary. 
+% Function definition
+We provide a function \textit{otc} that iterates over all \texttt{skos:ConceptScheme}s in $V$ and collects those that do not occur in relations established by the properties \texttt{skos:hasTopConcept} or \texttt{skos:topConceptOf}.
 
-Two concepts are related using only transitive hierarchical relations which are, according to \cite{SkosReference2008}, ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be infered by the vocabulary user, which is reflected in the SKOS schema by, e.g., \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. This fuction iterates over all pairs of concepts $C \times C$ that are \textbf{explicitly} related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive}, i.e. \textbf{without} RDFS subproperty entailment.
+\paragraph{QI 11: Top Concept Having Broader Concepts}
+% Origin and rationale
+Allemang et al. \cite{Allemang2011} propose to ``not indicate any concepts internal to the tree as top concepts'', i. e. top concepts should not have broader concepts. 
+% Function definition
+The function \textit{tchbc} iterates over all \texttt{skos:TopConcept}s defined in $V$ and collects those that are related to a resource by the \texttt{skos:broader} property.
 
-\paragraph{\textbf{QF 10: Omitted Top Concepts}}
-The SKOS language provides concept schemes, which are a facility for grouping related concepts. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts. This helps to provide ``efficient access''~\cite{Isaac2009} and simplifies orientation in the vocabulary. To calculate this function, we iterate over all \texttt{skos:ConceptScheme}s in $V$ and collect those that occur in relations established by the properties \texttt{skos:hasTopConcept} or \texttt{skos:topConceptOf}.
+% LINKED-DATA SPECIFIC ISSUES
 
-\paragraph{\textbf{QF 11: Top Concept Having Broader Concepts}}
-\cite{Allemang2011} proposes to ``not indicate any concepts internal to the tree as top concepts'', i. e. top concepts should not have broader concepts. This criteria iterates over all \texttt{skos:TopConcept}s defined in $V$ and collects those that are related to a resource by the \texttt{skos:broader} property.
+\subsection{Linked Data Specific Issues}
 
-% LINKED-DATA SPECIFIC CRITERIA
+This section identifies issues related to a vocabulary's interaction with other datasets in the LOD cloud.
 
-\subsection{Linked Data Specific Criteria}
+\paragraph{QI 12: Missing In-Links}
+% Origin and rationale
+A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships'' is publised online\footnote{\url{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}}. In these diagrams, DBpedia is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. This indicates that a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community, adding cohesion to the LOD cloud. Accordingly, estimating the number of In-Links of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) gives some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice\footnote{\url{http://sindice.com/}} that provide a SPARQL endpoint. 
+% Function definition
+The function \textit{mil} estimates the number of In-Links for a conceptual resource, by iterating over all elements in $C$ and querying the Sindice SPARQL endpoint for triples containing the concept's URI in the object part. Those concepts having an empty query result, are missing any In-Links and are thus included in the result set of this issue.
 
-This section identifies criteria related to a vocabulary's interaction with other datasets in the LOD cloud.
+\paragraph{QI 13: Missing Out-Links}
+% Origin and rationale
+The Web of Data consists of globally interconnected datasets, ``enabling seamless connections between data sets''\cite{Heath2011}. These links can be established between various SKOS vocabularies by Out-Links, i.e., references from conceptual resources in the ``source vocabulary'' $V$ to resources identified by an HTTP URI and available at a different host. Similar to QI 12, this issue identifies the set of all conceptual resources that lack such Out-Links. 
+% Function definition
+We provide the function \textit{mol} that iterates over all elements $c \in C$ and investigates the host part of all related resources. If none of these host names differ from the host part of $c$, it has no Out-Links and is thus included into the resources identified by this issue.
 
-\subsubsection{Missing In-Links}
-A periodically updated version of a diagram visualizing ``the data sets in the LOD cloud as well as their interlinkage relationships'' is publised online\footnote{\url{http://www4.wiwiss.fu-berlin.de/lodcloud/state/}}. In these diagrams, DBpedia is shown as the most intensely linked resource, i.e. a large number of vocabularies link to resources in that dataset. This indicates that a dataset with a large number of other datasets referencing it, can be assumed to be of great value for the community, adding cohesion to the LOD cloud. Accordingly, estimating the number of In-Links of SKOS concepts defined in a vocabulary (henceforth called the in-degree of a concept) gives some hint about how established or accepted a controlled vocabulary is. A method to carry out these estimations would be utilizing existing Linked Data indices like, e.g., Sindice\footnote{\url{http://sindice.com/}} that provide a SPARQL endpoint. In order to estimate the number of In-Links for a conceptual resource, we iterate over all elements in $C$ and query the Sindice SPARQL endpoint for triples containing the concept's URI in the object part. Those concepts having an empty query result, are missing any In-Links and are thus included in the result set of this criterion.
 
-\subsubsection{Missing Out-Links}
-The Web of Data consists of globally interconnected datasets, ``enabling seamless connections between data sets''\cite{Heath2011}. These links can be established between various SKOS vocabularies by Out-Links, i.e., references from conceptual resources in the ``source vocabulary'' $V$ to resources identified by an HTTP URI and available at a different host. Similar to the criterion above, this criterion identifies the set of all conceptual resources that lack such Out-Links. Calculation of the result set is done by iterating over all elements $c \in C$ and investigating the host part of all related resources. If none of these host names differ from the host part of $c$, it has no Out-Links and is thus included into the resources identified by this criterion.
-
-%\subsubsection{HTTP URI Schema Violation}\todo{All}{We don't have any evidence this really happens in existing vocabularies, although it is very likely. Maybe we should skip this.}
-
-\subsubsection{Link Target Unavailability} \todo{BH}{should we just call this "Broken Links" because that's essentially what it's all about}
-This criterion identifies a set of all resources that have been identified as unavailable, i.e. resolving their URI leads to an erroneous HTTP response or no response at all. An erroneous HTTP response in that case can be defined as a response code (after a possible redirection) other than 200. Just as in the ``traditional'' Web, these ``broken links'' hinder information gathering and should be avoided. Calculation of this criterion is performed by iterating over all resources in $IR$, performing an HTTP request and include those resources in the result set that are unavailable.
+\subsubsection{QI 14: Link Target Unavailability} \todo{BH}{should we just call this "Broken Links" because that's essentially what it's all about}
+% Origin and rationale
+This criterion identifies a set of all resources that have been identified as unavailable, i.e. resolving their URI leads to an erroneous HTTP response or no response at all. An erroneous HTTP response in that case can be defined as a response code (after a possible redirection) other than 200. Just as in the ``traditional'' Web, these ``broken links'' hinder information gathering and should be avoided. 
+% Function definition
+Calculation of this criterion is performed by iterating over all resources in $IR$, performing an HTTP request and include those resources in the result set that are unavailable.
 
 % OTHER CRITERIA
 
