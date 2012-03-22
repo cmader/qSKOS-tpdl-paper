@@ -20,28 +20,25 @@ Each vocabulary reflects domain- and application-specific needs and taxonomists 
 
 	\item The non-public vocabulary developed by the Austrian Armed Forces (LVAk) contains 11 disconnected concept clusters. When we confronted the thesaurus maintainers with these structures, they recognized them as ``forgotten'' test data that has no practical significance.
 	
-% Note: I am still having problems to imagine why and how one would implement query expansion based on the DBPedia categories...as long as this is not clear, better skip the example.
-% mein fantasie-szenario ist folgendes: jmd hat einen korpus an dokumenten und will diesen nach kategorien indizieren. also sucht man ein existierendes vocab das man verwenden könnte (irgendwelche subject headings oder eben die dbpedia kategorien weil die eben schon in SKOS verfügbar sind und dbpedia sowieso das zentrum der ld-welt darstellt :). Also verschlagwortet man den dokumentkorpus mit dbpedia-categories und kommt dann, aufgrund der loose concepts drauf, dass dokumente die in ähnliche kategorien (broader/narrower) fallen, nicht gefunden werden können, also den recall verschlechtern. ist das unrealistisch?
-
     % \item In the DBpedia category\footnote{\url{http://downloads.dbpedia.org/3.7/en/skos_categories_en.nt.bz2}} hierarchy, more than 10 percent of the categories not linked to any other category. When other vocabularies link to the DBPedia categories, e.g., to enable query expansion, it can negatively affect recall and reduce navigability.
 
 \end{itemize}
 
 % PROBLEM / RESEARCH QUESTION
 
-The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model''~\cite{Miles2005}. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture \textbf{quality criteria} such as those mentioned in the examples before; criteria that go beyond integrity conditions of the SKOS data model. Such criteria might be part of design rules and guidelines, but currently rely on \textbf{human judgement}, which is subjective and does not scale for larger, possibly linked Web vocabularies.
+The SKOS specification doesn't make any explicit statements about vocabulary quality. It defines a set of \textbf{integrity conditions} that state ``whether or not given data are consistent with respect to the SKOS data model''~\cite{Miles2005}. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to verify that a given vocabulary fulfills these conditions. However, these conditions fail to capture quality aspects such as those mentioned in the examples before, aspects that go beyond integrity conditions of the SKOS data model. Existing guidelines manuals consider these aspects but currently rely on \textbf{human judgement}, which is subjective and does not scale for larger, possibly linked vocabularies on the Web.
 
 % CONTRIBUTION
 
-The goal of our work is to help taxonomists in judging the quality of SKOS vocabularies, by giving them a set of computable quality criteria that can identify possible quality issues and serve as quantitative indicator for the quality of a given SKOS vocabulary. In combination with the taxonomists' experience and domain expertise, these criteria provide important feedback to the overall vocabulary design process. The main contributions of this work can be summarized as follows:
+The goal of our work is to help taxonomists in identifying possible quality issues, which go beyond data model integrity conditions, in SKOS vocabularies. We want to given them a set of computable quality checking functions that, in combination with the taxonomists' experience and domain expertise, can serve as quality indicators for vocabularies. We believe that finding such quality issues also gives important feedback in the overall vocabulary design process. The main contributions of this work can be summarized as follows:
 
 \begin{itemize}
 
-	\item We identified 15 \textbf{quality criteria} for SKOS vocabularies by examining existing guidelines and formalized them into computable \textbf{quality checking functions} that identify possibly affected resources in a given SKOS vocabulary.
+	\item We identified 15 \textbf{quality issues} for SKOS vocabularies by examining existing guidelines and formalized them into computable \textbf{quality checking functions} that identify possibly affected resources in a given SKOS vocabulary.
 	
 	\item With the \textbf{qSKOS quality assessment tool} we provide a reference implementation of these filtering functions.
 
-	\item We \textbf{analyzed} a representative set of \textbf{existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
+	\item We \textbf{analyzed} a representative set of 15 \textbf{existing SKOS vocabularies} to learn about possible quality issues in existing Web vocabularies.
 
 \end{itemize}
 
