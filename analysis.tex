@@ -2,13 +2,15 @@
 
 \section{Analysis of Existing SKOS Vocabularies}\label{sec:analysis}
 
+To learn about possible quality issues in real-world vocabularies, we implemented the previously described quality checking function in the qSKOS tool and applied each function on a set of existing SKOS vocabularies. 
+
 \subsection{The qSKOS Quality Checking Tool}
 
-With qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}}, we provide a reference implementation of the previously introduced quality checking functions and a freely-available open source tool for assessing the quality of a given SKOS vocabulary and finding possible quality issues. Users can run the tool by passing a vocabulary and selecting the quality checking functions they want to perform. As a result, they obtain detailed reports listing possibly affected resources alongside with the potential cause of the issue. qSKOS is implemented in Java and can be used as standalone command-line tool or API in any other application. Its design is open for the introduction of additional quality functions.
+With the qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}} quality assessment tool, we provide an open source reference implementation for finding possible quality issues a given SKOS vocabulary. Users can run the tool by passing a vocabulary and selecting the quality checking functions they want to perform. As a result, they obtain detailed reports listing possibly affected resources alongside with the potential cause of the issue. qSKOS is implemented in Java and can be used as standalone command-line tool or API in any other application. Its design is open for the introduction of additional quality functions. In our analysis, we used qSKOS version 0.2, which can be downloaded from: \url{https://github.com/cmader/qSKOS/releases/qSKOS-0.2.tar.gz}.
 
 \subsection{Vocabulary Data Set}
 
-Our vocabulary dataset covers XY vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward.
+Our vocabulary dataset covers 15 vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward.
 
 \begin{table}[h]
 \label{tab:vocs}
