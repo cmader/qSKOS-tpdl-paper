@@ -55,11 +55,11 @@ Thesaurus Landesverteidigungsakademie (LVAk) & n/a & 13411 && 17250 & 16346 & 0 
 
 \subsection{Results}
 
-The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possible affected resources for each function and vocabulary combination.
+The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. The value 0 means that we haven't found any affected resource, N/A means that a certain function was not applicable for reasons we explain below.
 
 \begin{table}[h]
 \label{tab:results}
-\caption{Results of the quality checking functions (cardinality of the result set)}
+\caption{Results of the quality checking functions}
 \begin{tabular}{p{4cm}ccccccccccccccc}
 \textbf{Metric} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
@@ -102,7 +102,17 @@ Undefined SKOS Resources &&&&&&&&&&&&&&& \\
 \end{tabular}
 \end{table}
 
-\todo{BH,CM}{detailed interpretation}
+% Labeling and Documentation Issues
+We found labeling and documentation issues in all analyzed vocabularies. PXV provides labels for XX\% of its concepts, Pressinfo labels only for 1 out of 1125 concepts, and the STW thesaurus misses labels for two concepts. Eurovoc and NAICS use SKOS-XL labels, which are currently not supported by qSKOS.
+Incomplete Language Coverage were issues in the three analyzed vocabularies: in AGROVOC all concepts had incomplete coverage, probably because \todo{CM}{why?}, and in STW we found XX\%.
+Most vocabularies didn't document their concepts with the documentary properties defined by SKOS.
+Label conflicts, hence \todo{CM}{explain briefly} were found in several vocabularies: GTAA has many because? PXV has 7. Why given examples?
+
+% Structural Issues
+
+
+% Linked Data Specific Issues
+
 
 % The \textbf{Loose Concepts} metrics provides insights on the structural complexity of vocabularies. The large number of loose concepts in GTAA can be explained by the fact that it contains names (e.g., persons or places) that arent't connected using skos properties. This is also the case for Geonames, NYTP and Pressinfo where the number of total conceps is equal to the number of loose concepts, indicating that no concept is semantically related to another concept.
 % 
