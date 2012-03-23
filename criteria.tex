@@ -84,9 +84,7 @@ The function \textit{var} identifies a set of pairs of conceptual resources that
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, they are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS schema by, e.g., \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-We encode this issue in a function \textit{strc} that iterates over all concept pairs $C \times C$ that are directly related by the mentioned transitive properties, not by one of their subproperties.
-
-% TODO CM: it is unclear what "mentioned" means in this context...
+We encode this issue in a function \textit{strc} that iterates over all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties and not by one of their subproperties.
 
 \paragraph{QI 10: Omitted Top Concepts}
 
