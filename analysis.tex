@@ -2,17 +2,19 @@
 
 \section{Analysis of Existing SKOS Vocabularies}\label{sec:analysis}
 
+To learn about possible quality issues in real-world vocabularies, we implemented the previously described quality checking function in the qSKOS tool and applied each function on a set of existing SKOS vocabularies. 
+
 \subsection{The qSKOS Quality Checking Tool}
 
-We implemented the qSKOS tool that can be used for computing the quality checking functions introduced in \ref{sec:criteria} and made it publicly available\footnote{\url{https://github.com/cmader/qSKOS/}}. All data in the Tables \ref{tab:vocs} and \ref{tab:results} have been obtained by utilizing this tool. However, qSKOS is not only capable of returning numeric values, but can also provide a detailed report listing all resources returned by the quality checking functions alongside with the potential cause of the issue.
+The open-source qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}} quality assessment tool can be used to find possible quality issues a given SKOS vocabulary. Users can run the tool by passing a vocabulary and selecting the quality checking functions they want to perform. As a result, they obtain detailed reports listing possibly affected resources alongside with the potential cause of the issue. qSKOS is implemented in Java and can be used as standalone command-line tool or API in any other application. Its design is open for the introduction of additional quality functions. In our analysis, we used qSKOS version 0.2., which can be downloaded from: \url{https://github.com/cmader/qSKOS/releases/qSKOS-0.2.tar.gz}.
 
 \subsection{Vocabulary Data Set}
 
-Our vocabulary dataset covers XY vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward.
+We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies. Table~\ref{vocabs} lists our representative vocabulary selection and shows that the vocabularies differ in size and application domain: the \emph{Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA)} is vocabulary from the media domain, \emph{Eurovoc} and the \emph{Integrated Public Sector Vocabularies (PSV)} cover public sector concepts, the \emph{Medical Subject Headings (MeSH)} and \emph{Peroxisome Knowledge Base (PXV)} are from the (bio-)medical domain, the \emph{Geonames Ontology} covers locations, the \emph{Thesaurus for Economics (STW)} and \emph{North American Industry Classification System (NAICS)} are vocabularies from the economics and business area and the \emph{DBPedia Categories} reflect Wikipedia's user-generated categorization system. We also include the \emph{Meketre} vocabulary, which defines Egyptology-related concepts, and the non-public \emph{Thesaurus Landesverteidigungsakademie (LVAk)}, which we generated from CSV files provided by the vocabulary maintainers. A zip-file containing all 14 public vocabulariesx we used in our analysis, can be downloaded from: \url{http://www.github.com/cmader/???}.
 
 \begin{table}[h]
 \label{tab:vocs}
-\caption{Analyzed vocabularies}
+\caption{Analyzed SKOS vocabularies}
 \centering
 \begin{tabular}{p{6cm}ccccccc}
 \textbf{Vocabulary} & \rotatebox{90}{\textbf{Version/last mod.}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
@@ -53,6 +55,8 @@ Thesaurus Landesverteidigungsakademie (LVAk) & n/a & 13411 & 17250 & 16346 & 0 &
 
 \subsection{Results}
 
+The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possible affected resources for each function and vocabulary combination.
+
 \begin{table}[h]
 \label{tab:results}
 \caption{Results of the quality checking functions (cardinality of the result set)}
@@ -91,14 +95,15 @@ Missing Out-Links &&&&&&&&&&&&&&& \\
 
 Broken Links &&&&&&&&&&&&&&& \\
 
+
 Undefined SKOS Resources &&&&&&&&&&&&&&& \\
 
 \bottomrule
 \end{tabular}
 \end{table}
 
-The \textbf{Loose Concepts} metrics provides insights on the structural complexity of vocabularies. The large number of loose concepts in GTAA can be explained by the fact that it contains names (e.g., persons or places) that arent't connected using skos properties. This is also the case for Geonames, NYTP and Pressinfo where the number of total conceps is equal to the number of loose concepts, indicating that no concept is semantically related to another concept.
+\todo{BH,CM}{detailed interpretation}
 
-The large number of \textbf{Weakly Connected Components} in GTAA is caused by many ``minimal'' components, containing only 2 concepts connected by a \texttt{skos:related} property. Due to the fact that loose concepts are not counted as weakly connected components, Geonames, NYTP and Pressinfo evaluate to zero components.
-
-\todo{CM}{Add result interpretation for this one metric}
+% The \textbf{Loose Concepts} metrics provides insights on the structural complexity of vocabularies. The large number of loose concepts in GTAA can be explained by the fact that it contains names (e.g., persons or places) that arent't connected using skos properties. This is also the case for Geonames, NYTP and Pressinfo where the number of total conceps is equal to the number of loose concepts, indicating that no concept is semantically related to another concept.
+% 
+% The large number of \textbf{Weakly Connected Components} in GTAA is caused by many ``minimal'' components, containing only 2 concepts connected by a \texttt{skos:related} property. Due to the fact that loose concepts are not counted as weakly connected components, Geonames, NYTP and Pressinfo evaluate to zero components.
