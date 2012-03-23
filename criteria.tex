@@ -24,7 +24,7 @@ In the following, we explain the origins and design rationale for each quality i
 % Origin and rationale
 SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent structural queries.
 % Function defintion
-We can check a SKOS vocabulary for omitted and invalid language tags by defining a quality checking function $oilt$ that iterates over all resources in $IR$ and finds those that have relations to plain literals with missing or invalid language tags, hence tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
+We can check a SKOS vocabulary for omitted and invalid language tags by defining a quality checking function $oilt$ that iterates over all resources in $IR$ and finds those that have relations to plain literals (using the above mentions SKOS properties) with missing or invalid language tags, hence tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
 \paragraph{QI 2: Incomplete Language Coverage}
 
@@ -118,7 +118,7 @@ The function \textit{mil} estimates the number of in-links referencing a concept
 % Origin and rationale
 In the Linked Data context SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all conceptual resources that have no out-links. 
 % Function definition
-We provide the function \textit{mol} that iterates over all elements $c \in C$ and investigates \todo{CM}{mapping relations?} the host part of all related resource URIs. If none of these host names differ from the host part of $c$'s URI, it has no out-links and is thus included in the resources identified by this issue.
+We provide the function \textit{mol} that iterates over all elements $c \in C$ and investigates the host part of all related resource URIs. If none of these host names differ from the host part of $c$'s URI, it has no out-links and is thus included in the resources identified by this issue.
 
 \paragraph{QI 14: Broken Links}
 

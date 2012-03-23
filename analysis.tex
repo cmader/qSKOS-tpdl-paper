@@ -4,51 +4,48 @@
 
 \subsection{The qSKOS Quality Checking Tool}
 
-\todo{BH}{make clear that tool also provides reports not only numeric values}
+We implemented the qSKOS tool that can be used for computing the quality checking functions introduced in \ref{sec:criteria} and made it publicly available\footnote{\url{https://github.com/cmader/qSKOS/}}. All data in the Tables \ref{tab:vocs} and \ref{tab:results} have been obtained by utilizing this tool. However, qSKOS is not only capable of returning numeric values, but can also provide a detailed report listing all resources returned by the quality checking functions alongside with the potential cause of the issue.
 
 \subsection{Vocabulary Data Set}
 
 Our vocabulary dataset covers XY vocabularies from various domains differing in statistical properties (cf. Table~\ref{vocabs}). The data was gathered in different ways. Some vocabularies where downloaded from their respective project websites or, in the cases of IPSV, Peroxisome Knowledge Base, and LVAk requested directly from the creators. The MeSH dataset was created by \cite{Assem2006} and is available for download\footnote{\url{http://thesauri.cs.vu.nl/eswc06/}}. We created the SKOS version of LVAk thesaurus from CSV files provided by the vocabulary maintainers. The vocabulary structure was uncomplex, so the conversion process to SKOS turned out as being rather straightforward.
- 
-Our syntactical checks showed that only the AGROVOC vocabulary contained invalid datatypes and characters. After some minor syntax modifications, which don’t influence the evaluation against our criteria, we were also able to include this vocabulary. We also informed the AGROVOC team about this problem, which will try to fix it.
-
-\todo{CM}{skip domain classification; this looks inconsistent and takes space.}
-
 
 \begin{table}[h]
+\label{tab:vocs}
 \caption{Analyzed vocabularies}
-\begin{tabular}{lp{4.7cm}cccccc}
-\textbf{Domain} & \textbf{Vocabulary} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Lexical Rel.}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
+\centering
+\begin{tabular}{p{6cm}ccccccc}
+\textbf{Vocabulary} & \rotatebox{90}{\textbf{Version/last mod.}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
 \toprule
-Media & Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & 171991 & 178776 & 50892 & 343980 & 9 & 0 \\
+Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & ? & 171991 & 178776 & 50892 & 343980 & 9 & 0 \\
 \hline
-Science & Geonames Ontology & 671 & 671 & 0 & 671 & 9 & 0 \\
+Geonames Ontology & ? & 671 & 671 & 0 & 671 & 9 & 0 \\
 \hline
-& Medical Subject Headings (MeSH) & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
+Medical Subject Headings (MeSH) & ? & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
 \hline
-& Peroxisome Knowledge Base (PXV) & 2112 & 3628 & 2695 & 1716 & 1 & 0 \\
+Peroxisome Knowledge Base (PXV) & ? & 2112 & 3628 & 2695 & 1716 & 1 & 0 \\
 \hline
-Government & Eurovoc & 6797 & 457788 & 18491 & 15512 & 128 & 0 \\
+Eurovoc & ? & 6797 & 457788 & 18491 & 15512 & 128 & 0 \\
 \hline
-& Integrated Public Sector Vocabulary (IPSV) & 4732 & 7945 & 13843 & 4483 & 3 & 0 \\
+Integrated Public Sector Vocabulary (IPSV) & ? & 4732 & 7945 & 13843 & 4483 & 3 & 0 \\
 \hline
-Publications & Agrovoc & 31993 & 572138 & 63936 & 32043 & 1 & 0 \\
+AGROVOC & 1.3 & 32035 & 620629 & 65934 & 32085 & 1 & 0 \\
 \hline
-& DBpedia Categories & 743410 & 740352 & 1490316 & 0 & 0 & 0 \\
+DBpedia Categories & ? & 743410 & 740352 & 1490316 & 0 & 0 & 0 \\
 \hline
-& University of Southampton Pressinfo & 1125 & 0 & 0 & 0 & 0 & 0 \\
+University of Southampton Pressinfo & 2011/02/24 & 1125 & 0 & 0 & 0 & 0 & 0 \\
 \hline
-& New York Times People (NYTP) & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
+New York Times People (NYTP) & 2010/06/22 & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
 \hline
-& Library of Congress Subject Headings (LCSH) & 459182 & 746076 & 595754 & 815816 & 19 & 0 \\
+Library of Congress Subject Headings (LCSH) & ? & 459182 & 746076 & 595754 & 815816 & 19 & 0 \\
 \hline
-Cross-domain & Meketre & 422 & 569 & 1698 & 6 & 2 & 0 \\
+Meketre & 2011/07/07 & 422 & 569 & 1698 & 6 & 2 & 0 \\
 \hline
-Economy & Thesaurus for Economics (STW) & 6524 & 31189 & 57907 & 6531 & 1 & 0 \\
+Thesaurus for Economics (STW) & 8.06 & 6524 & 31189 & 57907 & 6531 & 1 & 0 \\
 \hline
-& North American Industry Classification System (NAICS) & 4175 & 0 & 8684 & 2235 & 1 & 0 \\
+North American Industry Classification System (NAICS) & 2012 & 4175 & 0 & 8684 & 2235 & 1 & 0 \\
 \hline
-Military & Thesaurus Landesverteidigungsakademie (LVAk) & 13411 & 17250 & 16346 & 0 & 0 & 0 \\
+Thesaurus Landesverteidigungsakademie (LVAk) & n/a & 13411 & 17250 & 16346 & 0 & 0 & 0 \\
 \bottomrule
 \end{tabular}
 \label{vocabs}
@@ -57,21 +54,22 @@ Military & Thesaurus Landesverteidigungsakademie (LVAk) & 13411 & 17250 & 16346 
 \subsection{Results}
 
 \begin{table}[h]
-\caption{Results of the proposed metrics}
+\label{tab:results}
+\caption{Results of the quality checking functions (cardinality of the result set)}
 \begin{tabular}{p{4cm}ccccccccccccccc}
 \textbf{Metric} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
-Omitted or Invalid Language Tags &&&&&&&&&&&&&&& \\
+Omitted or Invalid Language Tags &&&&&&& 0 & tba & 1224 & 0 & tba & 0 & 2 & 0 & 13411 \\
 
-Incomplete Language Coverage &&&&&&&&&&&&&&& \\
+Incomplete Language Coverage &&&&&&& 32035 & tba & 0 & 0 & tba & 420 & 6456 & 0 & 0 \\
 
-Undocumented Concepts &&&&&&&&&&&&&&& \\
+Undocumented Concepts &&&&&&& 32035 & tba & 1125 & 4094 & tba & 422 & 5236 & 3259 & 13411 \\
 
-Label Conflicts &&&&&&&&&&&&&&& \\
+Label Conflicts &&&&&&& 2949 & tba & 0 & 0 & tba & 4 & 5 & 0 & 13 \\
 
 \midrule
 
-Loose Concepts & 162000 & 671 & 0 & 2 & 7 & 0 & 0 & 77062 & 1125 & 4979 & 172364 & 0 & 4 & 0 & 21 \\
+Orphan Concepts & 162000 & 671 & 0 & 2 & 7 & 0 & 0 & 77062 & 1125 & 4979 & 172364 & 0 & 4 & 0 & 21 \\
 
 Weakly Connected Components & 621 & 0 & & 10 & 4 & 1 & 4 & 1506 & 0 & 0 & 22131 & 5 & 1 & 1 & 11 \\
 
@@ -91,11 +89,11 @@ Missing In-Links &&&&&&&&&&&&&&& \\
 
 Missing Out-Links &&&&&&&&&&&&&&& \\
 
-Link Target Unavailability &&&&&&&&&&&&&&& \\
+Broken Links &&&&&&&&&&&&&&& \\
 
 \midrule
 
-Undefined SKOS Property Usage &&&&&&&&&&&&&&& \\
+Undefined SKOS Resources &&&&&&&&&&&&&&& \\
 
 \bottomrule
 \end{tabular}
