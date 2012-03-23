@@ -21,11 +21,11 @@ We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/w
 \toprule
 Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA) & 2010/08/25 & 171991 && 178776 & 50892 & 343980 & 9 & 0 \\
 \hline
-Geonames Ontology & 2.2.1 & 671 && 671 & 0 & 671 & 9 & 0 \\
+Geonames Ontology & 2.2.1 & 671 & 671 & 671 & 0 & 671 & 9 & 0 \\
 \hline
-Medical Subject Headings (MeSH) & ? & 24626 && 150617 & 38858 & 0 & 0 & 0 \\
+Medical Subject Headings (MeSH) & ? & 24626 & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
 \hline
-Peroxisome Knowledge Base (PXV) & 1.6 & 2112 && 3628 & 2695 & 1716 & 1 & 0 \\
+Peroxisome Knowledge Base (PXV) & 1.6 & 2112 & 1686 & 3628 & 2695 & 1716 & 1 & 0 \\
 \hline
 Eurovoc & 5.0 & 6797 && 457788 & 18491 & 15512 & 128 & 0 \\
 \hline
@@ -63,11 +63,11 @@ The results of this analysis are reported in Table~\ref{tab:results}, which show
 \begin{tabular}{p{4cm}ccccccccccccccc}
 \textbf{Metric} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
-Omitted or Invalid Language Tags & 0 & 0 && 1578 & n/a & 0 & 0 & 0 & 1224 & 0 & 18 & 0 & 2 & n/a & 13411 \\
+Omitted or Invalid Language Tags & 0 & 0 & 23950 & 1578 & n/a & 0 & 0 & 0 & 1224 & 0 & 18 & 0 & 2 & n/a & 13411 \\
 
-Incomplete Language Coverage & 0 & 0 && 0 & n/a & 0 & 32035 & 0 & 0 & 0 & 0 & 420 & 6456 & n/a & 0 \\
+Incomplete Language Coverage & 0 & 0 & 0 & 0 & n/a & 0 & 32035 & 0 & 0 & 0 & 0 & 420 & 6456 & n/a & 0 \\
 
-Undocumented Concepts & 96850 & 0 && 1918 & 5341 & 4551 & 32035 & tba & 1125 & 4094 & tba & 422 & 5236 & 3259 & 13411 \\
+Undocumented Concepts & 96850 & 0 & 1807 & 1918 & 5341 & 4551 & 32035 & tba & 1125 & 4094 & tba & 422 & 5236 & 3259 & 13411 \\
 
 Label Conflicts & 12404 & 18 & 0 & 7 & n/a & 0 & 2949 & 0 & 0 & 0 & tba & 4 & 5 & n/a & 13 \\
 
@@ -75,17 +75,17 @@ Label Conflicts & 12404 & 18 & 0 & 7 & n/a & 0 & 2949 & 0 & 0 & 0 & tba & 4 & 5 
 
 Orphan Concepts & 162000 & 671 & 0 & 2 & 7 & 0 & 0 & 77062 & 1125 & 4979 & 172364 & 0 & 4 & 0 & 21 \\
 
-Weakly Connected Components & 621 & 0 & & 10 & 4 & 1 & 4 & 1506 & 0 & 0 & 22131 & 5 & 1 & 1 & 11 \\
+Weakly Connected Components & 621 & 0 & 4 & 10 & 4 & 1 & 4 & 1506 & 0 & 0 & 22131 & 5 & 1 & 1 & 11 \\
 
 Cyclic Hierarchical Relations & 0 & 0 & 4 & 0 & 0 & 0 & 0 & 1132 & 0 & 0 && 0 & 0 & 0 & 5 \\
 
-Valueless Associative Relations & 9438 &&&&&&&&&&&&&& \\
+Valueless Associative Relations & 9438 & 0 & 495 &&&&&&&&&&&& \\
 
-Solely Transitively Related Concepts & 0 &&&&&&&&&&&&&& \\
+Solely Transitively Related Concepts & 0 & 0 & 0 &&&&&&&&&&&& \\
 
-Omitted Top Concepts & 9 &&&&&&&&&&&&&& \\
+Omitted Top Concepts & 9 & 9 & 0 &&&&&&&&&&&& \\
 
-Top Concept Having Broader Concepts & 0 &&&&&&&&&&&&&& \\
+Top Concept Having Broader Concepts & 0 & 0 & 0 &&&&&&&&&&&& \\
 
 \midrule
 
@@ -96,7 +96,7 @@ Missing Out-Links &&&&&&&&&&&&&&& \\
 Broken Links &&&&&&&&&&&&&&& \\
 
 
-Undefined SKOS Resources &&&&&&&&&&&&&&& \\
+Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
 
 \bottomrule
 \end{tabular}
