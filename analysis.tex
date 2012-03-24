@@ -10,16 +10,14 @@ The open-source qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}} quality a
 
 \subsection{Vocabulary Data Set}
 
-We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies. Table~\ref{tab:vocabs} lists our representative vocabulary selection \todo{CM}{alphabetically} and shows that the vocabularies differ in size and application domain: the \emph{Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA)} is vocabulary from the media domain, \emph{Eurovoc} and the \emph{Integrated Public Sector Vocabularies (PSV)} cover public sector concepts, the \emph{Medical Subject Headings (MeSH)} and \emph{Peroxisome Knowledge Base (PXV)} are from the (bio-)medical domain, the \emph{Geonames Ontology} covers locations, the \emph{Thesaurus for Economics (STW)} and \emph{North American Industry Classification System (NAICS)} are vocabularies from the economics and business area and the \emph{DBPedia Categories} reflect Wikipedia's user-generated categorization system. We also include the \emph{Meketre} vocabulary, which defines Egyptology-related concepts, and the non-public \emph{Thesaurus Landesverteidigungsakademie (LVAk)}, which we generated from CSV files provided by the vocabulary maintainers. A zip-file containing all 14 public vocabulariesx we used in our analysis, can be downloaded from: \url{http://www.github.com/cmader/???}.
+We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies. Table~\ref{tab:vocabs} lists our representative vocabulary selection \todo{CM}{alphabetically} and shows that the vocabularies differ in size and application domain: the \emph{Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA)} is vocabulary from the media domain, \emph{Eurovoc} and the \emph{Integrated Public Sector Vocabularies (PSV)} cover public sector concepts, the \emph{Medical Subject Headings (MeSH)} and \emph{Peroxisome Knowledge Base (PXV)} are from the (bio-)medical domain, the \emph{Geonames Ontology} covers locations, the \emph{Thesaurus for Economics (STW)} and \emph{North American Industry Classification System (NAICS)} are vocabularies from the economics and business area and the \emph{DBPedia Categories} reflect Wikipedia's user-generated categorization system. We also include the \emph{Meketre} vocabulary, which defines Egyptology-related concepts, and the non-public \emph{Austrian Armed Forces Thesaurus (LVAk)}, which we generated from CSV files provided by the vocabulary maintainers. A zip-file containing all 14 public vocabulariesx we used in our analysis, can be downloaded from: \url{http://www.github.com/cmader/???}.
 
 \begin{table}
 \label{tab:vocabs}
 \caption{Analyzed SKOS vocabularies}
     
 \begin{center}
-
 \resizebox{\textwidth}{!} {
-
 \setlength{\extrarowheight}{5pt}
 
 \begin{tabular}{p{6cm}ccccccccc}
@@ -54,7 +52,7 @@ Thesaurus for Economics & \textbf{STW} & 8.06 & 6524 && 31189 & 57907 & 6531 & 1
 \hline
 North American Industry Classification System & \textbf{NAICS} & 2012 & 4175 && 0 & 8684 & 2235 & 1 & 0 \\
 \hline
-Thesaurus Landesverteidigungsakademie & \textbf{LVAk} & n/a & 13411 && 17250 & 16346 & 0 & 0 & 0 \\
+Austrian Armed Forces Thesaurus & \textbf{LVAk} & n/a & 13411 && 17250 & 16346 & 0 & 0 & 0 \\
 \bottomrule
 \end{tabular}
 
@@ -69,6 +67,11 @@ The results of this analysis are reported in Table~\ref{tab:results}, which show
 \begin{table}[h]
 \label{tab:results}
 \caption{Results of the quality checking functions}
+
+\begin{center}
+\resizebox{\textwidth}{!} {
+\setlength{\extrarowheight}{5pt}
+
 \begin{tabular}{p{4cm}ccccccccccccccc}
 \textbf{Metric} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
@@ -109,6 +112,8 @@ Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
 
 \bottomrule
 \end{tabular}
+}
+\end{center}
 \end{table}
 
 % Labeling and Documentation Issues
