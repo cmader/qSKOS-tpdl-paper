@@ -8,9 +8,11 @@ To learn about possible quality issues in real-world vocabularies, we implemente
 
 The open-source qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}} quality assessment tool can be used to find possible quality issues a given SKOS vocabulary. Users can run the tool by passing a vocabulary and selecting the quality checking functions they want to perform. As a result, they obtain detailed reports listing possibly affected resources alongside with the potential cause of the issue. qSKOS is implemented in Java and can be used as standalone command-line tool or API in any other application. Its design is open for the introduction of additional quality functions. In our analysis, we used qSKOS version 0.2., which can be downloaded from: \url{https://github.com/cmader/qSKOS/releases/qSKOS-0.2.tar.gz}.
 
+\todo{BH}{I think we can remove the collections column, none of the issues involve collections}
+
 \subsection{Vocabulary Data Set}
 
-We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies. Table~\ref{tab:vocabs} lists our representative vocabulary selection \todo{CM}{alphabetically} and shows that the vocabularies differ in size and application domain: the \emph{Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA)} is vocabulary from the media domain, \emph{Eurovoc} and the \emph{Integrated Public Sector Vocabularies (PSV)} cover public sector concepts, the \emph{Medical Subject Headings (MeSH)} and \emph{Peroxisome Knowledge Base (PXV)} are from the (bio-)medical domain, the \emph{Geonames Ontology} covers locations, the \emph{Thesaurus for Economics (STW)} and \emph{North American Industry Classification System (NAICS)} are vocabularies from the economics and business area and the \emph{DBPedia Categories} reflect Wikipedia's user-generated categorization system. We also include the \emph{Meketre} vocabulary, which defines Egyptology-related concepts, and the non-public \emph{Austrian Armed Forces Thesaurus (LVAk)}, which we generated from CSV files provided by the vocabulary maintainers. A zip-file containing all 14 public vocabulariesx we used in our analysis, can be downloaded from: \url{http://www.github.com/cmader/???}.
+We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies. Table~\ref{tab:vocabs} lists our representative vocabulary selection and shows that the vocabularies differ in size and application domain: the \emph{Gemeenschappelijke Thesaurus Audiovisuele Archieven (GTAA)} is vocabulary from the media domain, \emph{Eurovoc} and the \emph{Integrated Public Sector Vocabularies (PSV)} cover public sector concepts, the \emph{Medical Subject Headings (MeSH)} and \emph{Peroxisome Knowledge Base (PXV)} are from the (bio-)medical domain, the \emph{Geonames Ontology} covers locations, the \emph{Thesaurus for Economics (STW)} and \emph{North American Industry Classification System (NAICS)} are vocabularies from the economics and business area and the \emph{DBPedia Categories} reflect Wikipedia's user-generated categorization system. We also include the \emph{Meketre} vocabulary, which defines Egyptology-related concepts, and the non-public \emph{Austrian Armed Forces Thesaurus (LVAk)}, which we generated from CSV files provided by the vocabulary maintainers. A zip-file containing all 14 public vocabulariesx we used in our analysis, can be downloaded from: \url{http://www.github.com/cmader/???}. In contrast to the column ``Concepts'' that shows the total number of SKOS Concepts that can be infered from the vocabulary, the column ``Authoritative Concepts`` lists only those concepts that have an URI in the namespace of the vocabulary. 
 
 \begin{table}
 \label{tab:vocabs}
@@ -22,37 +24,37 @@ We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/w
 
 \begin{tabular}{p{6cm}ccccccccc}
 
-\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbrev.}} & \rotatebox{90}{\textbf{Version/last mod.}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Auth. Concepts}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
+\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{Version/last mod.}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Auth. Concepts}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Aggregation Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} & \rotatebox{90}{\textbf{Collections}}\\
 \toprule
-Gemeenschappelijke Thesaurus Audiovisuele Archieven & \textbf{GTAA} & 2010/08/25 & 171991 & 171991 & 178776 & 50892 & 343980 & 9 & 0 \\
+Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32,035 & 32,035 & 620,629 & 65,934 & 32,085 & 1 & 0 \\
+\hline
+DBpedia Categories & \textbf{DBpedia} & ? & 743,410 & 743,410 & 740,352 & 1,490,316 & 0 & 0 & 0 \\
+\hline
+The EU's multilingual thesaurus & \textbf{Eurovoc} & 5.0 & 6,797 & 6,797 & 457,788 & 18,491 & 15,512 & 128 & 0 \\
 \hline
 Geonames Ontology & \textbf{Geonames} & 2.2.1 & 671 & 671 & 671 & 0 & 671 & 9 & 0 \\
 \hline
-Medical Subject Headings & \textbf{MeSH} & ? & 24626 & 24626 & 150617 & 38858 & 0 & 0 & 0 \\
+Gemeenschappelijke Thesaurus Audiovisuele Archieven & \textbf{GTAA} & 2010/08/25 & 171,991 & 171,991 & 178,776 & 50,892 & 343,980 & 9 & 0 \\
 \hline
-Peroxisome Knowledge Base & \textbf{PXV} & 1.6 & 2112 & 1686 & 3628 & 2695 & 1716 & 1 & 0 \\
+Integrated Public Sector Vocabulary & \textbf{IPSV} & 2.00 & 4,732 && 7,945 & 13,843 & 4,483 & 3 & 0 \\
 \hline
-The EU's multilingual thesaurus & \textbf{Eurovoc} & 5.0 & 6797 & 6797 & 457788 & 18491 & 15512 & 128 & 0 \\
+Library of Congress Subject Headings & \textbf{LCSH} & 2011/08/09 & 459,182 & 407,908 & 746,076 & 595,754 & 815,816 & 19 & 0 \\
 \hline
-Integrated Public Sector Vocabulary & \textbf{IPSV} & 2.00 & 4732 && 7945 & 13843 & 4483 & 3 & 0 \\
+Austrian Armed Forces Thesaurus & \textbf{LVAk} & n/a & 13,411 & 13,411 & 17,250 & 16,346 & 0 & 0 & 0 \\
 \hline
-Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32035 & 32035 & 620629 & 65934 & 32085 & 1 & 0 \\
+Middle Kingdom tombs of Ancient Egypt Thesaurus & \textbf{Meketre} & 2011/07/07 & 422 & 422 & 569 & 1,698 & 6 & 2 & 0 \\
 \hline
-DBpedia Categories & \textbf{DBPedia} & ? & 743410 & 743410 & 740352 & 1490316 & 0 & 0 & 0 \\
+Medical Subject Headings & \textbf{MeSH} & ? & 24,626 & 24,626 & 150,617 & 38,858 & 0 & 0 & 0 \\
 \hline
-University of Southampton Pressinfo & \textbf{Pressinfo} & 2011/02/24 & 1125 & 1125 & 0 & 0 & 0 & 0 & 0 \\
+North American Industry Classification System & \textbf{NAICS} & 2012 & 4,175 & 2,213 & 0 & 8,684 & 2,235 & 1 & 0 \\
 \hline
-New York Times People & \textbf{NYTP} & 2010/06/22 & 4979 & 4979 & 4979 & 0 & 4979 & 1 & 0 \\
+New York Times People & \textbf{NYTP} & 2010/06/22 & 4,979 & 4,979 & 4,979 & 0 & 4,979 & 1 & 0 \\
 \hline
-Library of Congress Subject Headings & \textbf{LCSH} & 2011/08/09 & 459182 & 407908 & 746076 & 595754 & 815816 & 19 & 0 \\
+University of Southampton Pressinfo & \textbf{Pressinfo} & 2011/02/24 & 1,125 & 1,125 & 0 & 0 & 0 & 0 & 0 \\
 \hline
-Middle Kingdom tombs of Ancient Egypt Thesaurus & \textbf{Meketre} & 2011/07/07 & 422 & 422 & 569 & 1698 & 6 & 2 & 0 \\
+Peroxisome Knowledge Base & \textbf{PXV} & 1.6 & 2,112 & 1,686 & 3,628 & 2,695 & 1,716 & 1 & 0 \\
 \hline
-Thesaurus for Economics & \textbf{STW} & 8.06 & 6524 & 6524 & 31189 & 57907 & 6531 & 1 & 0 \\
-\hline
-North American Industry Classification System & \textbf{NAICS} & 2012 & 4175 & 2213 & 0 & 8684 & 2235 & 1 & 0 \\
-\hline
-Austrian Armed Forces Thesaurus & \textbf{LVAk} & n/a & 13411 & 13411 & 17250 & 16346 & 0 & 0 & 0 \\
+Thesaurus for Economics & \textbf{STW} & 8.06 & 6,524 & 6,524 & 31,189 & 57,907 & 6,531 & 1 & 0 \\
 \bottomrule
 \end{tabular}
 
@@ -62,7 +64,7 @@ Austrian Armed Forces Thesaurus & \textbf{LVAk} & n/a & 13411 & 13411 & 17250 & 
 
 \subsection{Results}
 
-The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. The value 0 means that we haven't found any affected resource, N/A means that a certain function was not applicable for reasons we explain below.
+The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. The value 0 means that we haven't found any affected resource, N/A means that a certain function was not applicable for reasons we explain below. An asterisk after certain numeric values indicates that due to performance reason, only an extrapolated subset containing 5\% of the respective elements (HTTP URIs or concepts) of the vocabulary has been analyzed.
 
 \begin{table}[h]
 \label{tab:results}
@@ -75,25 +77,25 @@ The results of this analysis are reported in Table~\ref{tab:results}, which show
 \begin{tabular}{p{4cm}ccccccccccccccc}
 \textbf{Issue} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
-Omitted or Invalid Language Tags & 0 & 0 & 23950 & 1578 & n/a & 0 & 0 & 0 & 1224 & 0 & 18 & 0 & 2 & n/a & 13411 \\
+Omitted or Invalid Language Tags & 0 & 0 & 23,950 & 1,578 & n/a & 0 & 0 & 0 & 1,224 & 0 & 18 & 0 & 2 & n/a & 13,411 \\
 
-Incomplete Language Coverage & 0 & 0 & 0 & 0 & n/a & 0 & 32035 & 0 & 0 & 0 & 0 & 420 & 6456 & n/a & 0 \\
+Incomplete Language Coverage & 0 & 0 & 0 & 0 & n/a & 0 & 32,035 & 0 & 0 & 0 & 0 & 420 & 6,456 & n/a & 0 \\
 
-Undocumented Concepts & 96850 & 0 & 1807 & 1918 & 5341 & 4551 & 32035 & 743410 & 1125 & 4094 & 398036 & 422 & 5236 & 3259 & 13411 \\
+Undocumented Concepts & 96,850 & 0 & 1,807 & 1,918 & 5,341 & 4,551 & 32,035 & 743,410 & 1,125 & 4,094 & 398,036 & 422 & 5,236 & 3,259 & 13,411 \\
 
-Label Conflicts & 12404 & 18 & 0 & 7 & n/a & 0 & 2949 & 0 & 0 & 0 & tba & 4 & 5 & n/a & 13 \\
+Label Conflicts & 12,404 & 18 & 0 & 7 & n/a & 0 & 2,949 & 0 & 0 & 0 & tba & 4 & 5 & n/a & 13 \\
 
 \midrule
 
-Orphan Concepts & 162000 & 671 & 0 & 2 & 7 & 0 & 0 & 77062 & 1125 & 4979 & 172364 & 0 & 4 & 0 & 21 \\
+Orphan Concepts & 162,000 & 671 & 0 & 2 & 7 & 0 & 0 & 77,062 & 1,125 & 4,979 & 172,364 & 0 & 4 & 0 & 21 \\
 
-Weakly Connected Components & 621 & 0 & 4 & 10 & 4 & 1 & 4 & 1506 & 0 & 0 & 22131 & 5 & 1 & 1 & 11 \\
+Weakly Connected Components & 621 & 0 & 4 & 10 & 4 & 1 & 4 & 1,506 & 0 & 0 & 22,131 & 5 & 1 & 1 & 11 \\
 
-Cyclic Hierarchical Relations & 0 & 0 & 4 & 0 & 0 & 0 & 0 & 1132 & 0 & 0 & 0 & 0 & 0 & 0 & 5 \\
+Cyclic Hierarchical Relations & 0 & 0 & 4 & 0 & 0 & 0 & 0 & 1,132 & 0 & 0 & 0 & 0 & 0 & 0 & 5 \\
 
-Valueless Associative Relations & 9438 & 0 & 495 & 0 & 1 && 282 & 8120 & 0 & 0 & 1879 & 0 & 5082 & 0 & 5 \\
+Valueless Associative Relations & 9,438 & 0 & 495 & 0 & 1 && 282 & 8,120 & 0 & 0 & 1,879 & 0 & 5,082 & 0 & 5 \\
 
-Solely Transitively Related Concepts & 0 & 0 & 0 & 0 & 2652 && 0 & 0 & 0 & 0 & 0 & 36 & 0 & 2189 & 0 \\
+Solely Transitively Related Concepts & 0 & 0 & 0 & 0 & 2,652 && 0 & 0 & 0 & 0 & 0 & 36 & 0 & 2,189 & 0 \\
 
 Omitted Top Concepts & 9 & 9 & 0 & 0 & 1 && 0 & 0 & 0 & 1 & 18 & 0 & 0 & 0 & 0 \\
 
@@ -101,11 +103,11 @@ Top Concept Having Broader Concepts & 0 & 0 & 0 & 1 & 0 && 0 & 0 & 0 & 0 & 0 & 0
 
 \midrule
 
-Missing In-Links && 19 && 1686 &&&&& 1125 & 20 && 422 & 6516 & 2213 & 13411 \\
+Missing In-Links && 19 && 1,686 &&&&& 1,125 & 20 && 422 & 6,516 & 2,213 & 13,411 \\
 
-Missing Out-Links & 171991 & 671 && 1472 & 6797 && 32035 & 743410 & 1116 & 0 & 408198 & 273 & 6524 & 0 & 13411 \\
+Missing Out-Links & 171,991 & 671 && 1,472 & 6,797 && 32,035 & 743,410 & 1,116 & 0 & 408,198 & 273 & 6,524 & 0 & 13,411 \\
 
-Broken Links & 0 & 0 & 1 & 163 &&& 238 & 0* & 11 & 7 && 425 & 1 & 3169 & n/a \\
+Broken Links & 0 & 0 & 1 & 163 &&& 238 & 0* & 11 & 7 && 425 & 1 & 3,169 & n/a \\
 
 
 Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
