@@ -70,7 +70,7 @@ The results of this analysis are summarized in Table~\ref{tab:results}, which sh
 
 \begin{table}[h]
 \label{tab:results}
-\caption{Results of the quality checking functions}
+\caption{Results of the quality checking functions \todo{CM}{order alpha}}
 
 \begin{center}
 \resizebox{\textwidth}{!} {
@@ -137,7 +137,7 @@ The \texttt{Eurovoc} and \texttt{NAICS} vocabularies use SKOS-XL for its labels,
 % STRUCTURAL ISSUES
 When analyzing the structure of existing vocabularies, we found that the results of certain quality checks can be seen as indicators for the types of vocabularies.
 % Orphan Concepts
-In the \texttt{Pressinfo} and \texttt{NYTP} vocabulary, all concepts are orphan concepts, which means that these vocabularies are authority files rather than thesauri or taxonomies. \texttt{GTAA} seems is a mixture of name authority file (~162K concepts) and thesaurus (~10K concepts). The 4 orphan concepts in \texttt{STW} hare deprecated concepts, the 21 in \texttt{LVAk} are concepts, which are obviously test data.
+In the \texttt{Pressinfo} and \texttt{NYTP} vocabulary, all concepts are orphan concepts, which means that these vocabularies are authority files rather than thesauri or taxonomies. \texttt{GTAA} seems is a mixture of name authority file (162K concepts) and thesaurus (10K concepts). The 4 orphan concepts in \texttt{STW} are deprecated concepts, the 21 \texttt{LVAk} concepts are obviously test data.
 % Weakly Connected Components
 Three vocabularies have one weakly connected component which means that there is one ``giant component''. All other vocabularies split into several ``islands'' of semantically related concepts. \todo{CM}{think about it}.
 % Cyclic Hierarchical Relations
@@ -145,26 +145,20 @@ Hierarchical cycles are not a common issue except in collaboratively created DBp
 % Valuless Associative Relations
 Valueless associative relations occur in 9 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies.
 % Solely Transitive Related Concepts
-\todo{CM}{describe this.}
+Solely transitive related concepts occur in 3 vocabularies, establishing relations using properties that, according to the SKOS reference documentation, should not be asserted directly. This indicates a possible misunderstanding of the SKOS specification and, when the vocabulary is queried without RDFS inferencing, could result in a loss in recall on hierarchical queries.
 % Omitted Top Concepts
-GTAA, Geonames, and NYTP have no top concept defined for any of the concept schemes they use. Eurovoc uses 128 concept schemes but only one without top concept. The opposite situation can be observed for LCSH which uses 19 concept schemes, but only one has a top concept. 
+\texttt{GTAA}, \texttt{Geonames}, and \texttt{NYTP} have no top concept defined for any of the concept schemes they use. \texttt{Eurovoc} uses 128 concept schemes but has one without top concept, which simply concepts defined in the vocabulary. The opposite can be observed for \texttt{LCSH} which defines 19 concept schemes, but only one with a top concept. \todo{CM}{why?}
 % Top Concepts Having Broader Concepts
-Only PXV vocabulary is affected by top concepts having broader concept in the current version. In an earlier version a different concept causing this issue could be spotted. According to the vocabulary creator it was an abaondoned concept, still available in the triplestore but maybe introduced by some bug in the vocabulary management software.
+Only \texttt{PXV} vocabulary is affected by top concepts having broader concepts in its current version. The reason for this is, according to the vocabulary creator, that the broader concept was abandoned but is still available in the triplestore, maybe because of some bug in the vocabulary management software.
 
 % LINKED DATA SPECIFIC ISSUE
 
-The difference between Concepts and Authoritative Concepts in Table~\ref{tab:vocabs} already indicates which vocabularies are linked with SKOS vocabularies. 
+The difference between Concepts and Authoritative Concepts in Table~\ref{tab:vocabs} \todo{CM}{fix table nums} already indicates which vocabularies are linked with SKOS vocabularies.
 % Missing In-Links
-However, except \texttt{NYTP} and \texttt{Geonames} none of the analyzed vocabularies has a significant number of in-links from other web resources.
+However, except \texttt{NYTP} and \texttt{Geonames}, none of the analyzed vocabularies has a significant number of in-links from other web resources.
 % Missing Out-Links
-Most vocabularies also don't provide links to other vocabularies on the Web. There are three excepetions:  NYTP, IPSV and NAICS. 
-
+Most vocabularies also don't provide links to other vocabularies on the Web. The NYTP, IPSV and NAICS vocabularies are the three exceptions, which are fully linked to other Web resources. 
 % Broken Links
-
+Even though we couldn't determine the exact number of broken links because of the large number of links to resolve  (over 400,000 in Eurovoc and LCSH), we found that broken links are a common issue in most vocabularies.
 % Undefined SKOS Resources
-
-Broken links are a very common issue in nearly every vocabulary. In the case of the Meketre vocabulary we could observe server-side misconfiguration as the cause. Checking this issue turned out difficult, taking into account the high number of links (over 400,000 in Eurovoc and LCSH) and our algorithm that sleeps three seconds after dereferencing each link in order to avoid an unintended DOS attack. So we decided to only check a subset of all links and extrapolate the results. Undefined SKOS resources seem to be a minor issue, we could only spot two of them in all vocabularies. 
-
-% The \textbf{Loose Concepts} metrics provides insights on the structural complexity of vocabularies. The large number of loose concepts in GTAA can be explained by the fact that it contains names (e.g., persons or places) that arent't connected using skos properties. This is also the case for Geonames, NYTP and Pressinfo where the number of total conceps is equal to the number of loose concepts, indicating that no concept is semantically related to another concept.
-% 
-% The large number of \textbf{Weakly Connected Components} in GTAA is caused by many ``minimal'' components, containing only 2 concepts connected by a \texttt{skos:related} property. Due to the fact that loose concepts are not counted as weakly connected components, Geonames, NYTP and Pressinfo evaluate to zero components.
+Undefined SKOS resources seem to be a minor issue, because we could only find two of them in all vocabularies: \texttt{MeSH} introduces \texttt{skos:annotation} and \texttt{IPSV} uses the deprecated \texttt{skos:prefSymbol} property.
