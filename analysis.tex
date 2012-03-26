@@ -81,7 +81,7 @@ Incomplete Language Coverage & 0 & 0 & 0 & 0 & n/a & 0 & 32,035 & 0 & 0 & 0 & 0 
 
 Undocumented Concepts & 96,850 & 0 & 1,807 & 1,918 & 5,341 & 4,551 & 32,035 & 743,410 & 1,125 & 4,094 & 398,036 & 422 & 5,236 & 3,259 & 13,411 \\
 
-Label Conflicts & 12,404 & 18 & 0 & 7 & n/a & 0 & 2,949 & 0 & 0 & 0 & tba & 4 & 5 & n/a & 13 \\
+Label Conflicts & 12,404 & 18 & 0 & 7 & n/a & 0 & 2,949 & 0 & 0 & 0 & n/a & 4 & 5 & n/a & 13 \\
 
 \midrule
 
@@ -105,7 +105,7 @@ Missing In-Links & 171,980* & 19 && 1,686 & 6,796 & 3,080 & 32,035 & 733,800* & 
 
 Missing Out-Links & 171,991 & 671 && 1,472 & 6,797 & 0 & 32,035 & 743,410 & 1,116 & 0 & 408,198 & 273 & 6,524 & 0 & 13,411 \\
 
-Broken Links & 0 & 0 & 1 & 163 &&& 238 & 0* & 11 & 7 && 425 & 1 & 3,169 & n/a \\
+Broken Links & 0 & 0 & 1 & 163 && 1 & 238 & 0* & 11 & 7 && 425 & 1 & 3,169 & n/a \\
 
 
 Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
@@ -117,39 +117,16 @@ Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
 \end{table}
 
 % Labeling and Documentation Issues
-\todo{BH}{this sentence is not clear, I assume you mean language tags, not labels.I'm not sure if relating language tags to concepts makes sense because a concept can be connected to multiple labels}
-We found labeling and documentation issues in all analyzed vocabularies. PXV provides labels for XX\% of its concepts, Pressinfo labels only for 1 out of 1125 concepts, and the STW thesaurus misses labels for two concepts. Eurovoc and NAICS use SKOS-XL labels, which are currently not supported by qSKOS.
+We found labeling and documentation issues in all analyzed vocabularies. In nearly half of the evaluated vocabularies, language tags are used properly while others show a significant number of untaged resources. Incomplete Language Coverage were issues in three analyzed vocabularies, with e.g., AGROVOC supporting in total 25 languages but none of the concepts is documented in all of them. Most vocabularies didn't document their concepts with the documentary properties defined by SKOS. Label conflicts were also frequently observed, hence \todo{CM}{explain briefly} were found in several vocabularies: GTAA has many because? PXV has 7. Why given examples?
 
-Incomplete Language Coverage were issues in the three analyzed vocabularies: in AGROVOC all concepts had incomplete coverage, probably because \todo{CM}{es gibt labels in insgesamt 25 versch sprachen und keines der konzepte ist in jeder sprache beschrieben}, and in STW we found XX\%.
+%\todo{BH}{this sentence is not clear, I assume you mean language tags, not labels.I'm not sure if relating language tags to concepts makes sense because a concept can be connected to multiple labels}PXV provides labels for XX\% of its concepts, Pressinfo labels only for 1 out of 1125 concepts, and the STW thesaurus misses labels for two concepts. Eurovoc and NAICS use SKOS-XL labels, which are currently not supported by qSKOS. Incomplete Language Coverage were issues in the three analyzed vocabularies: in AGROVOC all concepts had incomplete coverage, probably because \todo{CM}{es gibt labels in insgesamt 25 versch sprachen und keines der konzepte ist in jeder sprache beschrieben}, and in STW we found XX\%.
 
-Most vocabularies didn't document their concepts with the documentary properties defined by SKOS.
-
-Label conflicts, hence \todo{CM}{explain briefly} were found in several vocabularies: GTAA has many because? PXV has 7. Why given examples?
 
 % Structural Issues
-orphan concepts: seem to depend on vocab use case: list of names: many orphans (gtaa,lcsh,geonames); vocabs establishing a network of terms: less to none orphan concepts
-
-wcc: "islands" of semantically related concepts; most interesting cases: vocabs having few orphan concepts but more than one wcc: vocab may split into clusters inintentionally
-
-cycles: not a common issue, dbpedia category cylces were somewhat surprising
-
-valueless associative relations: in 9 of 15 vocabs; comparatively few in relation to all semantic relations
-
-solely transitively related concepts: only 3 of 15 vocabs
-
-omitted top concepts: 11 vocabs have at least one concept scheme defined, 5 have missing top concepts; gtaa,geonames,nyt people have no top concepts for any concept scheme, eurovoc uses 128 concept schemes and only one without top concept; opposite case for lcsh: uses 19 concept schemes defined, only one has a top concept
-
-top concepts having broader concept: only pxv vocab affected in current version: in earlier version a different concept featuring this issue could be spotted: according to vocab creator this was an erroneous concept still available in the triplestore; maybe introduced by some bug in the vocab management software
+It could be observed that vocabularies that contain person or location names (GTAA and Geonames) have more orphan concepts than other vocabularies, establishing a network of terms in a specific domain (e.g., STW). Regarding weakly connected components, we see that those vocabularies that only consist of orphan concepts, contain no weakly connected components. Three vocabularies have one weakly connected component which means that there is one ``giant component''. All other vocabularies split into several ``islands'' of semantically related concepts. Hierarchical cycles are observed not to be a common issue, however they affect DBpedia to a great extent \todo{CM}{reason?}. Valueless associative relations occur in 9 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies. GTAA, Geonames, and NYTP have no top concept defined for any of the concept schemes they use. Eurovoc uses 128 concept schemes but only one without top concept. The opposite situation can be observed for LCSH which uses 19 concept schemes, but only one has a top concept. Only PXV vocabulary is affected by top concepts having broader concept in the current version. In an earlier version a different concept causing this issue could be spotted. According to the vocabulary creator it was an abaondoned concept, still available in the triplestore but maybe introduced by some bug in the vocabulary management software.
 
 % Linked Data Specific Issues
-missing in-links: authoritative conceps of most vocabs aren't externally linked; exception: nyt people vocab
-
-missing out-links: many vocab's also don't provide links to other vocabs; exception: naics, nyt people
-
-broken loinks: meketre: reason server-side misconfiguration (fixed in current version); dbpedia sometimes down, link checking for some vocabs difficult: our algorithm waits 3secs when dereferencing links to not produce an uninteded DOS attack => estimation was necessary
-
-undef skos resources: seems to be a minor problems, the examined voabs seem to be well-maintained 
-
+With exception of NYTP and geonames we could observe that authoritative concepts of most vocabularies do not serve at link targets for other vocabularies. A slightly better situation can be found for missing out-links where most vocabularies also don't provide links to other vocabularies on the Web. There are three excepetions:  NYTP, IPSV and NAICS. Broken links are a very common issue in nearly every vocabulary. In the case of the Meketre vocabulary we could observe server-side misconfiguration as the cause. Checking this issue turned out difficult, taking into account the high number of links (over 400,000 in Eurovoc and LCSH) and our algorithm that sleeps three seconds after dereferencing each link in order to avoid an unintended DOS attack. So we decided to only check a subset of all links and extrapolate the results. Undefined SKOS resources seem to be a minor issue, we could only spot two of them in all vocabularies. 
 
 % The \textbf{Loose Concepts} metrics provides insights on the structural complexity of vocabularies. The large number of loose concepts in GTAA can be explained by the fact that it contains names (e.g., persons or places) that arent't connected using skos properties. This is also the case for Geonames, NYTP and Pressinfo where the number of total conceps is equal to the number of loose concepts, indicating that no concept is semantically related to another concept.
 % 
