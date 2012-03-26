@@ -109,7 +109,7 @@ The function \textit{tchbc} iterates over all \texttt{skos:TopConcept}s defined 
 % Origin and rationale
 SKOS concepts become linkable resources, when vocabularies are being published on the Web. Estimating the number of in-links and identifying the concepts without any in-links, can be an important indicator for the importance of a concept. The required in-links for such an estimation can be obtained from existing Linked Data indices like, e.g., Sindice\footnote{\url{http://sindice.com/}}. 
 % Function definition
-The function \textit{mil} estimates the number of in-links referencing a concept, by iterating over all elements in $C$ and querying the Sindice SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicator for missing  in-links and are thus included in the result set of this function.
+To estimate the number of in-links we only take a set $AC \subseteq C$ into account which consists of all ``authoritative concepts'', i.e. concepts that have an URI in the namespace of the vocabulary. The function \textit{mil} estimates the number of in-links referencing an authoritative concept, by iterating over all elements in $AC$ and querying the Sindice SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicator for missing in-links and are thus included in the result set of this function.
 
 \paragraph{QI 13: Missing Out-Links}
 
