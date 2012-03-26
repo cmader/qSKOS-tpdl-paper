@@ -66,7 +66,7 @@ Thesaurus for Economics & \textbf{STW} & 8.06 & 6,524 & 6,524 & 31,189 & 57,907 
 
 \subsection{Results}
 
-The results of this analysis are reported in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. The value 0 means that we haven't found any affected resource, N/A means that a certain function was not applicable for reasons we explain below. An asterisk after certain numeric values indicates that due to performance reason, only an extrapolated subset containing 5\% of the respective elements (HTTP URIs or concepts) of the vocabulary has been analyzed.
+The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of affected resources for each quality checking function and vocabulary combination. The value 0 means that we haven't found any affected resource, n/a means that a certain function was not applicable for reasons we explain below. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
 
 \begin{table}[h]
 \label{tab:results}
@@ -120,13 +120,21 @@ Undefined SKOS Resources & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
 \end{center}
 \end{table}
 
-% Labeling and Documentation Issues
-We found labeling and documentation issues in all analyzed vocabularies. In nearly half of the evaluated vocabularies, language tags are used properly while others show a significant number of untaged resources. Incomplete Language Coverage were issues in three analyzed vocabularies, with e.g., AGROVOC supporting in total 25 languages but none of the concepts is documented in all of them. Most vocabularies didn't document their concepts with the documentary properties defined by SKOS. Label conflicts were also frequently observed, hence \todo{CM}{explain briefly} were found in several vocabularies: GTAA has many because? PXV has 7. Why given examples?
+% LABELING AND DOCUMENTATION ISSUES
+We found labeling and documentation issues in all analyzed vocabularies. 
+% Omitted or Invalid Language Tags
+The \texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} vocabularies omit language tags with their skos:prefLabel, \texttt{skos:altLabel}, or \texttt{skos:hiddenLabel} properties. The STW thesaurus doesn't use language tags with 2 \texttt{skos:definition} property instances and the LCSH vocabulary uses language tags with concepts, but not with concept schemes.
+% Incomplete Language Coverage
+\texttt{AGROVOC} covers 25 languages in total but no single concept is labelled in all languages, in \texttt{Meketre} all concepts have English but only some of them French labels assigned. The reason for the high number of concepts with incomplete language coverage in \texttt{STW} is that a few concepts have labels with the private, but valid language tag \texttt{x-other}. 
+% Undocumented Concepts
+\texttt{Geonames} is the only vocabulary in our dataset, which has at least one documentation property assigned to all its concept. All other vocabularies have a significant number of undocumented concepts.
+% Label Conflicts
+We also detected possible label conflicts in half of the vocabularies. \texttt{PXV}, for instance, uses the string ``primary peroxisomal enzyme deficiency'' with two concepts in the same concept scheme, but once with a \texttt{skos:prefLabel} and another time with a \texttt{skos:altLabel} property. A similar example from AGROVOC is ``sziv\'{a}rv\'{a}nyos pisztr\'{a}ng'', which is used as \texttt{skos:altLabel} with two different concepts.
+% Other stuff
+The \texttt{Eurovoc} and \texttt{NAICS} vocabularies use SKOS-XL for its labels, which is currently not supported by qSKOS.
 
-%\todo{BH}{this sentence is not clear, I assume you mean language tags, not labels.I'm not sure if relating language tags to concepts makes sense because a concept can be connected to multiple labels}PXV provides labels for XX\% of its concepts, Pressinfo labels only for 1 out of 1125 concepts, and the STW thesaurus misses labels for two concepts. Eurovoc and NAICS use SKOS-XL labels, which are currently not supported by qSKOS. Incomplete Language Coverage were issues in the three analyzed vocabularies: in AGROVOC all concepts had incomplete coverage, probably because \todo{CM}{es gibt labels in insgesamt 25 versch sprachen und keines der konzepte ist in jeder sprache beschrieben}, and in STW we found XX\%.
 
-
-% Structural Issues
+% STRUCTURAL ISSUES
 It could be observed that vocabularies that contain person or location names (GTAA and Geonames) have more orphan concepts than other vocabularies, establishing a network of terms in a specific domain (e.g., STW). Regarding weakly connected components, we see that those vocabularies that only consist of orphan concepts, contain no weakly connected components. Three vocabularies have one weakly connected component which means that there is one ``giant component''. All other vocabularies split into several ``islands'' of semantically related concepts. Hierarchical cycles are observed not to be a common issue, however they affect DBpedia to a great extent because for some reason many of the concepts are related broader to themselves. Valueless associative relations occur in 9 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies. GTAA, Geonames, and NYTP have no top concept defined for any of the concept schemes they use. Eurovoc uses 128 concept schemes but only one without top concept. The opposite situation can be observed for LCSH which uses 19 concept schemes, but only one has a top concept. Only PXV vocabulary is affected by top concepts having broader concept in the current version. In an earlier version a different concept causing this issue could be spotted. According to the vocabulary creator it was an abaondoned concept, still available in the triplestore but maybe introduced by some bug in the vocabulary management software.
 
 % Linked Data Specific Issues
