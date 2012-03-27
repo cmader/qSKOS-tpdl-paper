@@ -6,13 +6,12 @@
 
 We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and formalized them into computable \textbf{quality checking functions}. Each function operates on a given SKOS vocabulary, which we define, for the purpose of this work, as follows:
 
-\begin{definition}[SKOS Vocabulary] Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, ULV \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, and $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties. 
-
-\end{definition}
+\paragraph{\textbf{Definition (SKOS Vocabulary).}}
+Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) \todo{CM}{check exponent}being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties as well as subproperties of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}. 
 
 A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
 
-In the following, we explain the origins and design rationale for each quality issue and define the corresponding quality checking function. For better readability and due to lack of space we provide only semi-formal definitions and refer to the online documentation and the implementation source code for further details.
+In the following, we explain the origins and design rationale for each quality issue and define the corresponding quality checking function. For better readability and due to lack of space we provide only semi-formal definitions and refer to the \sout{online documentation and the} implementation source code\footnote{\url{https://github.com/cmader/qSKOS/}} for further details.
 
 % LABELING AND DOCUMENTATION ISSUES
 
@@ -21,7 +20,7 @@ In the following, we explain the origins and design rationale for each quality i
 \paragraph{Omitted or Invalid Language Tags}
 
 % Origin and rationale
-SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent structural queries.
+SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
 % Function defintion
 A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have relations to plain literals (using the above mentions SKOS properties) with missing or invalid language tags, hence tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
@@ -90,7 +89,7 @@ This issue can be detected by iterating over all concept pairs $C \times C$ that
 % Origin and rationale
 The SKOS model provides concept schemes, which are a facility for grouping related concepts. This helps to provide ``efficient access''~\cite{Isaac2009} and simplifies orientation in the vocabulary. In order to provide entry points to such a group of concepts, one or more concepts can be marked as top concepts.  
 % Function definition
-Omitted top concepts can be detected by iterating over all \texttt{skos:ConceptScheme}s and collecting those that do not occur in relations established by the properties \texttt{skos:hasTopConcept} or \texttt{skos:topConceptOf}.
+Omitted top concepts can be detected by iterating over all concept schemes in $CS$ and collecting those that do not occur in relations established by the properties \texttt{skos:hasTopConcept} or \texttt{skos:topConceptOf}.
 
 \paragraph{Top Concept Having Broader Concepts}
 
