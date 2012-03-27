@@ -76,7 +76,7 @@ The results of this analysis are summarized in Table~\ref{tab:results}, which sh
 \resizebox{\textwidth}{!} {
 \setlength{\extrarowheight}{5pt}
 
-\begin{tabular}{p{4cm}ccccccccccccccc}
+\begin{tabular}{lccccccccccccccc}
 \textbf{Issue} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{Agrovoc}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{STW}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{LVAk}} \\
 \toprule
 Omitted or Invalid Language Tags & 0 & 0 & 23,950 & 1,578 & n/a & 0 & 0 & 0 & 1,224 & 0 & 18 & 0 & 2 & n/a & 13,411 \\
@@ -139,7 +139,7 @@ When analyzing the structure of existing vocabularies, we found that the results
 % Orphan Concepts
 In the \texttt{Pressinfo} and \texttt{NYTP} vocabulary, all concepts are orphan concepts, which means that these vocabularies are authority files rather than thesauri or taxonomies. \texttt{GTAA} seems is a mixture of name authority file (162K concepts) and thesaurus (10K concepts). The 4 orphan concepts in \texttt{STW} are deprecated concepts, the 21 \texttt{LVAk} concepts are obviously test data.
 % Weakly Connected Components
-Three vocabularies have one weakly connected component which means that there is one ``giant component''. All other vocabularies split into several ``islands'' of semantically related concepts. \todo{CM}{think about it}.
+Three vocabularies have one weakly connected component which means that there is one ``giant component''. All other vocabularies split into several clusters of semantically related concepts that represent several subtopics in the vocabularies. \texttt{Eurovoc} contains of 4 weakly connected components, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. Weakly connected components divide the \texttt{Meketre} vocabularies into, e.g., execution-style related concepts, concepts reserved for internal use or museums. \texttt{GTAA} consists of 621 weakly connected components, most of them containing less than 10 concepts, representing, e.g., political parties, companies or historical periods. \texttt{PXV} splits into 10 weakly connecting components, topically relating e.g., ``deficiancies'', ``defects'' or ``signals''.
 % Cyclic Hierarchical Relations
 Hierarchical cycles are not a common issue except in collaboratively created DBpedia vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
 % Valuless Associative Relations
@@ -147,7 +147,7 @@ Valueless associative relations occur in 9 vocabularies, with their total number
 % Solely Transitive Related Concepts
 Solely transitive related concepts occur in 3 vocabularies, establishing relations using properties that, according to the SKOS reference documentation, should not be asserted directly. This indicates a possible misunderstanding of the SKOS specification and, when the vocabulary is queried without RDFS inferencing, could result in a loss in recall on hierarchical queries.
 % Omitted Top Concepts
-\texttt{GTAA}, \texttt{Geonames}, \texttt{NYTP}, and \textt{LCSH} have no top concept defined for any of the concept schemes they use. \texttt{Eurovoc} uses 128 concept schemes but has one without top concept, which simply contains all concepts defined in the vocabulary.
+\texttt{GTAA}, \texttt{Geonames}, \texttt{NYTP}, and \texttt{LCSH} have no top concept defined for any of the concept schemes they use. \texttt{Eurovoc} uses 128 concept schemes but has one without top concept, which simply contains all concepts defined in the vocabulary.
 % Top Concepts Having Broader Concepts
 Only \texttt{PXV} vocabulary is affected by top concepts having broader concepts in its current version. The reason for this is, according to the vocabulary creator, that the broader concept was abandoned but is still available in the triplestore, maybe because of some bug in the vocabulary management software.
 
@@ -159,6 +159,6 @@ However, except \texttt{NYTP} and \texttt{Geonames}, none of the analyzed vocabu
 % Missing Out-Links
 Most vocabularies also don't provide links to other vocabularies on the Web. The \texttt{NYTP}, \texttt{IPSV} and \texttt{NAICS} vocabularies are the three exceptions, which are fully linked to other Web resources. 
 % Broken Links
-Even though we couldn't determine the exact number of broken links because of the large number of links to resolve  (over 400,000 in \texttt{Eurovoc} and \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
+Even though we couldn't determine the exact number of broken links because of the large number of links to resolve  (over 400K in \texttt{Eurovoc} and \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
 % Undefined SKOS Resources
 Undefined SKOS resources seem to be a minor issue, because we could only find two of them in all vocabularies: \texttt{MeSH} introduces \texttt{skos:annotation} and \texttt{IPSV} uses the deprecated \texttt{skos:prefSymbol} property.
