@@ -6,9 +6,10 @@
 
 We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and formalized them into computable \textbf{quality checking functions}. Each function operates on a given SKOS vocabulary, which we define, for the purpose of this work, as follows:
 
-\todo{CM}{use definition environment and find out how to turn of numbering}
-\paragraph{\textbf{Definition (SKOS Vocabulary).}}
+\spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
+\begin{mydef}[SKOS Vocabulary]
 Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}. 
+\end{mydef}
 
 A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
 
@@ -77,7 +78,7 @@ Cyclic relations can be found by constructing a graph with the set of nodes bein
 \paragraph{Valueless Associative Relations}
 
 % Origin and rationale
-The ISO/DIS 25964-1 standard \cite{ISO25964-1:2011} suggests that terms that share a common broader term but do not have an \todo{CM}{explain "overlapping"}overlapping meaning, should not be related associatively. This is advocated by Hedden~\cite{Hedden2010} and Aitchison et al.~\cite{Aitchison2000} who point out ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
+The ISO/DIS 25964-1 standard \cite{ISO25964-1:2011} suggests that terms that share a common broader term should not be related associatively if this relation is only justified by the fact that they are siblings. This is advocated by Hedden~\cite{Hedden2010} and Aitchison et al.~\cite{Aitchison2000} who point out ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
 % Function defintion
 This issue can be checked by identifying the set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
 
