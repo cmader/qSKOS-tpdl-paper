@@ -119,7 +119,7 @@ To estimate the number of in-links we only consider the set $AC \subseteq C$, wh
 % Origin and rationale
 In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
-It can be computed by iterating over all elements $c \in C$ and checking the host part of all related resource URIs. If none of these host names differ from the host part of $c$'s URI, it has no out-links and is thus included in the resources identified by this issue.
+It can be computed by iterating over all elements $ac \in AC$ and checking the host part of all related resource URIs. If none of these host names differ from the host part of $ac$'s URI, it has no out-links and is thus included in the resources identified by this issue.
 
 \paragraph{Broken Links}
 
