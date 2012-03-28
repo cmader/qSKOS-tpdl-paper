@@ -5,7 +5,7 @@
 % BACKGROUND
 
 % What is SKOS?
-The Simple Knowledge Organization System (SKOS)~\cite{SkosReference2008} is a standard model for sharing and linking controlled vocabularies (thesauri, classification systems\ldots) on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} publish SKOS representations of their vocabularies on the Web so that they can easily be accessed by humans and machines.
+The Simple Knowledge Organization System (SKOS)~\cite{SkosReference2008} is a standard model for sharing and linking controlled vocabularies (thesauri, classification systems, etc.) on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} publish SKOS representations of their vocabularies on the Web so that they can easily be accessed by humans and machines.
 
 However, quality issues can affect the applicability of SKOS vocabularies for tasks such as query expansion, faceted browsing, or auto-completion, as in the following examples: 
 
@@ -15,25 +15,19 @@ However, quality issues can affect the applicability of SKOS vocabularies for ta
 
 	\item An earlier version of the STW thesaurus contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface suggested identical entries without disambiguation information.
 
-% Note: can we replace the LvAK with an example from a public vocabulary? Then we could simply exclude that vocabulary from that paper.
-
 	\item The non-public vocabulary of the Austrian Armed Forces (LVAk) contains 11 disconnected concept clusters. When confronted with these structures, the thesaurus maintainers recognized them as ``forgotten'' test data that has no practical significance.
 	
-    % \item In the DBpedia category\footnote{\url{http://downloads.dbpedia.org/3.7/en/skos_categories_en.nt.bz2}} hierarchy, more than 10 percent of the categories not linked to any other category. When other vocabularies link to the DBPedia categories, e.g., to enable query expansion, it can negatively affect recall and reduce navigability.
-
 \end{itemize}
 
 % PROBLEM / RESEARCH QUESTION
 
-The SKOS specification defines a set of \textbf{integrity conditions} that state whether given data patterns are consistent with the SKOS model. Existing quality checking tools, such as the PoolParty Thesaurus Consistency Checker\footnote{\url{http://demo.semantic-web.at:8080/SkosServices/check}} or SKOSify\footnote{\url{http://code.google.com/p/skosify/}} can be used to validate vocabularies against these conditions.
+The SKOS specification defines a set of \textbf{integrity conditions} that state whether given data patterns are consistent with the SKOS model. Yet the SKOS integrity conditions fail to capture quality aspects like the ones above. The main reason lies in SKOS' ``minimal commitment'' approach. A standard that aims at cross-domain interoperability should refrain from defining constraints that impose on one domain the requirements of another. SKOS is thus very liberal with respect to data integrity.
 
-Yet the SKOS integrity conditions fail to capture quality aspects like the ones above. The main reason lies in SKOS' ``minimal commitment'' approach. Each vocabulary reflects domain- and application-specific needs and taxonomists often follow standard guidelines specific to given types of vocabularies (cf.,~\cite{ISO25964-1:2011,Z39.19:2005}) for thesauri) or apply their own hand-crafted checks~\cite{Coronado2009}. A standard that aims at cross-domain interoperability should refrain from defining constraints that impose on one domain the requirements of another. SKOS is thus very liberal with respect to data integrity.
-
-On the other hand, existing guidelines consider these aspects, but currently rely on \textbf{human judgement}, which is subjective and does not scale for larger vocabularies. The SKOS context, where vocabularies can be linked together on the Web, also brings issues hitherto unforeseen by traditional checking approaches.
+On the other hand, each vocabulary should fulfill domain- and application-specific quality aspects and taxonomists often follow standard guidelines specific to given types of vocabularies (cf.,~\cite{ISO25964-1:2011,Z39.19:2005}) for thesauri) or apply their own hand-crafted checks~\cite{Coronado2009}. Existing guidelines consider these aspects, but currently rely on \textbf{human judgement}, which is subjective and does not scale for larger vocabularies. The SKOS context, where vocabularies can be linked together on the Web, also brings issues hitherto unforeseen by traditional checking approaches.
 
 % CONTRIBUTION
 
-We aim to contribute to the ongoing efforts of the community to bridge that gap\todo{BH, CM}{I'm not so happy with my sentence here. We can remove it if there's no better alternative to send the message we can remove it!}. Our goal is to help taxonomists in identifying possible quality issues in SKOS vocabularies, which go beyond data model integrity conditions while still applying to a wide range of cases. We want to give them a set of computable quality checking functions that, in combination with the taxonomists' experience and domain expertise, can serve as quality indicators for vocabularies. Finding such quality issues also gives important feedback on the overall vocabulary design process and should, at the end, lead to better vocabularies. The main contributions of this work can be summarized as follows:
+We aim at contributing to the ongoing community efforts to bridge that gap between model-level integrity constraints and domain-specific quality aspects. Our goal is to help taxonomists in identifying possible quality issues in SKOS vocabularies and to give them a set of computable quality checking functions that, in combination with the taxonomists' experience and domain expertise, can serve as quality indicators for vocabularies. Finding such quality issues also gives important feedback on the overall vocabulary design process and should, at the end, lead to better vocabularies. The main contributions of this work can be summarized as follows:
 
 \begin{itemize}
 
