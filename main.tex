@@ -10,17 +10,25 @@
 \usepackage{array}
 
 \usepackage{color}
-\usepackage{ulem}
+%\usepackage{ulem} Why this?
 
 \newcommand{\todo}[2]{\textbf{\textcolor{red}{(TODO [#1]: #2)}}}
 
-% metrics = quantitative indicator of sth
+
+%Title ideas:
+% - How can we fix quality issues in SKOS vocabularies?
+% - Detecting quality issues in SKOS Vocabularies
+% - Computable Quality Guidlines for SKOSO Vocabularies
+% - ...
 
 \title{Finding Quality Issues in SKOS Vocabularies}
-\author{Christian Mader\inst{1} \and Bernhard Haslhofer\inst{2}}
+\subtitle{\todo{ALL}{I am still not happy with the title; better ideas?}}
+\author{Christian Mader\inst{1} \and Bernhard Haslhofer\inst{2} \and Antoine Isaac\inst{3}}
 \institute{
-	University of Vienna, Faculty of Computer Science\\\email{christian.mader@univie.ac.at}
-	\and Cornell University, Information Science\\\email{bernhard.haslhofer@cornell.edu}}
+	University of Vienna, Faculty of Computer Science, Austria\\\email{christian.mader@univie.ac.at}
+	\and Cornell University, Department of Information Science, USA\\\email{bernhard.haslhofer@cornell.edu}
+	\and Vrije Universiteit Amsterdam, The Netherlands\\\email{aisaac@few.vu.nl}
+	}
 
 \begin{document}
 
@@ -39,8 +47,6 @@ The Simple Knowledge Organization System (SKOS) has become a standard model for 
 \input{criteria}
 
 \input{analysis}
-
-\input{related_work}
 
 \input{conclusions}
 
