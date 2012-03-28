@@ -8,7 +8,7 @@ We identified an initial set of possible quality issues in SKOS vocabularies by 
 
 \todo{CM}{use definition environment and find out how to turn of numbering}
 \paragraph{\textbf{Definition (SKOS Vocabulary).}}
-Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) \todo{CM}{check exponent}being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties as well as subproperties of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}. 
+Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}. 
 
 A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
 
@@ -111,25 +111,25 @@ Affected resources can be found by iterating over all \texttt{skos:TopConcept}s 
 % Origin and rationale
 SKOS concepts become linkable resources, when vocabularies are being published on the Web. Estimating the number of in-links and identifying the concepts without any in-links, can be an important indicator for the importance of a concept.
 % Function definition
-To estimate the number of in-links we only consider the set $AC \subseteq C$, which consists of all ``authoritative concepts'', hence concepts that have an URI in the vocabulary namespace. The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/}} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
+To estimate the number of in-links we only consider the set $AC \subseteq C$, which consists of all ``authoritative concepts'', i.e. concepts that have an URI in the vocabulary namespace. The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes RDF data from various sources on the Web (e.g., dataset dumps, RDFa data, microformats). In June 2011 the Sindice dataset contained over 230M documents with over 11 billion triples (cf. \url{http://data.sindice.com/trec2011/statistics.html})} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
 
 \paragraph{Missing Out-Links}
 
 % Origin and rationale
-In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all concepts that have no out-links.
+In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
 It can be computed by iterating over all elements $c \in C$ and checking the host part of all related resource URIs. If none of these host names differ from the host part of $c$'s URI, it has no out-links and is thus included in the resources identified by this issue.
 
 \paragraph{Broken Links}
 
 % Origin and rationale
-As we discussed in detail in our earlier work~\cite{Popitsch:2010:DHB:1772690.1772768}, this issue is caused by vocabulary resources that return HTTP error responses or no response when being dereferenced. An erroneous HTTP response in that case can be defined as a response code other than 200 when taking possible redirections into account. Just as in the ``document'' Web, these ``broken links'' hinder navigability also in the Linked Data Web and and should therefore be avoided. 
+As we discussed in detail in our earlier work~\cite{Popitsch:2010:DHB:1772690.1772768}, this issue is caused by vocabulary resources that return HTTP error responses or no response when being dereferenced. An erroneous HTTP response in that case can be defined as a response code other than 200 after possible redirections. Just as in the ``document'' Web, these ``broken links'' hinder navigability also in the Linked Data Web and and should therefore be avoided. 
 % Function definition
 Broken links are detected by iterating over all resources in $IR$, dereferencing their HTTP URIs, following possible redirects, and including unavailable resources in the result set.
 
 \paragraph{Undefined SKOS Resources}
 
 % Origin and rationale
-The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS properties.
+The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS properties like, e.g., \texttt{skos:subject}.
 % Function definition
 Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those resources (i) that are contained in the list of deprecated resources or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.
