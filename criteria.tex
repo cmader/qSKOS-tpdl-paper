@@ -103,9 +103,7 @@ Omitted top concepts can be detected by iterating over all concept schemes in $C
 % Origin and rationale
 Allemang et al. \cite{Allemang2011} propose to ``not indicate any concepts internal to the tree as top concepts'', which means that top concepts should not have broader concepts. 
 % Function definition
-Affected resources can be found by iterating over all \texttt{skos:TopConcept}s and collecting those that are related to a resource via a \texttt{skos:broader} property.
-
-\todo{CM}{check top concept issue!}
+Affected resources can be found by iterating over all top concepts and collecting those that are related to a resource via a \texttt{skos:broader} property that is no \texttt{skos:mappingRelation}.
 
 % LINKED-DATA SPECIFIC ISSUES
 
@@ -116,14 +114,14 @@ Affected resources can be found by iterating over all \texttt{skos:TopConcept}s 
 % Origin and rationale
 SKOS concepts become linkable resources, when vocabularies are being published on the Web. Estimating the number of in-links and identifying the concepts without any in-links, can be an important indicator for the importance of a concept.
 % Function definition
-To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. \todo{CM}{given an example for an authoritative concept, maybe from LCSH} The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
+To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. For example, \texttt{PXV} links the concept \url{http://www.peroxisomekb.nl/v1.6/pxv/C000297} to \url{http://www.bioexpert.nl/mesh/2010/concept/M0028264} using \texttt{skos:closeMatch}. Both resources can be infered as being \texttt{skos:Concept}s, but the latter is no authoritative concept because it's URI doesn't belong to the \texttt{PXV} namespace. The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
 
 \paragraph{Missing Out-Links}
 
 % Origin and rationale
 In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
-It can be computed by iterating over all elements $ac \in AC$ and checking the host part of all related resource URIs \todo{CM}{authoritative concepts?}. If none of these host names differ from the host part of $ac$'s URI, it has no out-links and is thus included in the resources identified by this issue.
+It can be computed by iterating over all elements $ac \in AC$ and checking the URIs of all related resources. If none of these URI's namespace differs from the namespace of $ac$'s URI, $ac$ has no out-links and is thus included in the resources identified by this issue.
 
 \paragraph{Broken Links}
 
