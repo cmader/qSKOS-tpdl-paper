@@ -4,16 +4,18 @@
 
 % Briefly describe methodology
 
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings online\footnote{\url{https://github.com/cmader/qSKOS/wiki/Quality-Criteria-for-SKOS-Vocabularies}} and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and formalized them into computable \textbf{quality checking functions}. Each function operates on a given SKOS vocabulary, which we define, for the purpose of this work, as follows:
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings in the qSKOS Wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable \textbf{quality checking functions}. Each function takes a given SKOS vocabulary as input and finds all vocabulary resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
 \begin{mydef}[SKOS Vocabulary]
-Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph, enriched by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}. 
+Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph. We enrich $V$ by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty}, because SKOS these properties in its formal model.
 \end{mydef}
 
-A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
+\todo{CM}{are you sure about IEXT and ICEXT; isn't I enough?}
 
-In the following, we explain the origins and design rationale for each quality issue and define the corresponding quality checking function. For better readability and due to lack of space we provide only semi-formal definitions and refer to the online documentation and the implementation source code\footnote{\url{https://github.com/cmader/qSKOS/}} for further details.
+%A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
+
+In the following, we explain the origins and design rationale for each quality issue and explain how the corresponding quality checking function works. For better readability and due to lack of space we provide only semi-formal definitions and refer to the source code of the qSKOS tool for further details.
 
 % LABELING AND DOCUMENTATION ISSUES
 
@@ -24,29 +26,29 @@ In the following, we explain the origins and design rationale for each quality i
 % Origin and rationale
 SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
 % Function defintion
-A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have relations to plain literals (using the above mentions SKOS properties) with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
+A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have relations to plain literals (using the above mentioned SKOS properties) with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
 \paragraph{Incomplete Language Coverage}
 
 % Origin and rationale
-Soergel et al.~\cite{Soergel1997} point out the problem that ``...a concept lexicalized in one language may not be lexicalized in another and that the terms do exist often vary slightly in meaning...''. Thus, finding such cases would provide guidance for vocabulary developers for revising the vocabulary structure and to ``clearly instruct indexers in all languages how the term is to be used''. In the context of SKOS, this means that the set of language tags used by the literal values linked with a concept should be checked to be the same for all concepts. If this is not true for a vocabulary, appropriate actions like, e.g., splitting concepts or introducing scope notes should be taken by the creators. This is particularly important for applications that rely on internationalization and translation use cases.
+%Soergel et al.~\cite{Soergel1997} point out the problem that ``...a concept lexicalized in one language may not be lexicalized in another and that the terms do exist often vary slightly in meaning...''. Thus, finding concepts with incomplete language coverage can help taxonomists in revising the vocabulary and ``clearly instruct indexers in all languages how the term is to be used''. 
+
+In the context of SKOS, incomplete language coverage means that the set of language tags used by the literal values linked with a concept should be the same for all concepts. If this is not the case, appropriate actions like, e.g., splitting concepts or introducing scope notes should be taken by the creators. This is particularly important for applications that rely on internationalization and translation use cases.
 % Function defintion
 Affected concepts can be identified by first extracting the global set of language tags used in a vocabulary from all literal values attached to all concepts in $C$. In a second iteration over all concepts, all concepts having a set of language tags that is not equal to the global language set are returned.
 
 \paragraph{Undocumented Concepts}
 
 % Origin and rationale
-Svenonius~\cite{Svenonius1997} advocates the ``inclusion of as much definition material as possible'' and the SKOS Reference~\cite{SkosReference2008} defines a set of properties, denoted as ``documentation properties'', that are intended to hold this kind of information.
+Svenonius~\cite{Svenonius1997} advocates the ``inclusion of as much definition material as possible'' and the SKOS Reference~\cite{SkosReference2008} defines a set of ``documentation properties'' intended to hold this kind of information.
 % Function defintion
 To identify all undocumented concepts, we iterate over all concepts in $C$ and collect those that do not use any of these documentation properties.
 
 \paragraph{Label Conflicts}
 
 % Origin and rationale
-Many constraints in~\cite{SkosReference2008,Isaac2009} are related to concept schemes, but (i) data on concept scheme membership may lack and (ii) concept scheme related constraints would be handled better with CWA, e.g., finding identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} of different concepts. Although being good practice for many thesauri this issue could cause problems in application scenarios such as auto-completion, which proposes labels based on the user input.
-
+Many constraints in~\cite{SkosReference2008,Isaac2009} are related to concept schemes, but (i) data on concept scheme membership may lack and (ii) concept scheme related constraints would be handled better with the Closed World Assumption (CWA), e.g., finding identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} of different concepts. Although being good practice for many thesauri this issue could cause problems in application scenarios such as auto-completion, which proposes labels based on the user input.
 %The SKOS Primer~\cite{Isaac2009} recommends that ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. We reviewed existing vocabularies and applications and found that (i) many vocabularies don't use concept schemes and (ii) identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} can also negatively affect use cases such as auto-completion, which proposes labels based on the user input.
-
 % Function defintion
 Thus, we generalize this recommendation and search for all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:LV \times LV \rightarrow [0,1]$. The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. To find label conflicts, we provide a function that iterates over all concept pairs $C \times C$, applies $sim$ to every possible label combination, and collects those pairs with at least one label combination that meets or exceeds a specified similarity threshold.
 
@@ -103,6 +105,8 @@ Allemang et al. \cite{Allemang2011} propose to ``not indicate any concepts inter
 % Function definition
 Affected resources can be found by iterating over all \texttt{skos:TopConcept}s and collecting those that are related to a resource via a \texttt{skos:broader} property.
 
+\todo{CM}{check top concept issue!}
+
 % LINKED-DATA SPECIFIC ISSUES
 
 \subsection{Linked Data Specific Issues}\label{subsec:ld_issues}
@@ -112,14 +116,14 @@ Affected resources can be found by iterating over all \texttt{skos:TopConcept}s 
 % Origin and rationale
 SKOS concepts become linkable resources, when vocabularies are being published on the Web. Estimating the number of in-links and identifying the concepts without any in-links, can be an important indicator for the importance of a concept.
 % Function definition
-To estimate the number of in-links we only consider the set $AC \subseteq C$, which consists of all ``authoritative concepts'', i.e. concepts that have an URI in the vocabulary namespace. The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes RDF data from various sources on the Web (e.g., dataset dumps, RDFa data, microformats). In June 2011 the Sindice dataset contained over 230M documents with over 11 billion triples (cf. \url{http://data.sindice.com/trec2011/statistics.html})} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
+To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. \todo{CM}{given an example for an authoritative concept, maybe from LCSH} The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
 
 \paragraph{Missing Out-Links}
 
 % Origin and rationale
 In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
-It can be computed by iterating over all elements $ac \in AC$ and checking the host part of all related resource URIs. If none of these host names differ from the host part of $ac$'s URI, it has no out-links and is thus included in the resources identified by this issue.
+It can be computed by iterating over all elements $ac \in AC$ and checking the host part of all related resource URIs \todo{CM}{authoritative concepts?}. If none of these host names differ from the host part of $ac$'s URI, it has no out-links and is thus included in the resources identified by this issue.
 
 \paragraph{Broken Links}
 
