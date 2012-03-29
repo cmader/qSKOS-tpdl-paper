@@ -2,17 +2,11 @@
 
 \section{Analysis of Existing SKOS Vocabularies}\label{sec:analysis}
 
-To learn about possible quality issues in real-world vocabularies, we implemented the previously described quality checking function in the qSKOS tool and applied each function on a set of existing SKOS vocabularies.
-
-\subsection{The qSKOS Quality Assessment Tool}
-
-The open-source qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}} quality assessment tool can be used to find possible quality issues in a given SKOS vocabulary. Users can run the tool by passing a vocabulary and selecting the quality checking functions they want to perform. As a result, they obtain detailed reports listing possibly affected resources alongside with the potential cause of the issue. qSKOS is implemented in Java and can be used as standalone command-line tool or API in any other application. Its design is open for the introduction of additional quality checking functions. In our analysis, we used qSKOS version 0.1., which can be downloaded from: \url{https://github.com/cmader/qSKOS/zipball/v0.1}.
+We used our open-source qSKOS quality assessment tool to find possible quality issues in existing SKOS vocabularies. From each quality checking function we obtained detailed reports listing possibly affected resources alongside with the potential cause of the issue.
 
 \subsection{Vocabulary Data Set}
 
-We used Sindice and available listings\footnote{\url{http://www.w3.org/2001/sw/wiki/SKOS/Datasets}} to learn about existing SKOS vocabularies and selected a subset, which differs in vocabulary size and application domain. We obtained the vocabularies either via direct Web download or by contacting the vocabulary maintainers. Further details about our vocabulary dataset are available in zip-file, which can be downloaded from: \url{http://www.github.com/cmader/???}. It also contains all but the non-public LVAk and PXV vocabularies.
-
-Table~\ref{tab:vocabs} shows our selection and summarizes basic statistical properties relevant for interpreting our results: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations (\texttt{Labels}), all asserted semantic relations $SR$, as well as the number of concept schemes.
+Our vocabulary selection is shown in Table~\ref{tab:vocabs}, which also summarizes basic statistical properties relevant for interpreting our results: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations (\texttt{Labels}), all asserted semantic relations $SR$, as well as the number of concept schemes.
 
 
 \begin{table}
@@ -27,7 +21,7 @@ Table~\ref{tab:vocabs} shows our selection and summarizes basic statistical prop
 
 \textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{\parbox{3cm}{Version/\\Last Modified}}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{Auth. Concepts}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{Semantic Rel.}} & \rotatebox{90}{\textbf{Concept Schemes}} \\
 \toprule
-Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32,035 & 32,035 & 620,629 & 65,934 & 1 \\
+United Nations Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32,035 & 32,035 & 620,629 & 65,934 & 1 \\
 \hline
 DBpedia Categories & \textbf{DBpedia} & 3.7 & 743,410 & 743,410 & 740,352 & 1,490,316 & 0 \\
 \hline
