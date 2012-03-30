@@ -2,24 +2,22 @@
 
 \section{Analysis of Existing SKOS Vocabularies}\label{sec:analysis}
 
-We used our open-source qSKOS quality assessment tool to find possible quality issues in existing SKOS vocabularies. From each quality checking function we obtained detailed reports listing possibly affected resources alongside with the potential cause of the issue.
+We used the qSKOS quality assessment tool to find possible quality issues in existing SKOS vocabularies. From each quality checking function we obtained detailed reports listing possibly affected resources.
 
 \subsection{Vocabulary Data Set}
 
-Our vocabulary selection is shown in Table~\ref{tab:vocabs}, which also summarizes basic statistical properties relevant for interpreting our results: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations (\texttt{Labels}), all asserted semantic relations, as well as the number of concept schemes.
-
+The basic statistical properties of our vocabulary selection are summarized in Table~\ref{tab:vocabs}: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations (\texttt{Labels}), all asserted semantic relations, as well as the number of concept schemes. From these properties we can, for instance, already see that approximately 3,000 \texttt{DBPedia Categories} concepts don't have labels (e.g., \url{Category:South_Korean_social_scientists}), which indicates that the same amount of Wikipedia categories misses natural language descriptions.
 
 \begin{table}
 \caption{Analyzed SKOS vocabularies}
 \label{tab:vocabs}
-  
 \begin{center}
 \resizebox{\textwidth}{!} {
 \setlength{\extrarowheight}{5pt}
 
 \begin{tabular}{p{6cm}ccccccccc}
 
-\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{\parbox{3cm}{Version/\\Last Modified}}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{\parbox{3.5cm}{Authoritative\\Concepts}}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{\parbox{3cm}{Semantic\\Relations}}} & \rotatebox{90}{\textbf{\parbox{3cm}{Concept\\Schemes}}} \\
+\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Version/\\Last Modified}}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Authoritative\\Concepts}}} & \rotatebox{90}{\textbf{Labels}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Semantic\\Relations}}} & \rotatebox{90}{\textbf{\parbox{2.53cm}{Concept\\Schemes}}} \\
 \toprule
 United Nations Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32,035 & 32,035 & 620,629 & 65,934 & 1 \\
 \hline
@@ -52,7 +50,6 @@ Peroxisome Knowledge Base & \textbf{PXV} & 1.6 & 2,112 & 1,686 & 3,628 & 2,695 &
 Thesaurus for Economics & \textbf{STW} & 8.06 & 6,524 & 6,524 & 31,189 & 57,907 & 1 \\
 \bottomrule
 \end{tabular}
-
 }
 \end{center}
 \end{table}
@@ -114,7 +111,7 @@ Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
 \end{table}
 
 % LABELING AND DOCUMENTATION ISSUES
-We found labeling and documentation issues in all analyzed vocabularies. 
+We found labeling and documentation issues in all analyzed vocabularies.
 % Omitted or Invalid Language Tags
 The \texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} vocabularies omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. The \texttt{STW} thesaurus doesn't use language tags with 2 \texttt{skos:definition} property instances.
 % Incomplete Language Coverage
