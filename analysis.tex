@@ -89,7 +89,7 @@ Weakly Connected Components & 4 & 1,506 & 4 & 0 & 621 & 1 & 22,343 & 11 & 5 & 4 
 
 Cyclic Hierarchical Relations & 0 & 1,132 & 0 & 0 & 0 & 0 & 0 & 5 & 0 & 4 & 0 & 0 & 0 & 0 & 0 \\
 
-Valueless Associative Relations & 282 & 8,120 & 1 & 0 & 9,438 & 239 & 0 & 5 & 0 & 495 & 0 & 0 & 0 & 0 & 5,082 \\
+Valueless Associative Relations & 282 & 8,839 & 6 & 0 & 9,448 & 253 & 0 & 5 & 0 & 550 & 0 & 0 & 0 & 0 & 5,139 \\
 
 Solely Transitively Related Concepts & 0 & 0 & 2,652 & 0 & 0 & 0 & 0 & 0 & 36 & 0 & 2,189 & 0 & 0 & 0 & 0 \\
 
@@ -103,7 +103,7 @@ Missing In-Links & 32,035 & 733,800 & 6,796 & 19 & 171,980* & 3,080 & 408,000* &
 
 Missing Out-Links & 32,035 & 743,410 & 6,797 & 671 & 171,991 & 0 & 344,054 & 13,411 & 273 & 24,626 & 1 & 0 & 1,116 & 1,046 & 6,524 \\
 
-Broken Links & 238 & 0* & 0* & 0 & 0 & 1 &?& n/a & 425 & 1 & 3,169 & 7 & 11 & 163 & 1 \\
+Broken Links & 238 & 0* & 0* & 0 & 0 & 1 & 148800 & n/a & 425 & 1 & 3,169 & 7 & 11 & 163 & 1 \\
 
 Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
 
@@ -116,11 +116,11 @@ Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
 % LABELING AND DOCUMENTATION ISSUES
 We found labeling and documentation issues in all analyzed vocabularies. 
 % Omitted or Invalid Language Tags
-The \texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} vocabularies omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. The STW thesaurus doesn't use language tags with 2 \texttt{skos:definition} property instances.
+The \texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} vocabularies omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. The \texttt{STW} thesaurus doesn't use language tags with 2 \texttt{skos:definition} property instances.
 % Incomplete Language Coverage
 \texttt{AGROVOC} covers 25 languages in total but no single concept is labeled in all languages, in \texttt{Meketre} all concepts have English but only some of them French labels assigned. The reason for the high number of concepts with incomplete language coverage in \texttt{STW} is that a few concepts have labels with the private, but valid language tag \texttt{x-other}. 
 % Undocumented Concepts
-\texttt{Geonames}, which is an ontology including a concept scheme of ``feature codes'', is the only vocabulary in our dataset, which has at least one documentation property assigned to all of its concept. All other vocabularies have a significant number of undocumented concepts.
+\texttt{Geonames}, which is an ontology including a concept scheme of ``feature codes'', is the only vocabulary in our dataset, which has at least one documentation property assigned to all of its concepts. All other vocabularies have a significant number of undocumented concepts.
 % Label Conflicts
 We also detected possible label issues in half of the vocabularies. \texttt{PXV}, for instance, uses the string ``primary peroxisomal enzyme deficiency'' with two concepts in the same concept scheme, but once with a \texttt{skos:prefLabel} and another time with a \texttt{skos:altLabel} property. An example from AGROVOC is ``sziv\'{a}rv\'{a}nyos pisztr\'{a}ng'', which is used as \texttt{skos:altLabel} with two different concepts.
 % Other stuff
@@ -140,7 +140,7 @@ Three vocabularies (\texttt{IPSW}, \texttt{NAICS}, \texttt{STW}) consist of only
 % Cyclic Hierarchical Relations
 Hierarchical cycles are not a common issue except in the collaboratively created DBpedia vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
 % Valuless Associative Relations
-Valueless associative relations occur in 9 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies.
+Valueless associative relations occur in 8 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies.
 % Solely Transitive Related Concepts
 Solely transitive related concepts occur in 3 vocabularies, establishing relations using properties that, according to the SKOS reference documentation, should not be asserted directly. This indicates a possible misinterpretation of the SKOS specification and could result in a loss in recall on hierarchical queries when the vocabulary is queried without RDFS inferencing.
 % Omitted Top Concepts
@@ -152,9 +152,9 @@ Only the \texttt{PXV} vocabulary is affected by top concepts having broader conc
 
 The difference between the number of concepts and the number of authoritative concepts in Table~\ref{tab:vocabs} already indicates which vocabularies are linked with other SKOS vocabularies.
 % Missing In-Links
-However, except \texttt{NYTP} and \texttt{Geonames}, none of the analyzed vocabularies has a significant number of in-links from other web resources.
+However, except \texttt{NYTP} and \texttt{Geonames}, none of the analyzed vocabularies has a significant number of in-links from other web resources. Estimation of these numbers is rather unaccurate since currently we only rely on the Sindice index. 
 % Missing Out-Links
-Most vocabularies also don't provide links to other vocabularies on the Web. The \texttt{NYTP}, \texttt{IPSV} vocabularies are the two exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation.
+Most vocabularies also don't provide links to other vocabularies on the Web. The \texttt{NYTP}, \texttt{IPSV} vocabularies are the two exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation. Some vocabularies, e.g., \texttt{STW}, \texttt{AGROVOC} publish mapping information to other vocabularies as separate files, thus the ``main'' vocabulary lacks this data. A missing in-link count equal to the number of authoritative concepts indicates that mapping information is either not available at all or has to be obtained separately.
 % Broken Links
 Even though we couldn't determine the exact number of broken links because of the large number of links to resolve  (over 400K in \texttt{Eurovoc}, over 500K in \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
 % Undefined SKOS Resources
