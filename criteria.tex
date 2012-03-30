@@ -4,16 +4,12 @@
 
 % Briefly describe methodology
 
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings in the qSKOS Wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable \textbf{quality checking functions}. Each function takes a given SKOS vocabulary as input and finds all vocabulary resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings in the qSKOS Wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary as input and finds all vocabulary resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
 \begin{mydef}[SKOS Vocabulary]
 Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph. We enrich $V$ by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty} defined by the formal OWL semantics of SKOS.
 \end{mydef}
-
-\todo{CM}{are you sure about IEXT and ICEXT; isn't I enough? yes; in fact IR definition is taken from Hitzler, so I think we can define, e.g., CS in the same way; btw, shouldn't we cite Hitzler or at least the RDF semantics document?}
-
-%A checking function is applied on a given SKOS vocabulary and finds all vocabulary resources that match the corresponding quality issue. We can map each issue to an abstract function $f:V \rightarrow \mathcal{P}(IR)$ that relates a given SKOS vocabulary to a subset of its resources. Each quality issue we found can be implemented as a realization of that abstract function and possibly take additional parameters. Statistical analysis can be computed on top of the result set.
 
 In the following, we explain the origins and design rationale for each quality issue and explain how the corresponding quality checking function works. For better readability and due to lack of space we provide only semi-formal definitions and refer to the source code of the qSKOS tool for further details.
 
@@ -26,16 +22,14 @@ In the following, we explain the origins and design rationale for each quality i
 % Origin and rationale
 SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
 % Function defintion
-A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have relations to plain literals (using the above mentioned SKOS properties) with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
+A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have labeling or documentation property relations to plain literals in $LV$ with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
 \paragraph{Incomplete Language Coverage}
 
 % Origin and rationale
-%Soergel et al.~\cite{Soergel1997} point out the problem that ``...a concept lexicalized in one language may not be lexicalized in another and that the terms do exist often vary slightly in meaning...''. Thus, finding concepts with incomplete language coverage can help taxonomists in revising the vocabulary and ``clearly instruct indexers in all languages how the term is to be used''. 
-
-In the context of SKOS, incomplete language coverage means that the set of language tags used by the literal values linked with a concept should be the same for all concepts. If this is not the case, appropriate actions like, e.g., splitting concepts or introducing scope notes should be taken by the creators. This is particularly important for applications that rely on internationalization and translation use cases.
+The set of language tags used by the literal values linked with a concept should be the same for all concepts. If this is not the case, appropriate actions like, e.g., splitting concepts or introducing scope notes should be taken by the creators. This is particularly important for applications that rely on internationalization and translation use cases.
 % Function defintion
-Affected concepts can be identified by first extracting the global set of language tags used in a vocabulary from all literal values attached to all concepts in $C$. In a second iteration over all concepts, all concepts having a set of language tags that is not equal to the global language set are returned.
+Affected concepts can be identified by first extracting the global set of language tags used in a vocabulary from all literal values in $LV$, which are attached to a concept in $C$. In a second iteration over all concepts, those having a set of language tags that is not equal to the global language tag set are returned.
 
 \paragraph{Undocumented Concepts}
 
@@ -47,10 +41,9 @@ To identify all undocumented concepts, we iterate over all concepts in $C$ and c
 \paragraph{Label Conflicts}
 
 % Origin and rationale
-Many constraints in~\cite{SkosReference2008,Isaac2009} are related to concept schemes, but (i) data on concept scheme membership may lack and (ii) concept scheme related constraints would be handled better with the Closed World Assumption (CWA), e.g., finding identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} of different concepts. Although being good practice for many thesauri this issue could cause problems in application scenarios such as auto-completion, which proposes labels based on the user input.
-%The SKOS Primer~\cite{Isaac2009} recommends that ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. We reviewed existing vocabularies and applications and found that (i) many vocabularies don't use concept schemes and (ii) identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} can also negatively affect use cases such as auto-completion, which proposes labels based on the user input.
+Many constraints in~\cite{SkosReference2008,Isaac2009} are related to concept schemes, but (i) data on concept scheme membership may lack and (ii) concept scheme related constraints would be handled better with the Closed World Assumption (CWA), e.g., finding identical \texttt{skos:altLabels} or \texttt{skos:hiddenLabels} of different concepts. Although being good practice for many thesauri this issue could affect application scenarios such as auto-completion, which proposes labels based on the user input.
 % Function defintion
-Thus, we generalize this recommendation and search for all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:LV \times LV \rightarrow [0,1]$. The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. To find label conflicts, we provide a function that iterates over all concept pairs $C \times C$, applies $sim$ to every possible label combination, and collects those pairs with at least one label combination that meets or exceeds a specified similarity threshold.
+Thus, we generalize this recommendation and search for all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:LV \times LV \rightarrow [0,1]$. The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. Label conflicts can be found by iterating over all concept pairs $C \times C$, applying $sim$ to every possible label combination, and collecting those pairs with at least one label combination meeting or exceeding a specified similarity threshold.
 
 % STRUCTURAL METRICS
 
@@ -59,14 +52,14 @@ Thus, we generalize this recommendation and search for all concept pairs with th
 \paragraph{Orphan Concepts}
 
 % Origin and rationale
-This issue is motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, i.e., terms without any associative or hierarchical relationships. Checking for such terms is common in existing thesaurus development applications and also suggested by~\cite{Z39.19:2005}. Since SKOS is concept-centric, we understand an orphan concept as being a concept that has no semantic relation $sr \in SR$ with any other concept. Although it might have attached lexical labels, it lacks valuable context information, which can be essential for retrieval tasks such as search query expansion.
+are motivated by the notion of ``orphan terms'' in the literature~\cite{Hedden2010}, i.e., terms without any associative or hierarchical relationships. Checking for such terms is common in thesaurus development and also suggested by~\cite{Z39.19:2005}. Since SKOS is concept-centric, we understand an orphan concept as being a concept that has no semantic relation $sr \in SR$ with any other concept. Although it might have attached lexical labels, it lacks valuable context information, which can be essential for retrieval tasks such as search query expansion.
 % Function defintion
-Orphan concepts in a SKOS vocabulary can be found by iterating over all elements in $C$ and selecting those without any semantic relation to another conceptual resource in $C$.
+Orphan concepts in a SKOS vocabulary can be found by iterating over all elements in $C$ and selecting those without any semantic relation to another concept in $C$.
 
 \paragraph{Weakly Connected Components}
 
 % Origin and rationale
-A vocabulary can be split into separate ``clusters'', which can be caused by incomplete data acquisition, deprecated or outdated terms, accidental deletion of relations, etc. This can affect operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms.
+A vocabulary can be split into separate ``clusters'' because of incomplete data acquisition, deprecated terms, accidental deletion of relations, etc. This can affect operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms.
 % Function defintion
 Weakly connected components are identified by first creating an undirected graph that includes all non-orphan concepts (as defined above) as nodes and all semantic relations $SR$ as edges. ``Tarjan’s algorithm''~\cite{Hopcroft1973} can then be applied to find all connected components, hence all sets of concepts that are connected by semantic relations.
 
@@ -75,21 +68,21 @@ Weakly connected components are identified by first creating an undirected graph
 % Origin and rationale
 is motivated by Soergel et al.~\cite{Soergel2002} who suggest a ``check for hierarchy cycles'' since they ``throw the program for a loop in the generation of a complete hierarchical structure''. Also Hedden~\cite{Hedden2010}, Harpring~\cite{Harpring2010} and Aitchison et al.~\cite{Aitchison2000} argue that there exist common forms like, e.g., ``generic-specific'', ``instance-of'' or ``whole-part'' where cycles would be considered a logical contradiction.
 % Function defintion
-Cyclic relations can be found by constructing a graph with the set of nodes being $C$ and the set of edges being all \texttt{skos:broader} relations between these concepts.
+Cyclic relations can be found by constructing a graph with the set of nodes being $C$ and the set of edges being all \texttt{skos:broader} relations.
 
 \paragraph{Valueless Associative Relations}
 
 % Origin and rationale
 The ISO/DIS 25964-1 standard \cite{ISO25964-1:2011} suggests that terms that share a common broader term should not be related associatively if this relation is only justified by the fact that they are siblings. This is advocated by Hedden~\cite{Hedden2010} and Aitchison et al.~\cite{Aitchison2000} who point out ``the risk that thesaurus compilers may overload the thesaurus with valueless relationships'', having a negative effect on precision.
 % Function defintion
-This issue can be checked by identifying the set of pairs of conceptual resources that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
+This issue can be checked by identifying concept pairs $C \times C$ that share the same broader or narrower concept while also being associatively related by the property \texttt{skos:related}.
 
 \paragraph{Solely Transitively Related Concepts}
 
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, these properties are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS ontology by, for instance, \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-This issue can be detected by iterating over all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but none of their subproperties.
+This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but none of their subproperties.
 
 \paragraph{Omitted Top Concepts}
 
@@ -112,16 +105,16 @@ Affected resources can be found by iterating over all top concepts and collectin
 \paragraph{Missing In-Links}
 
 % Origin and rationale
-SKOS concepts become linkable resources, when vocabularies are being published on the Web. Estimating the number of in-links and identifying the concepts without any in-links, can be an important indicator for the importance of a concept.
+When vocabularies are being published on the Web, SKOS concepts become linkable resources. Estimating the number of in-links and identifying the concepts without any in-links, can indicate the importance of a concept.
 % Function definition
-To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. For example, \texttt{PXV} links the concept \url{http://www.peroxisomekb.nl/v1.6/pxv/C000297} to \url{http://www.bioexpert.nl/mesh/2010/concept/M0028264} using \texttt{skos:closeMatch}. Both resources can be infered as being \texttt{skos:Concept}s, but the latter is no authoritative concept because it's URI doesn't belong to the \texttt{PXV} namespace. The number of in-links referencing an authoritative concept can be estimated by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links and are thus included in the result set of this function.
+To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. For example, \texttt{PXV} links the concept \url{http://www.peroxisomekb.nl/v1.6/pxv/C000297} to \url{http://www.bioexpert.nl/mesh/2010/concept/M0028264} using \texttt{skos:closeMatch}. Both resources can be inferred as being \texttt{skos:Concept}s, but the latter is no authoritative concept because it's URI doesn't belong to the \texttt{PXV} namespace. We estimate the number of in-links by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links.
 
 \paragraph{Missing Out-Links}
 
 % Origin and rationale
-In the Linked Data context, SKOS concepts should be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
+In the Linked Data context, SKOS concepts should also be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
-It can be computed by iterating over all elements $ac \in AC$ and checking the URIs of all related resources. If none of these URI's namespace differs from the namespace of $ac$'s URI, $ac$ has no out-links and is thus included in the resources identified by this issue.
+It can be computed by iterating over all elements in $AC$ and returning those that are not linked with any non-authoritative resource.
 
 \paragraph{Broken Links}
 
