@@ -4,11 +4,11 @@
 
 % Briefly describe methodology
 
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings in the qSKOS Wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary as input and finds all vocabulary resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We published our findings in the qSKOS Wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary as input and finds all resources that match the corresponding quality criterion. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
 \begin{mydef}[SKOS Vocabulary]
-Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph. We enrich $V$ by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty} defined by the formal OWL semantics of SKOS.
+Let a SKOS vocabulary be a tuple of the form $V = \langle IR, C, SR, LV, CS \rangle$, with \(IR = I_{CEXT}(\texttt{rdfs:Resource}^\mathcal{I})\) being the set of \textbf{resources}, \(C \subseteq IR\) with \(C = I_{CEXT}(\texttt{skos:Concept}^\mathcal{I})\) being the set of \textbf{concepts}, \(SR = I_{EXT}(\texttt{skos:semanticRelation}^\mathcal{I})\) being the set of \textbf{semantic relations} associating concepts with one another, $LV \subseteq I_{CEXT}(\texttt{rdfs:Literal}^\mathcal{I})$ being the set of untyped \textbf{plain literals}, and \(CS = I_{CEXT}(\texttt{skos:ConceptScheme}^\mathcal{I})\) being the set of \textbf{concept schemes}. Further, we let $V$ be the fully entailed RDFS interpretation of the underlying RDF graph. We enrich $V$ by entailment of \texttt{owl:inverseOf} properties as well as instances of \texttt{owl:TransitiveProperty} and \texttt{owl:SymmetricProperty} defined by the formal OWL semantics of SKOS~\cite{SkosReference2008}.
 \end{mydef}
 
 In the following, we explain the origins and design rationale for each quality issue and explain how the corresponding quality checking function works. For better readability and due to lack of space we provide only semi-formal definitions and refer to the source code of the qSKOS tool for further details.
@@ -61,7 +61,7 @@ Orphan concepts in a SKOS vocabulary can be found by iterating over all elements
 % Origin and rationale
 A vocabulary can be split into separate ``clusters'' because of incomplete data acquisition, deprecated terms, accidental deletion of relations, etc. This can affect operations that rely on navigating a connected vocabulary structure, such as query expansion or suggestion of related terms.
 % Function defintion
-Weakly connected components are identified by first creating an undirected graph that includes all non-orphan concepts (as defined above) as nodes and all semantic relations $SR$ as edges. ``Tarjan’s algorithm''~\cite{Hopcroft1973} can then be applied to find all connected components, hence all sets of concepts that are connected by semantic relations.
+Weakly connected components are identified by first creating an undirected graph that includes all non-orphan concepts (as defined above) as nodes and all semantic relations $SR$ as edges. ``Tarjan's algorithm''~\cite{Hopcroft1973} can then be applied to find all connected components, i.e., all sets of concepts that are connected together by (chains of) semantic relations.
 
 \paragraph{Cyclic Hierarchical Relations}
 
@@ -82,7 +82,7 @@ This issue can be checked by identifying concept pairs $C \times C$ that share t
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, these properties are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS ontology by, for instance, \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but none of their subproperties.
+This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by (a chain of) their \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
 
 \paragraph{Omitted Top Concepts}
 
@@ -96,7 +96,7 @@ Omitted top concepts can be detected by iterating over all concept schemes in $C
 % Origin and rationale
 Allemang et al. \cite{Allemang2011} propose to ``not indicate any concepts internal to the tree as top concepts'', which means that top concepts should not have broader concepts. 
 % Function definition
-Affected resources can be found by iterating over all top concepts and collecting those that are related to a resource via a \texttt{skos:broader} property that is no \texttt{skos:mappingRelation}.
+Affected resources are found by collecting all top concepts that are related to a resource via a \texttt{skos:broader} property and not via \texttt{skos:broadMatch}---mappings are not part of a vocabulary's ``intrinsic'' definition and a top concept in one vocabulary may perfectly have a broader concept in another vocabulary.
 
 % LINKED-DATA SPECIFIC ISSUES
 
@@ -107,7 +107,7 @@ Affected resources can be found by iterating over all top concepts and collectin
 % Origin and rationale
 When vocabularies are being published on the Web, SKOS concepts become linkable resources. Estimating the number of in-links and identifying the concepts without any in-links, can indicate the importance of a concept.
 % Function definition
-To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. For example, \texttt{PXV} links the concept \url{http://www.peroxisomekb.nl/v1.6/pxv/C000297} to \url{http://www.bioexpert.nl/mesh/2010/concept/M0028264} using \texttt{skos:closeMatch}. Both resources can be inferred as being \texttt{skos:Concept}s, but the latter is no authoritative concept because it's URI doesn't belong to the \texttt{PXV} namespace. We estimate the number of in-links by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links.
+To estimate the number of in-links we only consider the set of ``authoritative concepts'' $AC \subseteq C$, which consists of all concepts that are identified by URIs in the vocabulary namespace. For example, \texttt{PXV} links \url{http://www.peroxisomekb.nl/v1.6/pxv/C000297} to \url{http://www.bioexpert.nl/mesh/2010/concept/M0028264} using \texttt{skos:closeMatch}. Both are \texttt{skos:Concept}s, but the latter is no authoritative concept because its URI does not belong to the \texttt{PXV} namespace. We estimate the number of in-links by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes structured Web data and covers approximately 230M documents with over 11 billion triples} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links.
 
 \paragraph{Missing Out-Links}
 
@@ -126,6 +126,6 @@ Broken links are detected by iterating over all resources in $IR$, dereferencing
 \paragraph{Undefined SKOS Resources}
 
 % Origin and rationale
-The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS properties like, e.g., \texttt{skos:subject}.
+The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS element like \texttt{skos:subject}.
 % Function definition
-Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those resources (i) that are contained in the list of deprecated resources or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.
+Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those resources (i) that are contained in the list of deprecated resources\footnote{See \url{http://www.w3.org/TR/skos-reference/#namespace}} or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.
