@@ -6,7 +6,7 @@ We used the qSKOS quality assessment tool to find possible quality issues in exi
 
 \subsection{Vocabulary Data Set}
 
-The basic statistical properties of our vocabulary selection are summarized in Table~\ref{tab:vocabs}: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations involving concepts (\texttt{Concept Labels}), all asserted semantic relations, as well as the number of concept schemes. From these properties we can, for instance, already see that approximately 3,000 \texttt{DBpedia Categories} concepts do not have labels (e.g., \url{Category:South_Korean_social_scientists}), which indicates that the same amount of Wikipedia categories misses natural language descriptions.
+The basic statistical properties of our vocabulary selection are summarized in Table~\ref{tab:vocabs}: the number of concepts and authoritative concepts, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations involving concepts (\texttt{Concept Labels}), all asserted semantic relations, as well as the number of concept schemes. From these properties we can, for instance, already see that approximately 3,000 \texttt{DBpedia Categories} concepts do not have labels (e.g., \url{Category:South_Korean_social_scientists}), which indicates that the same amount of Wikipedia categories misses natural language descriptions.
 
 \begin{table}
 \caption{Analyzed SKOS vocabularies}
@@ -47,7 +47,7 @@ University of Southampton Pressinfo & \textbf{Pressinfo} & 2011/02/24 & 1,125 & 
 \hline
 Peroxisome Knowledge Base & \textbf{PXV} & 1.6 & 2,112 & 1,686 & 3,628 & 2,695 & 1 \\
 \hline
-Thesaurus for Economics & \textbf{STW} & 8.06 & 6,524 & 6,524 & 31,189 & 57,907 & 1 \\
+Thesaurus for Economics & \textbf{STW} & 8.10 & 25,107 & 6,789 & 58,441 & 91,816 & 3 \\
 \bottomrule
 \end{tabular}
 }
@@ -56,7 +56,7 @@ Thesaurus for Economics & \textbf{STW} & 8.06 & 6,524 & 6,524 & 31,189 & 57,907 
 
 \subsection{Results}
 
-The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. n/a means that a certain function could not be computed with the current version of qSKOS because of algorithm complexity or missing support of SKOS-XL. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
+The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
 
 \begin{table}[h]
 \caption{Results of the quality checking functions}
@@ -70,35 +70,35 @@ The results of this analysis are summarized in Table~\ref{tab:results}, which sh
 \textbf{Issue} & \rotatebox{90}{\textbf{AGROVOC}} & \rotatebox{90}{\textbf{DBpedia}} & \rotatebox{90}{\textbf{Eurovoc}} & \rotatebox{90}{\textbf{Geonames}} & \rotatebox{90}{\textbf{GTAA}} & \rotatebox{90}{\textbf{IPSV}} & \rotatebox{90}{\textbf{LCSH}} & \rotatebox{90}{\textbf{LVAk}} & \rotatebox{90}{\textbf{Meketre}} & \rotatebox{90}{\textbf{MeSH}} & \rotatebox{90}{\textbf{NAICS}} & \rotatebox{90}{\textbf{NYTP}} & \rotatebox{90}{\textbf{Pressinfo}} & \rotatebox{90}{\textbf{PXV}} & \rotatebox{90}{\textbf{STW}} \\
 
 \toprule
-Omitted or Invalid Language Tags & 0 & 0 & 219 & 0 & 0 & 0 & 100,316 & 13,411 & 0 & 23,950 & n/a & 0 & 1,224 & 1,578 & 2 \\
+Omitted or Invalid Language Tags & 0 & 0 & 219 & 0 & 0 & 0 & 100,316 & 13,411 & 0 & 23,950 & !0! & 0 & 1,224 & 1,578 & 2 \\
 
-Incomplete Language Coverage & 32,035 & 0 & 6370 & 0 & 0 & 0 & 0 & 0 & 420 & 0 & n/a & 0 & 0 & 0 & 6,456 \\
+Incomplete Language Coverage & 32,035 & 0 & 6370 & 0 & 0 & 0 & 0 & 0 & 420 & 0 & !0! & 0 & 0 & 0 & 25,050 \\
 
-Undocumented Concepts & 32,035 & 743,410 & 5,341 & 0 & 96,850 & 4,551 & 342,848 & 13,411 & 422 & 1,807 & 3,259 & 4,094 & 1,125 & 1,918 & 5,236 \\
+Undocumented Concepts & 32,035 & 743,410 & 5,341 & 0 & 96,850 & 4,551 & 342,848 & 13,411 & 422 & 1,807 & 3,259 & 4,094 & 1,125 & 1,918 & 23,752 \\
 
-Label Conflicts & 2,949 & 0 & 48 & 18 & 12,404 & 0 & 11,975 & 13 & 4 & 0 & n/a & 0 & 0 & 7 & 5 \\
+Label Conflicts & 2,949 & 0 & 48 & 18 & 12,404 & 0 & 11,975 & 13 & 4 & 0 & 0 & 0 & 0 & 7 & 0 \\
 
 \midrule
 
-Orphan Concepts & 0 & 77,062 & 7 & 671 & 162,000 & 0 & 173,149 & 21 & 0 & 0 & 0 & 4,979 & 1,125 & 2 & 4 \\
+Orphan Concepts & 0 & 77,062 & 7 & 671 & 162,000 & 0 & 173,149 & 21 & 0 & 0 & 0 & 4,979 & 1,125 & 2 & 70 \\
 
-Weakly Connected Components & 4 & 1,506 & 4 & 0 & 621 & 1 & 22,343 & 11 & 5 & 4 & 1 & 0 & 0 & 10 & 1 \\
+Weakly Connected Components & 4 & 1,506 & 4 & 0 & 621 & 1 & 22,343 & 11 & 5 & 4 & 1 & 0 & 0 & 10 & 141 \\
 
 Cyclic Hierarchical Relations & 0 & 1,132 & 0 & 0 & 0 & 0 & 0 & 5 & 0 & 4 & 0 & 0 & 0 & 0 & 0 \\
 
-Valueless Associative Relations & 282 & 8,839 & 6 & 0 & 9,448 & 253 & 0 & 5 & 0 & 550 & 0 & 0 & 0 & 0 & 5,139 \\
+Valueless Associative Relations & 282 & 8,839 & 6 & 0 & 9,448 & 253 & 0 & 5 & 0 & 550 & 0 & 0 & 0 & 0 & 5,004 \\
 
 Solely Transitively Related Concepts & 0 & 0 & 2,652 & 0 & 0 & 0 & 0 & 0 & 36 & 0 & 2,189 & 0 & 0 & 0 & 0 \\
 
-Omitted Top Concepts & 0 & 0 & 1 & 9 & 9 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+Omitted Top Concepts & 0 & 0 & 1 & 9 & 9 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 2 \\
 
 Top Concept Having Broader Concepts & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
 
 \midrule
 
-Missing In-Links & 32,035 & 733,800 & 6,796 & 19 & 171,980* & 3,080 & 408,000* & 13,411 & 422 & 24,625 & 2,213 & 20 & 1,125 & 1,686 & 6,516 \\
+Missing In-Links & 32,035 & 733,800 & 6,796 & 19 & 171,980* & 3,080 & 408,000* & 13,411 & 422 & 24,625 & 2,213 & 20 & 1,125 & 1,686 & 6,781 \\
 
-Missing Out-Links & 32,035 & 743,410 & 6,797 & 671 & 171,991 & 0 & 344,054 & 13,411 & 273 & 24,626 & 1 & 0 & 1,116 & 1,046 & 6,524 \\
+Missing Out-Links & 32,035 & 743,410 & 6,797 & 671 & 171,991 & 0 & 344,054 & 13,411 & 273 & 24,626 & 1 & 0 & 1,116 & 1,046 & 0 \\
 
 Broken Links & 238 & 0* & 0* & 0 & 0 & 1 & 780 & 0 & 425 & 1 & 3,169 & 7 & 11 & 163 & 1 \\
 
