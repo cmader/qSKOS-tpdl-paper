@@ -82,7 +82,7 @@ This issue can be checked by identifying concept pairs $C \times C$ that share t
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, these properties are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS ontology by, for instance, \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by (a chain of) their \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
+This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by their \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
 
 \paragraph{Omitted Top Concepts}
 
@@ -126,6 +126,6 @@ Broken links are detected by iterating over all resources in $IR$, dereferencing
 \paragraph{Undefined SKOS Resources}
 
 % Origin and rationale
-The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS element like \texttt{skos:subject}.
+The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS elements like \texttt{skos:subject}.
 % Function definition
 Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those resources (i) that are contained in the list of deprecated resources\footnote{See \url{http://www.w3.org/TR/skos-reference/#namespace}} or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.

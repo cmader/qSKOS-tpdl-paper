@@ -6,7 +6,7 @@ We used the qSKOS quality assessment tool to find possible quality issues in exi
 
 \subsection{Vocabulary Data Set}
 
-The basic statistical properties of our vocabulary selection are summarized in Table~\ref{tab:vocabs}: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations (\texttt{Labels}), all asserted semantic relations, as well as the number of concept schemes. From these properties we can, for instance, already see that approximately 3,000 \texttt{DBPedia Categories} concepts don't have labels (e.g., \url{Category:South_Korean_social_scientists}), which indicates that the same amount of Wikipedia categories misses natural language descriptions.
+The basic statistical properties of our vocabulary selection are summarized in Table~\ref{tab:vocabs}: the number of concepts, ``authoritative concepts'', as explained in Section~\ref{subsec:ld_issues}, all \texttt{skos:prefLabel}, \texttt{skos:altLabel}, and \texttt{skos:hiddenLabel} relations involving concepts (\texttt{Concept Labels}), all asserted semantic relations, as well as the number of concept schemes. From these properties we can, for instance, already see that approximately 3,000 \texttt{DBpedia Categories} concepts do not have labels (e.g., \url{Category:South_Korean_social_scientists}), which indicates that the same amount of Wikipedia categories misses natural language descriptions.
 
 \begin{table}
 \caption{Analyzed SKOS vocabularies}
@@ -17,7 +17,7 @@ The basic statistical properties of our vocabulary selection are summarized in T
 
 \begin{tabular}{p{6cm}ccccccccc}
 
-\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Version/\\Last Modified}}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Authoritative\\Concepts}}} & \rotatebox{90}{\textbf{Concept Labels}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Semantic\\Relations}}} & \rotatebox{90}{\textbf{\parbox{2.53cm}{Concept\\Schemes}}} \\
+\textbf{Vocabulary} & \rotatebox{90}{\textbf{Abbreviation}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Version/\\Last Modified}}} & \rotatebox{90}{\textbf{Concepts}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Authoritative\\Concepts}}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Concept\\Labels}}} & \rotatebox{90}{\textbf{\parbox{2.5cm}{Semantic\\Relations}}} & \rotatebox{90}{\textbf{\parbox{2.53cm}{Concept\\Schemes}}} \\
 \toprule
 United Nations Agricultural Thesaurus & \textbf{AGROVOC} & 1.3 & 32,035 & 32,035 & 620,629 & 65,934 & 1 \\
 \hline
@@ -113,7 +113,7 @@ Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
 % LABELING AND DOCUMENTATION ISSUES
 We found labeling and documentation issues in all vocabularies.
 % Omitted or Invalid Language Tags
-\texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. \texttt{STW} doesn't use language tags with 2 instances of \texttt{skos:definition}.
+\texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. \texttt{STW} does not use language tags with 2 instances of \texttt{skos:definition}.
 % Incomplete Language Coverage
 \texttt{AGROVOC} covers 25 languages but no single concept is labeled in all languages, in \texttt{Meketre} all concepts have English but only some of them French labels assigned. The reason for the high number of concepts with incomplete language coverage in \texttt{STW} is that a few concepts have labels with the private, but valid language tag \texttt{x-other}. 
 % Undocumented Concepts
@@ -130,10 +130,10 @@ In the \texttt{Pressinfo}, \texttt{Geonames}, and \texttt{NYTP} vocabulary, all 
 %the 21 \texttt{LVAk} concepts are obviously test data. <- CM: we should skip this, the preflabels of the concepts seem OK, I have no explanations why they are there
 
 % Weakly Connected Components
-Three vocabularies (\texttt{IPSW}, \texttt{NAICS}, \texttt{STW}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic in the vocabularies. \texttt{Eurovoc}, for instance, contains of 4 weakly connected components, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. Weakly connected components divide the \texttt{Meketre} vocabularies into, e.g., topics, and concepts reserved for internal use or museums. \texttt{GTAA} consists of 621 weakly connected components with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related weakly connected components, such as ``deficiancies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, which are obviously forgotten test data.
+Three vocabularies (\texttt{IPSV}, \texttt{NAICS}, \texttt{STW}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic in the vocabularies. \texttt{Eurovoc}, for instance, contains of 4 weakly connected components, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. Weakly connected components divide the \texttt{Meketre} vocabularies into, e.g., topics, and concepts reserved for internal use or museums. \texttt{GTAA} consists of 621 weakly connected components with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related weakly connected components, such as ``deficiancies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, which are obviously forgotten test data.
 
 % Cyclic Hierarchical Relations
-Hierarchical cycles are not a common issue except in the collaboratively created DBpedia vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
+Hierarchical cycles are not a common issue except in the collaboratively created \texttt{DBpedia} vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
 % Valuless Associative Relations
 Valueless associative relations occur in 8 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies.
 % Solely Transitive Related Concepts
@@ -149,8 +149,8 @@ The difference between the number of concepts and the number of authoritative co
 % Missing In-Links
 However, except \texttt{NYTP} and \texttt{Geonames}, none of the analyzed vocabularies has a significant number of in-links from other web resources. Estimation of these numbers is rather inaccurate since currently we only rely on the Sindice index. 
 % Missing Out-Links
-Most vocabularies also don't provide links to other vocabularies on the Web. The \texttt{NYTP}, \texttt{IPSV} vocabularies are the two exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation. One reason for a high number of missing out-links could also be that the links were not available in the main thesaurus file. We know that this is the case for \texttt{STW} and \texttt{AGROVOC} need to further investigate this.
+Most vocabularies also do not provide links to other vocabularies on the Web. The \texttt{NYTP}, \texttt{IPSV} vocabularies are the two exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation. One reason for a high number of missing out-links could also be that the links were not available in the main thesaurus file. We know that this is the case for \texttt{STW} and \texttt{AGROVOC} and need to further investigate this.
 % Broken Links
-Even though we couldn't determine the exact number of broken links because of the large number of links to resolve  (over 400K in \texttt{Eurovoc}, over 500K in \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
+Even though we could not determine the exact number of broken links because of the large number of links to resolve  (over 400K in \texttt{Eurovoc}, over 500K in \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
 % Undefined SKOS Resources
 Undefined SKOS resources seem to be a minor issue, because we could only find two of them in all vocabularies: \texttt{MeSH} introduces \texttt{skos:annotation} and \texttt{IPSV} uses the deprecated \texttt{skos:prefSymbol} property.
