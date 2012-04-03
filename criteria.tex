@@ -23,7 +23,7 @@ In the following, we explain the origins and design rationale for each quality i
 \paragraph{Omitted or Invalid Language Tags}
 
 % Origin and rationale
-SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
+SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties \texttt{rdfs:label}, \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
 % Function defintion
 A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have labeling or documentation property relations to plain literals in $LV$ with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
