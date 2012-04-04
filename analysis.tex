@@ -100,7 +100,7 @@ Missing In-Links & 32,035 & 733,800 & 6,796 & 19 & 171,980* & 3,080 & 408,000* &
 
 Missing Out-Links & 32,035 & 743,410 & 6,797 & 671 & 171,991 & 0 & 344,054 & 13,411 & 273 & 24,626 & 1 & 0 & 1,116 & 1,046 & 0 \\
 
-Broken Links & 238 & 0* & 0* & 0 & 0 & 1 & 780 & 0 & 425 & 1 & 3,169 & 7 & 11 & 163 & 1 \\
+Broken Links & 238 & 0* & 0* & 0 & 0 & 1 & 780 & 0 & 425 & 1 & 3,169 & 7 & 11 & 163 & 575 \\
 
 Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
 
@@ -115,7 +115,7 @@ We found labeling and documentation issues in all vocabularies.
 % Omitted or Invalid Language Tags
 \texttt{MeSH}, \texttt{PXV}, \texttt{Pressinfo}, and \texttt{LVAk} omit language tags with their labeling properties, \texttt{LCSH} with the \texttt{skos:note} property. \texttt{STW} does not use language tags with 2 instances of \texttt{skos:definition}.
 % Incomplete Language Coverage
-\texttt{AGROVOC} covers 25 languages but no single concept is labeled in all languages, in \texttt{Meketre} all concepts have English but only some of them French labels assigned. STW, which is expressed mainly in English and German, has many concepts with incomplete language coverage because it (i) links to non-authoritative concepts that are only labeled in German and (ii) uses the private, but valid language tag \texttt{x-other} with some of its concept labels.
+\texttt{AGROVOC} covers 25 languages but no single concept is labeled in all languages, in \texttt{Meketre} all concepts have English but only some of them French labels assigned. \texttt{STW}, which is expressed mainly in English and German, has many concepts with incomplete language coverage because it (i) links to non-authoritative concepts that are only labeled in German and (ii) uses the private, but valid language tag \texttt{x-other} with some of its concept labels.
 %The reasons for the high number of concepts with incomplete language coverage in \texttt{STW} are that many concepts (i) link to non-authoritative concepts that are only labeld in German and (ii) lack labels tagged with the private, but valid language tag \texttt{x-other} that few concepts pull in. 
 % Undocumented Concepts
 \texttt{Geonames}, which defines a concept scheme of ``feature codes'', is the only vocabulary in our dataset, which has at least one documentation property assigned to all of its concepts. All other vocabularies have a significant number of undocumented concepts.
@@ -132,7 +132,7 @@ In the \texttt{Pressinfo}, \texttt{Geonames}, and \texttt{NYTP} vocabulary, all 
 %the 21 \texttt{LVAk} concepts are obviously test data. <- CM: we should skip this, the preflabels of the concepts seem OK, I have no explanations why they are there
 
 % Weakly Connected Components
-Two vocabularies (\texttt{IPSV}, \texttt{NAICS}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. \texttt{STW} forms one giant component (containing 24,572 concepts), but has also 140 additional weakly connected components, which all contain linked authoritative and non-authoritative concepts. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic. \texttt{Eurovoc}, for instance, contains 4 weakly connected components, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. Weakly connected components divide the \texttt{Meketre} vocabulary into different topics, e.g., museums of concepts reserved for internal use. \texttt{GTAA} consists of 621 weakly connected components with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related weakly connected components, such as ``deficiencies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, which are obviously forgotten test data. 
+Two vocabularies (\texttt{IPSV}, \texttt{NAICS}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. \texttt{STW} forms one giant component (containing 24,572 concepts), but has also 140 additional weakly connected components, which all contain linked authoritative and non-authoritative concepts. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic. \texttt{Eurovoc}, for instance, contains 4 weakly connected components, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. Weakly connected components divide the \texttt{Meketre} vocabulary into different topics, e.g., museums or concepts reserved for internal use. \texttt{GTAA} consists of 621 weakly connected components with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related weakly connected components, such as ``deficiencies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, which are obviously forgotten test data. 
 
 % Cyclic Hierarchical Relations
 Hierarchical cycles are not a common issue except in the collaboratively created \texttt{DBpedia} vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
@@ -143,7 +143,7 @@ Solely transitive related concepts occur in 3 vocabularies, establishing relatio
 % Omitted Top Concepts
 \texttt{GTAA} and \texttt{Geonames} omit top concepts in all concept schemes they define. \texttt{Eurovoc} uses 128 concept schemes but has one without top concept, which simply contains all concepts defined in the vocabulary. Such an ``umbrella concept scheme'' without top concept is also present in \texttt{LCSH} and \texttt{NYTP}.
 % Top Concepts Having Broader Concepts
-Only the \texttt{PXV} vocabulary is affected by top concepts having broader concepts in its current version. The reason for this is, according to the vocabulary creator, that the broader concept was abandoned but is still available in the triple store, maybe because of some bug in the vocabulary management software.
+Only the \texttt{PXV} vocabulary is affected by top concepts having broader concepts in its current version. In earlier versions more of them could be found which were, according to the vocabulary creator, abandoned but still available in the triple store, probably caused by some bug in the vocabulary management software.
 
 % LINKED DATA SPECIFIC ISSUE
 
