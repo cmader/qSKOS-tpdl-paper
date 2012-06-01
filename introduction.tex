@@ -5,25 +5,23 @@
 % BACKGROUND
 
 % What is SKOS?
-The Simple Knowledge Organization System (SKOS)~\cite{SkosReference2008} is a standard model for sharing and linking controlled vocabularies (thesauri, classification systems, etc.) on the Web. Many organizations, including the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} publish SKOS representations of their vocabularies on the Web so that they can easily be accessed by humans and machines.
+The Simple Knowledge Organization System (SKOS)~\cite{SkosReference2008} is a standard model for sharing and linking controlled vocabularies (thesauri, classification systems, etc.) on the Web. Organizations like, e.g., the European Union\footnote{EuroVoc, \url{http://eurovoc.europa.eu/}}, the United Nations\footnote{AGROVOC, \url{http://aims.fao.org/website/AGROVOC-Thesaurus/sub}}, or the UK government\footnote{Integrated Public Sector Vocabulary (IPSV), \url{http://doc.esd.org.uk/IPSV}} publish SKOS representations of their vocabularies on the Web so that they can easily be accessed by humans and machines.
 
 However, quality issues can affect the applicability of SKOS vocabularies for tasks such as query expansion, faceted browsing, or auto-completion, as in the following examples: 
 
 \begin{itemize}
 
-	\item AGROVOC defines concepts in 25 different languages. However, while most concepts have English labels attached, only 38\% have German labels. This can be a problem for multilingual applications that rely on label translations.
+	\item AGROVOC defines concepts in 25 different languages. While most concepts have English labels attached, only 38\% have German labels. This can be a problem for multilingual applications that rely on label translations.
 
 	\item An earlier version of the STW thesaurus (v8.06) contained 5 pairs of concepts with identical labels. As a result, the auto-complete function of the online search interface suggested identical entries without disambiguation information.
 
-	\item The non-public vocabulary of the Austrian Armed Forces (LVAk) contains 11 disconnected concept clusters. When confronted with these structures, the thesaurus maintainers recognized them as ``forgotten'' test data that has no practical significance.
+	\item The non-public thesaurus of the Austrian Armed Forces (LVAk) contains 11 disconnected concept clusters. When confronted with these structures, the maintainers recognized them as data without practical significance.
 	
 \end{itemize}
 
 % PROBLEM / RESEARCH QUESTION
 
-The SKOS specification defines a set of integrity conditions that state whether given data patterns are consistent with the SKOS model. Yet the SKOS integrity conditions fail to capture quality aspects like the ones above. The main reason lies in SKOS' ``minimal commitment'' approach. A standard that aims at cross-domain interoperability should refrain from defining constraints that impose on one domain the requirements of another. SKOS is thus very liberal with respect to data quality.
-
-On the other hand, each vocabulary should fulfill domain- and application-specific quality aspects and taxonomists often follow standard guidelines specific to given types of vocabularies (cf.,~\cite{ISO25964-1:2011,Z39.19:2005} for thesauri) or apply their own hand-crafted checks~\cite{Coronado2009}. Existing guidelines consider these aspects, but currently rely on human judgment, which is subjective and does not scale for larger vocabularies. The SKOS context, where vocabularies can be linked together on the Web, also brings issues hitherto unforeseen by traditional checking approaches.
+The SKOS specification defines a set of integrity conditions that state whether given data patterns are consistent with the SKOS model. Yet the SKOS integrity conditions fail to capture quality aspects like the ones above. The main reason lies in SKOS' ``minimal commitment'' approach. A standard that aims at cross-domain interoperability should refrain from defining constraints that impose on one domain the requirements of another. SKOS is thus very liberal with respect to data quality. On the other hand, each vocabulary should fulfill domain- and application-specific quality aspects and taxonomists often follow standard guidelines specific to given types of vocabularies (cf.,~\cite{ISO25964-1:2011,Z39.19:2005}) or apply their own hand-crafted checks~\cite{Coronado2009}. Existing guidelines consider these aspects, but currently rely on human judgment, which is subjective and does not scale for larger vocabularies. The SKOS context, where vocabularies can be linked together on the Web, also brings issues hitherto unforeseen by traditional checking approaches.
 
 % CONTRIBUTION
 
@@ -39,4 +37,4 @@ We aim at contributing to the ongoing community efforts to bridge that gap betwe
 
 \end{itemize}
 
-In the following, we will first discuss what ``quality'' means in the context of SKOS vocabularies and how it is currently supported by the SKOS specification and existing tools. Then we introduce the quality issues we have identified and describe how we implemented them in the qSKOS quality assessment tool. Finally, we report on the results of an analysis we performed on 15 existing SKOS vocabularies and show that the quality issues we discussed are real and can lead to the improvement of existing vocabularies. All supplemental materials (qSKOS\footnote{\url{https://github.com/cmader/qSKOS/}}, wiki\footnote{\url{https://github.com/cmader/qSKOS/wiki}} and dataset\footnote{\url{https://github.com/cmader/qSKOS-data/}}) are available online.
+In the following, we will first discuss what ``quality'' means in the context of SKOS vocabularies and how it is currently supported by the SKOS specification and existing tools. Then we introduce the quality issues we have identified and describe how we implemented them in the qSKOS quality assessment tool. Finally, we report on the results of an analysis we performed on 15 existing SKOS vocabularies and show that the quality issues we discussed are real and can lead to the improvement of existing vocabularies. All supplemental materials\footnote{qSKOS: \url{https://github.com/cmader/qSKOS/}, wiki: \url{https://github.com/cmader/qSKOS/wiki}, dataset: \url{https://github.com/cmader/qSKOS-data/}} are available online.
