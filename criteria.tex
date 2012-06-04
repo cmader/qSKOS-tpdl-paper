@@ -88,7 +88,7 @@ This issue can be checked by identifying concept pairs $C \times C$ that share t
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, these properties are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS ontology by, for instance, \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by their \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
+This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by chains of \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
 
 \paragraph{Omitted Top Concepts}
 
