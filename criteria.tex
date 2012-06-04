@@ -4,7 +4,9 @@
 
 % Briefly describe methodology
 
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. In our studies we strictly focused on issues that can be formally expressed and thus automatically measured. We published our findings in the qSKOS wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary and an optional vocabulary namespace as input and finds all resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
+\textcolor{red}{
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We strictly focused on issues that can be formally expressed and thus automatically measured. However, general graph measures like, e.g. hierarchy depth or node centrality have been omitted due to lack of evidence on their relevance for vocabulary quality.}
+We published our findings in the qSKOS wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary and an optional vocabulary namespace as input and finds all resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
 \begin{mydef}[SKOS Vocabulary]
