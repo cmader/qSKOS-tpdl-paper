@@ -56,7 +56,7 @@ Thesaurus for Economics & \textbf{STW} & 8.10 & 25,107 & 6,789 & 58,441 & 91,816
 
 \subsection{Results and Discussion}
 
-The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary combination. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
+The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
 
 \begin{table}[h]
 \caption{Results of the quality checking functions}
@@ -120,7 +120,7 @@ We found labeling and documentation issues in all vocabularies.
 % Undocumented Concepts
 \texttt{Geonames}, which defines a concept scheme of ``feature codes'', is the only vocabulary in our dataset, which has at least one documentation property assigned to all of its concepts. All other vocabularies have a significant number of undocumented concepts.
 % Label Conflicts
-We also detected possible label conflicts in half of the vocabularies. \texttt{PXV}, for instance, uses the string ``primary peroxisomal enzyme deficiency'' with two concepts in the same concept scheme, but once with a \texttt{skos:prefLabel} and another time with a \texttt{skos:altLabel} property. In \texttt{NAICS} we couldn't detect any labeling issues but found that it expresses statements with \texttt{skosxl:prefLabel} as predicate and plain literals as object, which contradicts the SKOS-XL specification. 
+We also detected possible label conflicts in half of the vocabularies. \texttt{PXV}, for instance, uses the string ``primary peroxisomal enzyme deficiency'' with two concepts in the same concept scheme, but once with a \texttt{skos:prefLabel} and another time with a \texttt{skos:altLabel} property. In \texttt{NAICS} we could not detect any labeling issues but found that it expresses statements with \texttt{skosxl:prefLabel} as predicate and plain literals as object, which contradicts the SKOS-XL specification. 
 
 %\textcolor{red}{For every concept in \texttt{NAICS}, a \texttt{rdfs:label} as well as a \texttt{skosxl:prefLabel} is defined. However, objects of the \texttt{prefLabel} triples are plain literals which seems to be a misunderstanding of SKOS-XL by the vocabulary creators. Thus, this information is not processed and no conflicts are found.}
 
@@ -152,7 +152,7 @@ The difference between the number of concepts and the number of authoritative co
 However, except \texttt{NYTP} and \texttt{Geonames}, no vocabulary has a high number of estimated in-links from other web resources.
 %Estimation of these numbers is rather inaccurate since currently we only rely on the Sindice index. 
 % Missing Out-Links
-Also the number of out-links is rather low: \texttt{NYTP}, \texttt{IPSV}, and \texttt{STW} are the three exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation. One reason for a high number of missing out-links could also be that the links were not available in the main thesaurus file, which is at least the case for \texttt{AGROVOC}.
+Also the number of out-links is rather low: \texttt{NYTP}, \texttt{IPSV}, and \texttt{STW} are the three exceptions, which are fully linked to other Web resources. The one concept with missing out-links in \texttt{NAICS} is the object of a \texttt{skos:broaderTransitive} relation. One reason for a high number of missing out-links is that the links were not available in the main thesaurus file, which is at least the case for \texttt{AGROVOC}.
 % Broken Links
 Even though we could not determine the exact number of broken links because of the large number of links to resolve  (over 400K in \texttt{Eurovoc}, over 500K in \texttt{LCSH}), we found that broken links are a common issue in most vocabularies.
 % Undefined SKOS Resources

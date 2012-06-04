@@ -25,7 +25,7 @@ In the following, we explain the origins and design rationale for each quality i
 % Origin and rationale
 SKOS defines a set of properties that link resources with RDF Literals, which are plain text natural language strings with an optional language tag. This includes the labeling properties {\texttt{rdfs:label}, \texttt{skos:prefLabel}, \texttt{skos:altLabel}, \texttt{skos:hiddenLabel} and also SKOS documentation properties, such as \texttt{skos:note} and subproperties thereof. Literals should be tagged consistently~\cite{Vrandecic2010}, because omitting language tags or using non-standardized, private language tags in a SKOS vocabulary could unintentionally limit the result set of language-dependent queries.
 % Function defintion
-A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have labeling or documentation property relations to plain literals in $LV$ with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{RFC 3066: Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
+A SKOS vocabulary can be checked for omitted and invalid language tags by iterating over all resources in $IR$ and finding those that have labeling or documentation property relations to plain literals in $LV$ with missing or invalid language tags, i.e., tags that are not defined in RFC3066\footnote{Tags for the Identification of Languages \url{http://www.ietf.org/rfc/rfc3066.txt}}.
 
 \paragraph{Incomplete Language Coverage}
 
@@ -46,7 +46,7 @@ To identify all undocumented concepts, we iterate over all concepts in $C$ and c
 % Origin and rationale
 The SKOS Primer~\cite{Isaac2009} recommends that ``no two concepts have the same preferred lexical label in a given language when they belong to the same concept scheme''. This issue could affect application scenarios such as auto-completion, which proposes labels based on user input. Although these extra cases are acceptable for some thesauri, we generalize the above recommendation and search for all concept pairs with their respective \texttt{skos:prefLabel}, \texttt{skos:altLabel} or \texttt{skos:hiddenLabel} property values meeting a certain similarity threshold defined by a function $sim:LV \times LV \rightarrow [0,1]$.
 % Function defintion
-The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. Label conflicts can be found by iterating over all concept pairs $AC \times AC$, applying $sim$ to every possible label combination, and collecting those pairs with at least one label combination meeting or exceeding a specified similarity threshold. We handle this issue under the Closed World Assumption, because data on concept scheme membership may lack and concepts may be linked to concepts with similar labels in other vocabularies.
+The default, built-in similarity function checks for case-insensitive string equality with a threshold equal to 1. Label conflicts can be found by iterating over all (authoritative) concept pairs $AC \times AC$, applying $sim$ to every possible label combination, and collecting those pairs with at least one label combination meeting or exceeding a specified similarity threshold. We handle this issue under the Closed World Assumption, because data on concept scheme membership may lack and concepts may be linked to concepts with similar labels in other vocabularies.
 % Since data on concept scheme membership may lack because of the Open World Assumption, we handle this issue under the Closed World Assumption.
 
 % STRUCTURAL METRICS
@@ -109,7 +109,7 @@ Affected resources are found by collecting all top concepts that are related to 
 \paragraph{Missing In-Links}
 
 % Origin and rationale
-When vocabularies are being published on the Web, SKOS concepts become linkable resources. Estimating the number of in-links and identifying the concepts without any in-links, can indicate the importance of a concept.
+When vocabularies are published on the Web, SKOS concepts become linkable resources. Estimating the number of in-links and identifying the concepts without any in-links, can indicate the importance of a concept.
 % Function definition
 We estimate the number of in-links by iterating over all elements in $AC$ and querying the Sindice\footnote{\url{http://sindice.com/} indexes the Web of Data, which is composed of pages with semantic markup in RDF, RDFa, Microformats, or Microdata. Currently it covers approximately 230M documents with over 11 billion triples.} SPARQL endpoint for triples containing the concept's URI in the object part. Empty query results are indicators for missing in-links.
 
@@ -132,4 +132,4 @@ Broken links are detected by iterating over all resources in $IR$, dereferencing
 % Origin and rationale
 The SKOS model is defined within the namespace \url{http://www.w3.org/2004/02/skos/core#}. However, some vocabularies use resources from within this namespace, which are unresolvable for two main reasons: vocabulary creators ``invented'' new terms within the SKOS namespace instead of introducing them in a separate namespace, or they use ``deprecated'' SKOS elements like \texttt{skos:subject}.
 % Function definition
-Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those resources (i) that are contained in the list of deprecated resources\footnote{See \url{http://www.w3.org/TR/skos-reference/#namespace}} or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.
+Undefined SKOS resources can be identified by iterating over all resources in $IR$ and returning those (i) that are contained in the list of deprecated resources\footnote{See \url{http://www.w3.org/TR/skos-reference/#namespace}} or (ii) are identified by a URI in the SKOS namespace but are not defined in the current version of the SKOS ontology.
