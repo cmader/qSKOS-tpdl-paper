@@ -4,8 +4,7 @@
 
 % Briefly describe methodology
 
-\textcolor{red}{
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We strictly focused on issues that can be formally expressed and thus automatically measured. However, general graph measures like, e.g. hierarchy depth or node centrality have been omitted due to lack of evidence on their relevance for vocabulary quality.}
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We strictly focused on issues that can be formally expressed and thus automatically measured. However, common graph measures like, e.g. hierarchy depth or node centrality have been omitted due to lack of evidence on their general influence on vocabulary quality.
 We published our findings in the qSKOS wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary and an optional vocabulary namespace as input and finds all resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
@@ -88,7 +87,7 @@ This issue can be checked by identifying concept pairs $C \times C$ that share t
 % Origin and rationale
 Two concepts that are explicitly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} can be regarded a quality issue because, according to \cite{SkosReference2008}, these properties are ``not used to make assertions''. Transitive hierarchical relations in SKOS are meant to be inferred by the vocabulary consumer, which is reflected in the SKOS ontology by, for instance, \texttt{skos:broader} being a subproperty of \texttt{skos:broaderTransitive}. 
 % Function definition
-This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by chains of \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
+This issue can be detected by finding all concept pairs $C \times C$ that are directly related by \texttt{skos:broaderTransitive} and/or \texttt{skos:narrowerTransitive} properties but not by (chains of) \texttt{skos:broader} and \texttt{skos:narrower} subproperties.
 
 \paragraph{Omitted Top Concepts}
 
