@@ -58,8 +58,10 @@ Thesaurus for Economics & \textbf{STW} & 8.10 & 25,107 & 6,789 & 58,441 & 91,816
 
 The results of this analysis are summarized in Table~\ref{tab:results}, which shows the absolute number of possibly affected resources for each quality checking function and vocabulary. Numbers marked with an asterisk (*) were obtained by extrapolating from subsets containing 5\% of the respective vocabulary resources.
 
+\vspace{-.3cm}
 \begin{table}[h]
 \caption{Results of the quality checking functions}
+\vspace{-.3cm}
 \label{tab:results}
 
 \begin{center}
@@ -109,6 +111,7 @@ Undefined SKOS Resources & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
 }
 \end{center}
 \end{table}
+\vspace{-.5cm}
 
 % LABELING AND DOCUMENTATION ISSUES
 We found labeling and documentation issues in all vocabularies.
@@ -130,10 +133,11 @@ In the \texttt{Pressinfo}, \texttt{Geonames}, and \texttt{NYTP} vocabulary, all 
 %the 21 \texttt{LVAk} concepts are obviously test data. <- CM: we should skip this, the preflabels of the concepts seem OK, I have no explanations why they are there
 
 % Weakly Connected Components
-Three vocabularies show no weakly connected components (WCCs) because all concepts are orphan concepts and thus no relations between them are established. Two vocabularies (\texttt{IPSV}, \texttt{NAICS}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. \texttt{STW} forms one giant component (containing 24,572 concepts), but has also 140 additional WCCs, which all contain linked authoritative and non-authoritative concepts. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic. \texttt{Eurovoc}, for instance, contains 4 WCCs, containing 4, 5, 6 and 6775 concepts. The three smallest components contain concepts thematically related to ``Africa'', ``educational institutions'' and ``forecasts''. WCCs divide the \texttt{Meketre} vocabulary into different topics, e.g., museums or concepts reserved for internal use. \texttt{GTAA} consists of 621 WCCs with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related WCCs, such as ``deficiencies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, some of them are obviously forgotten test data. 
+Three vocabularies show no weakly connected components (WCCs) because all concepts are orphan concepts and thus no relations between them are established. Two vocabularies (\texttt{IPSV}, \texttt{NAICS}) consist of only one ``giant component'', which is often considered as being the ideal vocabulary structure. \texttt{STW} forms one giant component (containing 24,572 concepts), but has also 140 additional WCCs, which all contain linked authoritative and non-authoritative concepts. All other vocabularies split into several clusters of semantically related concepts, each of which represents a certain subtopic. \texttt{Eurovoc}, for instance, contains 4 WCCs, containing 4, 5, 6 and 6775 concepts. 
+It is organized into numerous micro-thesauri and domains, using a custom ontology. Concepts contained in different micro-thesauri or domains are connected by \texttt{skos:related} properties, but this is not the case for the three small WCCs, indicating a quality flaw. WCCs divide the \texttt{Meketre} vocabulary into different topics, e.g., museums or concepts reserved for internal use. \texttt{GTAA} consists of 621 WCCs with the largest one being a subject thesaurus containing 8413 concepts. Most of the other components contain less than 10 concepts, representing, e.g., locations, person names, and genres. \texttt{PXV} splits into 10 topic-related WCCs, such as ``deficiencies'', ``defects'' or ``signals''. The \texttt{LVAk} thesaurus contains 11 concept clusters, some of them are obviously forgotten test data. 
 
 % Cyclic Hierarchical Relations
-Hierarchical cycles are not a common issue except in the collaboratively created \texttt{DBpedia} vocabulary, where many concepts have reflexive \texttt{skos:broader} relations.
+Hierarchical cycles are not a common issue except in the collaboratively created \texttt{DBpedia} vocabulary, where many concepts have reflexive \texttt{skos:broader} relations. Also some of the cycles in \texttt{MeSH} indicate badly-defined relations and those in \texttt{LVAk} may be revised regarding hierarchy changes or replacement by associative relations or synonym definitions.
 % Valuless Associative Relations
 Valueless associative relations occur in 8 vocabularies, with their total number being relatively low compared to the total number of all semantic relations in the respective vocabularies.
 % Solely Transitive Related Concepts
