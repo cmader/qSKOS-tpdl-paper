@@ -4,8 +4,8 @@
 
 % Briefly describe methodology
 
-We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature and manually examining existing vocabularies. We strictly focused on issues that can be formally expressed and thus automatically measured. However, common graph measures like, e.g. hierarchy depth or node centrality have been omitted due to lack of evidence on their general influence on vocabulary quality.
-We published our findings in the qSKOS wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we then selected a subset of these issues and translated them into computable quality checking functions. Each function takes a given SKOS vocabulary and an optional vocabulary namespace as input and finds all resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
+We identified an initial set of possible quality issues in SKOS vocabularies by reviewing literature, manually examining existing vocabularies, and focusing on issues that can be measured automatically. Some measures, such as hierarchy depth or node centrality, have been omitted due to lack of evidence on their general influence on vocabulary quality.
+We published our findings in the qSKOS wiki and requested feedback from experts via public mailing lists and informal face to face discussions. Based on the received responses, we translated a subset of these issues into computable quality checking functions. Each function takes a given SKOS vocabulary and an optional vocabulary namespace as input and finds all resources that match the corresponding quality issue. For the purpose of this work, we define a SKOS vocabulary as follows:
 
 \spnewtheorem*{mydef}{Definition}{\bfseries}{\itshape}
 \begin{mydef}[SKOS Vocabulary]
@@ -117,7 +117,8 @@ We estimate the number of in-links by iterating over all elements in $AC$ and qu
 \paragraph{Missing Out-Links}
 
 % Origin and rationale
-In the Linked Data context, SKOS concepts should also be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
+%In the Linked Data context, 
+SKOS concepts should also be linked with other related concepts on the Web, ``enabling seamless connections between data sets''\cite{Heath2011}. Similar to \emph{Missing In-Links}, this issue identifies the set of all authoritative concepts that have no out-links.
 % Function definition
 It can be computed by iterating over all elements in $AC$ and returning those that are not linked with any non-authoritative resource.
 
